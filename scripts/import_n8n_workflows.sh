@@ -11,18 +11,21 @@ if [ -z "$N8N_API_KEY" ] && [ -z "$N8N_BASIC_AUTH" ]; then
   exit 1
 fi
 
+# n8n's API import endpoint uses /rest/workflows/import on most installations
+IMPORT_PATH="/rest/workflows/import"
+
 for wf in "$ROOT_DIR"/workflows/*.json; do
   echo "Importing $wf..."
   resp_file=$(mktemp)
   http_status="000"
 
   if [ -n "$N8N_API_KEY" ]; then
-    http_status=$(curl -sS -o "$resp_file" -w "%{http_code}" -X POST "$N8N_URL/workflows/import" \
+    http_status=$(curl -sS -o "$resp_file" -w "%{http_code}" -X POST "$N8N_URL${IMPORT_PATH}" \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer $N8N_API_KEY" \
       --data-binary "@$wf" || echo "000")
   else
-    http_status=$(curl -sS -o "$resp_file" -w "%{http_code}" -X POST "$N8N_URL/workflows/import" \
+    http_status=$(curl -sS -o "$resp_file" -w "%{http_code}" -X POST "$N8N_URL${IMPORT_PATH}" \
       -u "$N8N_BASIC_AUTH" \
       -H "Content-Type: application/json" \
       --data-binary "@$wf" || echo "000")
