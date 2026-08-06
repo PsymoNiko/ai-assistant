@@ -1,0 +1,61 @@
+{
+  "annotations": {},
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {"h": 6, "w": 6, "x": 0, "y": 0},
+      "id": 1,
+      "options": {},
+      "pluginVersion": "9.0.0",
+      "targets": [
+        {
+          "expr": "up{job=\"zabbix_exporter\"}",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "{{instance}}",
+          "refId": "A"
+        }
+      ],
+      "title": "Zabbix Exporter: up",
+      "type": "timeseries"
+    },
+    {
+      "datasource": null,
+      "fieldConfig": {"defaults": {}, "overrides": []},
+      "gridPos": {"h": 6, "w": 6, "x": 6, "y": 0},
+      "id": 2,
+      "options": {},
+      "pluginVersion": "9.0.0",
+      "targets": [
+        {
+          "expr": "rate(prometheus_engine_scrapes_total[5m])",
+          "format": "time_series",
+          "interval": "",
+          "legendFormat": "scrapes/sec",
+          "refId": "B"
+        }
+      ],
+      "title": "Prometheus scrape rate",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 36,
+  "style": "dark",
+  "tags": ["zabbix","exporter","monitoring"],
+  "templating": {"list": []},
+  "time": {"from": "now-1h", "to": "now"},
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Zabbix Overview",
+  "uid": "zabbix-overview"
+}

@@ -1,0 +1,11 @@
+groups:
+  - name: zabbix.rules
+    rules:
+      - alert: ZabbixExporterDown
+        expr: up{job="zabbix_exporter"} == 0
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Zabbix exporter is down"
+          description: "The Prometheus job 'zabbix_exporter' has not been scraping successfully for more than 2 minutes."

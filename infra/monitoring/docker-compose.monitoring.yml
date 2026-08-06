@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./infra/monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./infra/monitoring/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.enable-lifecycle'
+    ports:
+      - '9090:9090'
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:9.0.0
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - ./infra/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./infra/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    ports:
+      - '3000:3000'
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+
+  loki:
+    image: grafana/loki:2.7.2
+    container_name: loki
+    ports:
+      - '3100:3100'
+    networks:
+      - monitoring
+
+  zabbix_exporter:
+    image: prometheuscommunity/zabbix-exporter:latest
+    container_name: zabbix_exporter
+    environment:
+      - ZABBIX_URL=${ZABBIX_URL}
+      - ZABBIX_USER=${ZABBIX_USER}
+      - ZABBIX_PASSWORD=${ZABBIX_PASSWORD}
+    ports:
+      - '9116:9116'
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
