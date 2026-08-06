@@ -47,7 +47,10 @@
         "method": "POST",
         "url": "http://litellm:4000/v1/chat/completions",
         "jsonParameters": true,
-        "body": "={{ { model: 'gpt-4o-mini', messages: $json[\"messages\"] } }}"
+        "body": "={{ { model: 'gpt-4o-mini', messages: $json[\"messages\"] } }}",
+        "headerParameters": {
+          "Authorization": "={{ 'Bearer ' + $env.LITELLM_API_KEY }}"
+        }
       }
     },
     {
@@ -63,56 +66,14 @@
     }
   ],
   "connections": {
-    "Start": {
-      "main": [
-        [
-          {
-            "node": "Call Memory Retrieval",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Call Memory Retrieval": {
-      "main": [
-        [
-          {
-            "node": "Build Messages",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Build Messages": {
-      "main": [
-        [
-          {
-            "node": "HTTP LiteLLM",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "HTTP LiteLLM": {
-      "main": [
-        [
-          {
-            "node": "Respond to Gateway",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
+    "Start": { "main": [ [ { "node": "Call Memory Retrieval", "type": "main", "index": 0 } ] ] },
+    "Call Memory Retrieval": { "main": [ [ { "node": "Build Messages", "type": "main", "index": 0 } ] ] },
+    "Build Messages": { "main": [ [ { "node": "HTTP LiteLLM", "type": "main", "index": 0 } ] ] },
+    "HTTP LiteLLM": { "main": [ [ { "node": "Respond to Gateway", "type": "main", "index": 0 } ] ] }
   },
   "pinData": {},
-  "meta": {
-    "templateCredsSetupCompleted": false
-  },
+  "meta": { "templateCredsSetupCompleted": false },
   "active": false,
   "settings": {},
-  "versionId": "2"
+  "versionId": "3"
 }
