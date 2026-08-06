@@ -1,0 +1,105 @@
+{
+  "name": "04 MCP Dispatcher",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "2",
+      "name": "Switch Tool",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [420, 300],
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{ $json.input?.tool || '' }}",
+              "operation": "equal",
+              "value2": "search"
+            },
+            {
+              "value1": "={{ $json.input?.tool || '' }}",
+              "operation": "equal",
+              "value2": "calc"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "3",
+      "name": "Search Tool",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [640, 220],
+      "parameters": { "workflowName": "05 Search Tool", "dataPropertyName": "input" }
+    },
+    {
+      "id": "4",
+      "name": "Calc Tool",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [640, 380],
+      "parameters": { "workflowName": "06 Calc Tool", "dataPropertyName": "input" }
+    },
+    {
+      "id": "5",
+      "name": "Default Set",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [860, 300],
+      "parameters": {
+        "values": {
+          "json": [
+            { "name": "result", "value": "No matching tool found" }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "6",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1060, 300],
+      "parameters": {
+        "responseBody": "={{ $json.result || $json[0]?.result || $json }}",
+        "responseCode": 200
+      }
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Switch Tool",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Tool": {
+      "main": [
+        [ { "node": "Search Tool", "type": "main", "index": 0 } ],
+        [ { "node": "Calc Tool", "type": "main", "index": 1 } ],
+        [ { "node": "Default Set", "type": "main", "index": 2 } ]
+      ]
+    },
+    "Search Tool": { "main": [ [ { "node": "Respond", "type": "main", "index": 0 } ] ] },
+    "Calc Tool": { "main": [ [ { "node": "Respond", "type": "main", "index": 0 } ] ] },
+    "Default Set": { "main": [ [ { "node": "Respond", "type": "main", "index": 0 } ] ] }
+  },
+  "pinData": {},
+  "meta": { "templateCredsSetupCompleted": false },
+  "active": false,
+  "settings": {},
+  "versionId": "2"
+}

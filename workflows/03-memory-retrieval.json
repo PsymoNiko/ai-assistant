@@ -1,0 +1,103 @@
+{
+  "name": "03 Memory Retrieval",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [200, 300]
+    },
+    {
+      "id": "2",
+      "name": "Create Query",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [420, 300],
+      "parameters": {
+        "values": {
+          "json": [
+            {
+              "name": "query",
+              "value": "={{ { vector: $json.input && $json.input.embedding ? $json.input.embedding : null, top: 5, filter: {} } }}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "3",
+      "name": "Search Qdrant",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [620, 300],
+      "parameters": {
+        "method": "POST",
+        "url": "http://qdrant:6333/collections/ops-memory/points/search",
+        "jsonParameters": true,
+        "body": "={{ { vector: $json.query.vector || [0], limit: $json.query.top || 5 } }}"
+      }
+    },
+    {
+      "id": "4",
+      "name": "Format Results",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [820, 300],
+      "parameters": {
+        "values": {
+          "json": [
+            {
+              "name": "retrieved",
+              "value": "={{ (Array.isArray($json.data?.result) ? $json.data.result.map(r => (r.payload ? (r.payload.text || JSON.stringify(r.payload)) : JSON.stringify(r))).join('\n---\n') : (JSON.stringify($json.data || $json))) }}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Create Query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Query": {
+      "main": [
+        [
+          {
+            "node": "Search Qdrant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Format Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "2"
+}

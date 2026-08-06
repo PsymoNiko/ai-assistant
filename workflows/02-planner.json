@@ -1,0 +1,118 @@
+{
+  "name": "02 Planner",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1,
+      "position": [200, 220]
+    },
+    {
+      "id": "2",
+      "name": "Call Memory Retrieval",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [420, 220],
+      "parameters": {
+        "workflowName": "03 Memory Retrieval",
+        "dataPropertyName": "input"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Build Messages",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [620, 220],
+      "parameters": {
+        "values": {
+          "json": [
+            {
+              "name": "messages",
+              "value": "={{ [ { role: 'system', content: 'You are an assistant that plans steps and calls tools as needed.' }, { role: 'user', content: (Array.isArray($json.input) ? $json.input[0].text : ($json.input && $json.input.text) ? $json.input.text : $json.input) }, ...( $json[0] && $json[0].retrieved ? [{ role: 'system', content: 'Retrieved context:\n' + $json[0].retrieved }] : [] ) ] }}"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "4",
+      "name": "HTTP LiteLLM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [820, 220],
+      "parameters": {
+        "method": "POST",
+        "url": "http://litellm:4000/v1/chat/completions",
+        "jsonParameters": true,
+        "body": "={{ { model: 'gpt-4o-mini', messages: $json[\"messages\"] } }}"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Respond to Gateway",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1020, 220],
+      "parameters": {
+        "responseBody": "={{ $json[\"choices\"] ? $json.choices[0].message.content : ($json[\"content\"] || $json[\"answer\"]) }}",
+        "responseCode": 200
+      }
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Call Memory Retrieval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Memory Retrieval": {
+      "main": [
+        [
+          {
+            "node": "Build Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Messages": {
+      "main": [
+        [
+          {
+            "node": "HTTP LiteLLM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP LiteLLM": {
+      "main": [
+        [
+          {
+            "node": "Respond to Gateway",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "2"
+}
