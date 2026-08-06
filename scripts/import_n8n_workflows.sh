@@ -1,12 +1,7 @@
 #!/usr/bin/env bash
-# import_n8n_workflows.sh
-# Import workflows/*.json into an n8n instance via the REST import endpoint.
-# Requires N8N_URL and either N8N_API_KEY or N8N_BASIC_AUTH credentials depending on your n8n setup.
-
 set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 N8N_URL=${N8N_URL:-http://localhost:5678}
-# Optionally provide an API token or Basic auth user:pass
 N8N_API_KEY=${N8N_API_KEY:-}
 N8N_BASIC_AUTH=${N8N_BASIC_AUTH:-}
 
@@ -18,19 +13,32 @@ fi
 
 for wf in "$ROOT_DIR"/workflows/*.json; do
   echo "Importing $wf..."
+  resp_file=$(mktemp)
+  http_status="000"
+
   if [ -n "$N8N_API_KEY" ]; then
-    curl -sS -X POST "$N8N_URL/workflows/import" \
+    http_status=$(curl -sS -o "$resp_file" -w "%{http_code}" -X POST "$N8N_URL/workflows/import" \
       -H "Content-Type: application/json" \
       -H "Authorization: Bearer $N8N_API_KEY" \
-      --data-binary "@$wf" | jq '.' || true
+      --data-binary "@$wf" || echo "000")
   else
-    # Basic auth
-    curl -sS -X POST "$N8N_URL/workflows/import" \
+    http_status=$(curl -sS -o "$resp_file" -w "%{http_code}" -X POST "$N8N_URL/workflows/import" \
       -u "$N8N_BASIC_AUTH" \
       -H "Content-Type: application/json" \
-      --data-binary "@$wf" | jq '.' || true
+      --data-binary "@$wf" || echo "000")
   fi
+
+  echo "HTTP status: $http_status"
+  if [[ "$http_status" =~ ^2[0-9][0-9]$ ]]; then
+    if command -v jq >/dev/null 2>&1; then
+      cat "$resp_file" | jq . || ( echo "Response not valid JSON:"; sed -n '1,200p' "$resp_file" )
+    else
+      echo "Response:"; sed -n '1,200p' "$resp_file"
+    fi
+  else
+    echo "Import failed or returned non-2xx. Raw response:"; sed -n '1,200p' "$resp_file"
+  fi
+
+  rm -f "$resp_file"
   echo
 done
-
-echo "Workflow import complete. If any imports failed, inspect the output above."
