@@ -28,3 +28,15 @@ Change log:
 
 Single-file workflow:
 - 02-planner-single.json: A standalone planner workflow that includes memory retrieval (inline expectations), the structured planner prompt, LLM invocation, parsing, routing, and a safe dispatcher for http_check and noop tools. Import this single workflow into your running n8n instance and set the webhook path (ai-planner-single). This avoids multiple dependent workflow files and is designed to run in environments where n8n is already managed outside the repo's docker-compose.
+- 02-planner-single-v2.json: Enhanced standalone workflow (v2) with additional safe tools: http_port_check (host+port), dns_resolve (uses Cloudflare DNS over HTTPS), slack_alert (post to Incoming Webhook), input validation to reject unknown tools, and clearer error messages. Import path: ai-planner-single-v2.
+
+Security notes:
+- v2 validates tool names and required inputs to prevent accidental execution of arbitrary actions.
+- Slack alerts post to the webhook URL provided in tool.input.webhook_url; keep webhook secret and consider using n8n credentials instead of passing it in payload.
+
+Usage:
+- Import 02-planner-single-v2.json into n8n and set environment variables LITELLM_URL and LITELLM_API_KEY as needed.
+- Trigger example (http_check):
+  curl -X POST http://<n8n-host>:5678/webhook/ai-planner-single-v2 -H 'Content-Type: application/json' -d '{"text":"http_check http://example.com/health"}'
+- Trigger example (dns_resolve):
+  curl -X POST http://<n8n-host>:5678/webhook/ai-planner-single-v2 -H 'Content-Type: application/json' -d '{"text":"dns_resolve example.com"}'
