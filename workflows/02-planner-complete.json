@@ -1,0 +1,136 @@
+{
+  "name": "02 Planner - Complete",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [200, 200],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "ai-planner"
+      }
+    },
+    {
+      "id": "2",
+      "name": "Call Memory Retrieval",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [420, 200],
+      "parameters": {
+        "workflowName": "03 Memory Retrieval",
+        "dataPropertyName": "body"
+      }
+    },
+    {
+      "id": "3",
+      "name": "Build Messages (Structured Prompt)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [640, 200],
+      "parameters": {
+        "values": {
+          "json": [
+            {
+              "name": "messages",
+              "value": "={{ [ { role: 'system', content: 'You are a planner assistant. Always return a single top-level JSON object with keys: action ("tool" or "respond"), tool (optional object), and reply (string). If action==\"tool\", tool should contain {name: string, input: object}. Keep JSON parseable.' }, { role: 'user', content: $json["body"] && $json["body"].text ? $json["body"].text : (Array.isArray($json) && $json[0] && $json[0].text ? $json[0].text : "") }, ...( $json[0] && $json[0].retrieved ? [{ role: 'system', content: 'Retrieved context:\n' + $json[0].retrieved }] : [] ) ] }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4",
+      "name": "HTTP LiteLLM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [860, 200],
+      "parameters": {
+        "method": "POST",
+        "url": "http://litellm:4000/v1/chat/completions",
+        "jsonParameters": true,
+        "body": "={{ { model: 'local-llama', messages: $json[\"messages\"] , temperature: 0 } }}",
+        "headerParameters": {
+          "Authorization": "={{ 'Bearer ' + $env.LITELLM_API_KEY }}"
+        }
+      }
+    },
+    {
+      "id": "5",
+      "name": "Parse LLM Output",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1080, 200],
+      "parameters": {
+        "functionCode": "// Parse the model output and emit structured JSON\nconst raw = items[0].json;\nlet text = '';
+if(raw && raw.choices && raw.choices[0] && raw.choices[0].message) text = raw.choices[0].message.content;\n// Try to extract JSON block from text\nconst m = text.match(/\{[\s\S]*\}$/m);\nlet parsed = null;\ntry {\n  parsed = m ? JSON.parse(m[0]) : JSON.parse(text);\n} catch (e) {\n  // fallback: return as respond action\n  parsed = { action: 'respond', reply: text };\n}\nreturn [{ json: parsed }];"
+      }
+    },
+    {
+      "id": "6",
+      "name": "Switch: Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1300, 200],
+      "parameters": {
+        "rules": [
+          {
+            "value1": "={{ $json.action }}",
+            "operation": "is",
+            "value2": "tool"
+          },
+          {
+            "value1": "={{ $json.action }}",
+            "operation": "is",
+            "value2": "respond"
+          }
+        ]
+      }
+    },
+    {
+      "id": "7",
+      "name": "Call Dispatcher (Tool Executor)",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1,
+      "position": [1540, 120],
+      "parameters": {
+        "workflowName": "04 MCP Dispatcher",
+        "dataPropertyName": "toolInput"
+      }
+    },
+    {
+      "id": "8",
+      "name": "Respond To Webhook (final)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1540, 300],
+      "parameters": {
+        "responseCode": 200,
+        "responseBody": "={{ $json }}"
+      }
+    },
+    {
+      "id": "9",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1750, 200],
+      "parameters": {
+        "functionCode": "// Standardized error response\nreturn [{ json: { action: 'respond', reply: 'An error occurred while processing the request.' } }];"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": { "main": [ [ { "node": "Call Memory Retrieval", "type": "main", "index": 0 } ] ] },
+    "Call Memory Retrieval": { "main": [ [ { "node": "Build Messages (Structured Prompt)", "type": "main", "index": 0 } ] ] },
+    "Build Messages (Structured Prompt)": { "main": [ [ { "node": "HTTP LiteLLM", "type": "main", "index": 0 } ] ] },
+    "HTTP LiteLLM": { "main": [ [ { "node": "Parse LLM Output", "type": "main", "index": 0 } ] ] },
+    "Parse LLM Output": { "main": [ [ { "node": "Switch: Action", "type": "main", "index": 0 } ] ] },
+    "Switch: Action": { "main": [ [ { "node": "Call Dispatcher (Tool Executor)", "type": "main", "index": 0 } ], [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Call Dispatcher (Tool Executor)": { "main": [ [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Respond To Webhook (final)": { "main": [ [ { "node": "Error Handler", "type": "main", "index": 0 } ] ] }
+  },
+  "active": false,
+  "versionId": "complete-1"
+}
