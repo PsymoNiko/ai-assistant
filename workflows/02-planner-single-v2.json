@@ -1,0 +1,208 @@
+{
+  "name": "02 Planner - Single File (Standalone) v2",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [200, 200],
+      "parameters": { "httpMethod": "POST", "path": "ai-planner-single-v2" }
+    },
+    {
+      "id": "2",
+      "name": "Build Messages (Structured Prompt)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [420, 200],
+      "parameters": {
+        "values": {
+          "json": [
+            {
+              "name": "messages",
+              "value": "={{ [ { role: 'system', content: 'You are a planner assistant for monitoring and safe action execution. ALWAYS return a single JSON object only (no surrounding text). Schema: {\"action\":\"tool\"|\"respond\",\"tool\": {\"name\":string,\"input\":object}?,\"reply\":string }. Allowed tools: http_check (url), http_port_check (host,port,optional path), dns_resolve (name,type=A), slack_alert (webhook_url,message), noop. Keep JSON parseable and minimal.' }, { role: 'user', content: $json["body"] && $json["body"].text ? $json["body"].text : (Array.isArray($json) && $json[0] && $json[0].text ? $json[0].text : "") } ] }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "3",
+      "name": "HTTP LiteLLM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [640, 200],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.LITELLM_URL || 'http://litellm:4000/v1/chat/completions' }}",
+        "jsonParameters": true,
+        "body": "={{ { model: 'local-llama', messages: $json[\"messages\"] , temperature: 0 } }}",
+        "headerParameters": { "Authorization": "={{ $env.LITELLM_API_KEY ? 'Bearer ' + $env.LITELLM_API_KEY : '' }}" }
+      }
+    },
+    {
+      "id": "4",
+      "name": "Parse LLM Output",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [860, 200],
+      "parameters": {
+        "functionCode": "const raw = items[0].json;\nlet text = '';\nif(raw && raw.choices && raw.choices[0] && raw.choices[0].message) text = raw.choices[0].message.content || '';\nconst m = text.match(/\{[\s\S]*\}/m);\nlet parsed = null;\ntry {\n  parsed = m ? JSON.parse(m[0]) : JSON.parse(text);\n} catch (e) {\n  parsed = { action: 'respond', reply: text };\n}\n// normalize fields\nif(parsed && parsed.action && parsed.action === 'tool' && parsed.tool && parsed.tool.name) {\n  parsed.tool.name = String(parsed.tool.name).toLowerCase();\n}\nreturn [{ json: parsed }];"
+      }
+    },
+    {
+      "id": "4b",
+      "name": "Validate Tool Input",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1040, 200],
+      "parameters": {
+        "functionCode": "// Validate that the model returned an allowed tool and required inputs\nconst allowed = ['http_check','http_port_check','dns_resolve','slack_alert','noop','respond'];\nconst item = items[0].json || {};\nif(!item.action) return [{ json: { action: 'respond', reply: 'Model did not return an action.' } }];\nif(item.action !== 'tool') return [{ json: item }];\nif(!item.tool || !item.tool.name) return [{ json: { action: 'respond', reply: 'Tool information missing.' } }];\nconst name = String(item.tool.name).toLowerCase();\nif(!allowed.includes(name)) return [{ json: { action: 'respond', reply: `Tool '${name}' is not allowed.` } }];\n// basic input checks per tool\nswitch(name) {\n  case 'http_check':\n    if(!item.tool.input || !item.tool.input.url) return [{ json: { action: 'respond', reply: 'http_check requires tool.input.url' } }];\n    break;\n  case 'http_port_check':\n    if(!item.tool.input || !item.tool.input.host || !item.tool.input.port) return [{ json: { action: 'respond', reply: 'http_port_check requires tool.input.host and tool.input.port' } }];\n    break;\n  case 'dns_resolve':\n    if(!item.tool.input || !item.tool.input.name) return [{ json: { action: 'respond', reply: 'dns_resolve requires tool.input.name' } }];\n    break;\n  case 'slack_alert':\n    if(!item.tool.input || !item.tool.input.webhook_url || !item.tool.input.message) return [{ json: { action: 'respond', reply: 'slack_alert requires tool.input.webhook_url and tool.input.message' } }];\n    break;\n  default:\n    break;\n}\n// attach normalized name back\nitem.tool.name = name;\nreturn [{ json: item }];"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Switch: Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1220, 200],
+      "parameters": {
+        "rules": [
+          { "value1": "={{ $json.action }}", "operation": "is", "value2": "tool" },
+          { "value1": "={{ $json.action }}", "operation": "is", "value2": "respond" }
+        ]
+      }
+    },
+    {
+      "id": "6",
+      "name": "Switch: Tool Name",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1440, 120],
+      "parameters": {
+        "rules": [
+          { "value1": "={{ $json.tool && $json.tool.name }}", "operation": "is", "value2": "http_check" },
+          { "value1": "={{ $json.tool && $json.tool.name }}", "operation": "is", "value2": "http_port_check" },
+          { "value1": "={{ $json.tool && $json.tool.name }}", "operation": "is", "value2": "dns_resolve" },
+          { "value1": "={{ $json.tool && $json.tool.name }}", "operation": "is", "value2": "slack_alert" },
+          { "value1": "={{ $json.tool && $json.tool.name }}", "operation": "is", "value2": "noop" }
+        ]
+      }
+    },
+    {
+      "id": "7",
+      "name": "HTTP Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1660, 40],
+      "parameters": {
+        "method": "={{ $json.tool && $json.tool.input && $json.tool.input.method ? $json.tool.input.method : 'GET' }}",
+        "url": "={{ $json.tool && $json.tool.input && $json.tool.input.url }}",
+        "responseFormat": "string",
+        "timeout": "={{ $json.tool && $json.tool.input && $json.tool.input.timeout_ms ? $json.tool.input.timeout_ms : 10000 }}",
+        "headerParameters": {}
+      }
+    },
+    {
+      "id": "8",
+      "name": "HTTP Port Check (as HTTP)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1660, 160],
+      "parameters": {
+        "method": "={{ $json.tool && $json.tool.input && $json.tool.input.method ? $json.tool.input.method : 'GET' }}",
+        "url": "={{ 'http://' + $json.tool.input.host + ( $json.tool.input.port ? (':' + $json.tool.input.port) : '' ) + ( $json.tool.input.path ? $json.tool.input.path : '/' ) }}",
+        "responseFormat": "string",
+        "timeout": "={{ $json.tool && $json.tool.input && $json.tool.input.timeout_ms ? $json.tool.input.timeout_ms : 5000 }}"
+      }
+    },
+    {
+      "id": "9",
+      "name": "DNS Resolve (Cloudflare)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1660, 280],
+      "parameters": {
+        "method": "GET",
+        "url": "={{ 'https://cloudflare-dns.com/dns-query?name=' + encodeURIComponent($json.tool.input.name) + '&type=' + ( $json.tool.input.type ? $json.tool.input.type : 'A' ) }}",
+        "responseFormat": "json",
+        "headerParameters": { "Accept": "application/dns-json" },
+        "timeout": 10000
+      }
+    },
+    {
+      "id": "10",
+      "name": "Slack Alert",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1660, 400],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.tool.input.webhook_url }}",
+        "jsonParameters": true,
+        "body": "={{ { text: $json.tool.input.message } }}",
+        "responseFormat": "string",
+        "timeout": 10000
+      }
+    },
+    {
+      "id": "11",
+      "name": "Noop Handler",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [1660, 520],
+      "parameters": { "values": { "json": [ { "name": "action", "value": "noop" }, { "name": "reply", "value": "No operation requested." } ] } }
+    },
+    {
+      "id": "12",
+      "name": "Build Tool Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [1880, 200],
+      "parameters": {
+        "values": {
+          "json": [
+            { "name": "action", "value": "tool_result" },
+            { "name": "tool_name", "value": "={{ $json.tool && $json.tool.name }}" },
+            { "name": "statusCode", "value": "={{ $json.statusCode || $json[\"statusCode\"] || null }}" },
+            { "name": "body", "value": "={{ $json[\"body\"] || $json }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "13",
+      "name": "Respond To Webhook (final)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2100, 200],
+      "parameters": { "responseCode": 200, "responseBody": "={{ $json }}" }
+    },
+    {
+      "id": "14",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [2100, 320],
+      "parameters": { "functionCode": "return [{ json: { action: 'respond', reply: 'An error occurred processing the request.' } }];" }
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": { "main": [ [ { "node": "Build Messages (Structured Prompt)", "type": "main", "index": 0 } ] ] },
+    "Build Messages (Structured Prompt)": { "main": [ [ { "node": "HTTP LiteLLM", "type": "main", "index": 0 } ] ] },
+    "HTTP LiteLLM": { "main": [ [ { "node": "Parse LLM Output", "type": "main", "index": 0 } ] ] },
+    "Parse LLM Output": { "main": [ [ { "node": "Validate Tool Input", "type": "main", "index": 0 } ] ] },
+    "Validate Tool Input": { "main": [ [ { "node": "Switch: Action", "type": "main", "index": 0 } ] ] },
+    "Switch: Action": { "main": [ [ { "node": "Switch: Tool Name", "type": "main", "index": 0 } ], [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Switch: Tool Name": { "main": [ [ { "node": "HTTP Check", "type": "main", "index": 0 } ], [ { "node": "HTTP Port Check (as HTTP)", "type": "main", "index": 0 } ], [ { "node": "DNS Resolve (Cloudflare)", "type": "main", "index": 0 } ], [ { "node": "Slack Alert", "type": "main", "index": 0 } ], [ { "node": "Noop Handler", "type": "main", "index": 0 } ] ] },
+    "HTTP Check": { "main": [ [ { "node": "Build Tool Result", "type": "main", "index": 0 } ] ] },
+    "HTTP Port Check (as HTTP)": { "main": [ [ { "node": "Build Tool Result", "type": "main", "index": 0 } ] ] },
+    "DNS Resolve (Cloudflare)": { "main": [ [ { "node": "Build Tool Result", "type": "main", "index": 0 } ] ] },
+    "Slack Alert": { "main": [ [ { "node": "Build Tool Result", "type": "main", "index": 0 } ] ] },
+    "Noop Handler": { "main": [ [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Build Tool Result": { "main": [ [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Respond To Webhook (final)": { "main": [ [ { "node": "Error Handler", "type": "main", "index": 0 } ] ] }
+  },
+  "active": false,
+  "versionId": "single-v2-1"
+}

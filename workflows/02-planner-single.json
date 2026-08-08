@@ -1,0 +1,148 @@
+{
+  "name": "02 Planner - Single File (Standalone)",
+  "nodes": [
+    {
+      "id": "1",
+      "name": "Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [200, 200],
+      "parameters": { "httpMethod": "POST", "path": "ai-planner-single" }
+    },
+    {
+      "id": "2",
+      "name": "Build Messages (Structured Prompt)",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [420, 200],
+      "parameters": {
+        "values": {
+          "json": [
+            {
+              "name": "messages",
+              "value": "={{ [ { role: 'system', content: 'You are a planner assistant for monitoring and safe action execution. ALWAYS return a single JSON object only (no surrounding text) parsable by a machine. Schema: {"action":"tool"|"respond","tool": {"name":string,"input":object}?,"reply":string }. If action==\"tool\", choose one of the allowed tool names: http_check, noop. For http_check, tool.input = { url: string, method?: string, timeout_ms?: number }. Keep responses concise.' }, { role: 'user', content: $json["body"] && $json["body"].text ? $json["body"].text : (Array.isArray($json) && $json[0] && $json[0].text ? $json[0].text : "") } ] }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "3",
+      "name": "HTTP LiteLLM",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [640, 200],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $env.LITELLM_URL || 'http://litellm:4000/v1/chat/completions' }}",
+        "jsonParameters": true,
+        "body": "={{ { model: 'local-llama', messages: $json[\"messages\"] , temperature: 0 } }}",
+        "headerParameters": { "Authorization": "={{ $env.LITELLM_API_KEY ? 'Bearer ' + $env.LITELLM_API_KEY : '' }}" }
+      }
+    },
+    {
+      "id": "4",
+      "name": "Parse LLM Output",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [860, 200],
+      "parameters": {
+        "functionCode": "const raw = items[0].json;\nlet text = '';\nif(raw && raw.choices && raw.choices[0] && raw.choices[0].message) text = raw.choices[0].message.content || '';\n// try extract JSON object from text\nconst m = text.match(/\{[\s\S]*\}/m);\nlet parsed = null;\ntry {\n  parsed = m ? JSON.parse(m[0]) : JSON.parse(text);\n} catch (e) {\n  parsed = { action: 'respond', reply: text };\n}\nreturn [{ json: parsed }];"
+      }
+    },
+    {
+      "id": "5",
+      "name": "Switch: Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1080, 200],
+      "parameters": {
+        "rules": [
+          { "value1": "={{ $json.action }}", "operation": "is", "value2": "tool" },
+          { "value1": "={{ $json.action }}", "operation": "is", "value2": "respond" }
+        ]
+      }
+    },
+    {
+      "id": "6",
+      "name": "Switch: Tool Name",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 1,
+      "position": [1300, 120],
+      "parameters": {
+        "rules": [
+          { "value1": "={{ $json.tool && $json.tool.name }}", "operation": "is", "value2": "http_check" },
+          { "value1": "={{ $json.tool && $json.tool.name }}", "operation": "is", "value2": "noop" }
+        ]
+      }
+    },
+    {
+      "id": "7",
+      "name": "HTTP Check",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [1520, 80],
+      "parameters": {
+        "method": "={{ $json.tool && $json.tool.input && $json.tool.input.method ? $json.tool.input.method : 'GET' }}",
+        "url": "={{ $json.tool && $json.tool.input && $json.tool.input.url }}",
+        "responseFormat": "string",
+        "timeout": "={{ $json.tool && $json.tool.input && $json.tool.input.timeout_ms ? $json.tool.input.timeout_ms : 10000 }}"
+      }
+    },
+    {
+      "id": "8",
+      "name": "Build Tool Result",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [1740, 120],
+      "parameters": {
+        "values": {
+          "json": [
+            { "name": "action", "value": "tool_result" },
+            { "name": "tool_name", "value": "={{ $json.tool && $json.tool.name }}" },
+            { "name": "statusCode", "value": "={{ $json.statusCode || $json[\"statusCode\"] }}" },
+            { "name": "body", "value": "={{ $json[\"body\"] || $json }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "9",
+      "name": "Respond To Webhook (final)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1960, 200],
+      "parameters": { "responseCode": 200, "responseBody": "={{ $json }}" }
+    },
+    {
+      "id": "10",
+      "name": "Noop Handler",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 1,
+      "position": [1520, 220],
+      "parameters": { "values": { "json": [ { "name": "action", "value": "noop" }, { "name": "reply", "value": "No operation requested." } ] } }
+    },
+    {
+      "id": "11",
+      "name": "Error Handler",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [1960, 320],
+      "parameters": { "functionCode": "return [{ json: { action: 'respond', reply: 'An error occurred processing the request.' } }];" }
+    }
+  ],
+  "connections": {
+    "Webhook Trigger": { "main": [ [ { "node": "Build Messages (Structured Prompt)", "type": "main", "index": 0 } ] ] },
+    "Build Messages (Structured Prompt)": { "main": [ [ { "node": "HTTP LiteLLM", "type": "main", "index": 0 } ] ] },
+    "HTTP LiteLLM": { "main": [ [ { "node": "Parse LLM Output", "type": "main", "index": 0 } ] ] },
+    "Parse LLM Output": { "main": [ [ { "node": "Switch: Action", "type": "main", "index": 0 } ] ] },
+    "Switch: Action": { "main": [ [ { "node": "Switch: Tool Name", "type": "main", "index": 0 } ], [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Switch: Tool Name": { "main": [ [ { "node": "HTTP Check", "type": "main", "index": 0 } ], [ { "node": "Noop Handler", "type": "main", "index": 0 } ] ] },
+    "HTTP Check": { "main": [ [ { "node": "Build Tool Result", "type": "main", "index": 0 } ] ] },
+    "Build Tool Result": { "main": [ [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Noop Handler": { "main": [ [ { "node": "Respond To Webhook (final)", "type": "main", "index": 0 } ] ] },
+    "Respond To Webhook (final)": { "main": [ [ { "node": "Error Handler", "type": "main", "index": 0 } ] ] }
+  },
+  "active": false,
+  "versionId": "single-1"
+}

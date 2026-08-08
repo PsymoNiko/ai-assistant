@@ -189,3 +189,41 @@ Use GitHub labels: priority/P0..P3 and area/{infra,api,ui,plugin,docs}.
 - Finalize MVP scope and create issues for Milestone 1.
 - Add project board and assign owners for first 3 milestones.
 - Add quickstart demo and CI.
+
+## Monitoring Roadmap Checklist
+
+This checklist tracks the specific work to make an auto-learner monitoring assistant (roadmap items were added to session todos).
+
+- [x] Repository scaffolding & basics (milestone-0-scaffold)
+- [x] Local docker-compose stack (docker-compose-local-stack)
+- [x] FastAPI Gateway (fastapi-gateway)
+- [x] LiteLLM + llama-server integration (litellm-integration)
+- [x] Zabbix client integration (zabbix-integration)
+- [x] Monitoring infra (Prometheus + Grafana) (monitoring-stack)
+- [x] Docs & README (docs-readme)
+
+- [in_progress] n8n workflows (n8n-workflows)
+  - [in_progress] n8n design (n8n-design)
+  - [ ] implement tool-selection (n8n-implement-tool-selection)
+  - [ ] monitoring flows (n8n-monitoring-flows)
+  - [ ] testing (n8n-testing)
+  - [ ] docs (n8n-docs)
+
+- [in_progress] Demo app (demo-application)
+  - [in_progress] demo spec (demo-spec)
+  - [ ] implement gateway (demo-implement-gateway)
+  - [ ] implement n8n flow (demo-implement-n8n)
+  - [ ] deploy with docker-compose (demo-deploy-compose)
+  - [ ] smoke-test demo (demo-smoke-test)
+
+- [in_progress] RAG & E2E (rag-qdrant-integration, end-to-end-tests)
+  - [ ] Qdrant setup (qdrant-setup)
+  - [ ] Ingest sample docs (qdrant-ingest-sample)
+  - [ ] Integrate retrieval into workflows (rag-integration)
+  - [ ] Write e2e tests (e2e-write-tests)
+  - [ ] Add e2e CI job (e2e-ci-setup)
+
+Notes:
+- IDs in parentheses map to session todo IDs stored in the assistant session DB.
+- Ask to mark any item as in_progress/done and permission to create related files or run tests.
+

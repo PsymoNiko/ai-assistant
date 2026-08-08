@@ -1,0 +1,1673 @@
+419:Python library for Zabbix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2223
+818:The Plugins.*.CustomQueriesPath parameter in Zabbix agent 2 plugin configuration files for MySQL, Oracle, and PostgreSQL,
+955:PostgreSQL 18 support
+956:The maximum supported version for PostgreSQL is now 18.X.
+1059:- one or several HTTP requests to check the availability of a web site.
+1440:• connector worker - process for handling requests from the connector manager;
+1674:• Passive checks - Zabbix agent responds to a request from Zabbix server (or proxy). For example, the server requests data
+2219:Note that databases supported with Zabbix proxy are SQLite, MySQL and PostgreSQL.
+2531:Zabbix server or proxy will try to pool requests to a single JMX target together as much as possible (affected by item intervals) and
+2534:when no threads are available in the Java gateway to service incoming requests.
+2539:will not accept any new requests.
+2725:See also the Python library for Zabbix that has built-in functionality to act like Zabbix sender.
+2770:See also the Python library for Zabbix that has built-in functionality to act like Zabbix get.
+2944:• Database server: MySQL/MariaDB or PostgreSQL
+3049:PostgreSQL
+3064:PostgreSQL
+3079:PostgreSQL
+3094:PostgreSQL
+3277:PostgreSQL
+3281:Required if PostgreSQL is used as Zabbix backend database.
+3283:PostgreSQL work_mem configuration property (4MB being the
+3287:Added support for PostgreSQL versions:
+3294:PostgreSQL
+3298:Required if TimescaleDB is used as a PostgreSQL database
+3301:See TimescaleDB documentation for details regarding PostgreSQL
+3432:PostgreSQL
+3442:Required if PostgreSQL is used as Zabbix backend database.
+3517:cURL
+3521:php-curl; required for Duo Universal Prompt MFA, and SMTP
+3592:Zabbix may work on previous versions of Apache, MySQL, and PostgreSQL as well.
+3736:Required if PostgreSQL is used; libpq5 version must match or be higher than the
+3737:version of the PostgreSQL database used.
+3742:libcurl
+3758:To use upgraded cURL features for web.page.* items, restart Zabbix server/proxy.
+3759:For SMTP authentication, use the libcurl-full package at runtime.
+3840:libcurl
+3843:Without libcurl, basic functionality is available (e.g.,
+3844:web.page.get[http://example.com]). With libcurl, the agent supports additional
+3848:To use upgraded cURL features, restart Zabbix agent.
+3874:- PostgreSQL
+4299:./configure --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --wit
+4300:To configure the sources for a Zabbix server (with PostgreSQL etc.), you may run:
+4304:./configure --enable-server --with-postgresql --with-net-snmp
+4319:• --with-libcurl - required for virtual machine monitoring, SMTP authentication, and web.page.* Zabbix agent items.
+4320:See also: Requirements (libcurl).
+4414:MongoDB servers or clusters, PostgreSQL and its forks, etc.). See the full list of loadable plugins and built-in plugins.
+4426:in the plugin configuration file, e.g. in postgresql.conf for the PostgreSQL plugin:
+4428:Plugins.PostgreSQL.System.Path=/path/to/executable/zabbix-agent2-plugin-postgresql
+4431:Include=/path/to/plugin/configuration/file/postgresql.conf
+4436:• make check - run self-tests (requires a real monitoring target, e.g., a PostgreSQL database)
+4767:1. Download the Zabbix plugin source that matches your Zabbix agent 2 version (e.g., zabbix-agent2-plugin-postgresql-7.4.0.tar.g
+4781:in the plugin configuration file, e.g. in postgresql.conf for the PostgreSQL plugin:
+4783:Plugins.PostgreSQL.System.Path=/path/to/executable/zabbix-agent2-plugin-postgresql
+4786:Include=/path/to/plugin/configuration/file/postgresql.conf
+4933:/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+4986:curl --remote-name https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.39/pcre2-10.39.tar.gz
+5015:curl --remote-name https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.39/pcre2-10.39.tar.gz
+5025:curl --remote-name https://www.openssl.org/source/openssl-1.1.1a.tar.gz
+5059:curl --remote-name https://ftp.gnu.org/gnu/nettle/nettle-3.4.1.tar.gz
+5069:curl --remote-name https://www.gnupg.org/ftp/gcrypt/gnutls/v3.6/gnutls-3.6.5.tar.xz
+5107:Packages support MySQL/PostgreSQL database and Apache/Nginx web server. Note that Zabbix server and proxy cannot share the
+5117:• If using PostgreSQL, DBHost=localhost (or an IP address) in Zabbix server/proxy configuration makes PostgreSQL use a
+5137:If the database is accessed over the network (including localhost for PostgreSQL), also allow Zabbix frontend to connect to the
+5159:connection to PostgreSQL (used by frontend).
+5167:type postgresql_port_t;
+5180:allow httpd_t postgresql_port_t:tcp_socket name_connect;
+5228:Zabbix agent 2 packages do not include loadable plugins (MongoDB, PostgreSQL, MSSQL), which need to be downloaded
+5510:Zabbix agent 2 only. If set, the agent will listen on this port for HTTP status requests
+5654:NvidiagpuPlugin, PostgresqlPlugin
+5655:Example: ADDDEFAULT=MongodbPlugin,PostgresqlPlugin
+5662:NvidiagpuPlugin, PostgresqlPlugin
+5795:Server (PostgreSQL)
+5803:Web interface (Apache + PostgreSQL)
+5811:Web interface (Nginx + PostgreSQL)
+5886:3. Deploy the default setup—Zabbix server, web interface (running on Nginx), and a database backend (MySQL or PostgreSQL),
+5891:### With PostgreSQL as the database:
+5945:### Custom deployment (Zabbix server, web interface with custom Nginx ports, PostgreSQL, all on Ubuntu)
+5997:• Zabbix server (PostgreSQL) with SNMP traps
+6078:Deploy Zabbix server (PostgreSQL) with SNMP traps
+6079:This example shows how to deploy a Zabbix server with a PostgreSQL backend, SNMP traps, and an Nginx-based web interface.
+6083:2. Run an empty PostgreSQL server container (replace zabbix_pwd with a strong password, and use that value in the following
+6086:docker run --name postgres-server -t \
+6087:-e POSTGRES_USER="zabbix" \
+6088:-e POSTGRES_PASSWORD="zabbix_pwd" \
+6089:-e POSTGRES_DB="zabbix" \
+6095:-d postgres:latest
+6105:4. Run a Zabbix server container and link it to the PostgreSQL server and SNMP traps containers:
+6108:-e DB_SERVER_HOST="postgres-server" \
+6109:-e POSTGRES_USER="zabbix" \
+6110:-e POSTGRES_PASSWORD="zabbix_pwd" \
+6111:-e POSTGRES_DB="zabbix" \
+6123:### ... [info]: ** Creating 'zabbix' schema in PostgreSQL
+6125:6. Run a Zabbix web interface container and link it to the Zabbix server and PostgreSQL server containers:
+6129:-e DB_SERVER_HOST="postgres-server" \
+6130:-e POSTGRES_DB="zabbix" \
+6131:-e POSTGRES_USER="zabbix" \
+6132:-e POSTGRES_PASSWORD="zabbix_pwd" \
+6277:PHP option ”post_max_size”
+6281:In php.ini: post_max_size = 16M
+6305:PostgreSQL
+6363:For PostgreSQL, if the Database host field is left empty, the default Unix-domain socket is used. If a socket path is entered (for
+6367:in the form (MySQL or PostgreSQL only).
+7024:• If using PostgreSQL, replace mysql with pgsql in the command.
+7154:• If using PostgreSQL, replace mysql with pgsql in the command.
+7312:#### With PostgreSQL as the database:
+7343:Memory and file descriptor leak with libcurl 8.21.0
+7344:A known issue in libcurl 8.21.0 may cause memory and file descriptor leaks in Zabbix features using libcurl when handling TLSsecured connections.<br> A workaround for this issue is to downgrade libcurl to version 8.20.0 until a release containing the fix is
+7353:A workaround for this is to ensure that the services (Nginx, Apache, PostgreSQL, etc.) are configured to listen on both IPv4 and
+7357:For example, when monitoring PostgreSQL with the PostgreSQL by Zabbix agent 2 template, you may need to edit the
+7392:If necessary, you can also use the IPv4 address (127.0.0.1) directly when configuring the PostgreSQL by Zabbix agent 2 template
+7444:PostgreSQL versions 9.6-12 use too much memory when updating tables with a large number of partitions. This issue manifests
+7446:leads to hundreds of chunks present in the trends tables with default housekeeping settings - the condition where PostgreSQL is
+7462:Numeric (float) data type range with PostgreSQL 11 and earlier
+7463:PostgreSQL 11 and earlier versions only support floating point value range of approximately -1.34E-154 to 1.34E+154.
+7494:PostgreSQL, SQLite or Oracle connector → MariaDB or MySQL unixODBC driver<br>MariaDB connector → MariaDB unixODBC
+7617:In some cases, Apache or NGINX may prevent the Authorization header in API requests from reaching Zabbix. This can cause
+7624:If Apache directly executes scripts to handle requests (e.g., by using mod_cgi), add the following directive instead:
+7839:Zabbix allows you to specify a library located in a non-standard location. In the example below, Zabbix will run curl-config from
+7840:the specified non-standard location and use its output to determine the correct libcurl to use.
+7842:$ ./configure --enable-server --with-mysql --with-libcurl=/usr/local/bin/curl-config
+7843:This will work if it is the only libcurl installed in the system, but might not if there is another libcurl installed in a standard location
+7848:For example, if you use a newer libcurl installed in /usr/local with the libcurl package still installed, Zabbix might pick up the
+7852:/tmp/zabbix-master/src/libs/zbxhttp/http.c:957: undefined reference to 'curl_easy_header'
+7854:Here, the function curl_easy_header() is not available in the older /usr/lib/x86_64-linux-gnu/libcurl.so, but is
+7855:available in the newer /usr/local/lib/libcurl.so.
+7858:$ LDFLAGS="-Wl,--no-as-needed /usr/local/lib/libcurl.so" ./configure --enable-server --with-mysql --with-l
+8281:Upgrade notes for 7.4.3 PHP cURL minimum version
+8282:The minimum supported version for the cURL PHP extension is now 7.19.4.
+9428:For passive data requests initiated by Zabbix server/proxy (for example, Zabbix agent, SNMP
+9807:-1.79E+308 to 1.79E+308 (with exception of PostgreSQL 11 and earlier versions).
+9823:If a unit symbol is set, Zabbix applies postprocessing to the received item value and displays it
+9824:with the specified unit postfix.
+10072:PostgreSQL
+10107:PostgreSQL
+11172:or data gatherer initiates the communication and requests the data). The raw data is validated, the item configuration is
+11207:preprocessed master item value. Dependent items are enqueued bypassing the normal value preprocessing requests, but
+11216:– tasks created directly from value preprocessing requests in the order they were received
+11218:– testing tasks (created in response to item/preprocessing testing requests by the frontend)
+11240:If preprocessing tasks are not CPU-bound and involve frequent network requests, configuring additional workers is recommended.
+11636:preserving the original property order is essential, alternative post-query processing methods should be considered.
+12419:This object encapsulates cURL handle allowing to make simple HTTP requests. Errors are thrown as exceptions.
+12429:Adds HTTP header field. This field is used for all following requests until cleared with the
+12438:application/json if the data being posted is JSON-formatted; text/plain otherwise.
+12463:post(url, data)
+12464:Sends HTTP POST request to the URL with optional data payload and returns the response.
+12504:resp = req.post('https://jira.example.com/rest/api/2/issue/',
+13335:Checks if a service is running and responding to UDP requests.
+14049:<br> Checks if a service is running and responding to UDP requests.<br> Return values: 0 - service is down; 1 - service is
+14397:system.sw.packages[mini,dpkg,short] → python-minimal, python2.6-minimal, ubuntu-minimal
+14888:is only possible with cURL support . Punycode is supported in hostnames.
+14912:is only possible with cURL support . Punycode is supported in hostnames.
+14937:is only possible with cURL support . Punycode is supported in hostnames.
+15019:SSL (HTTPS) is supported only if agent is compiled with cURL support. Otherwise the item will turn unsupported.
+15486:The PostgreSQL buffer cache hit rate.
+15492:PostgreSQL
+15507:The list of PostgreSQL databases.
+15557:The PostgreSQL uptime in milliseconds.
+15561:Returns PostgreSQL version.
+16575:• username, password - the PostgreSQL credentials;<br>
+16576:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16578:postgresql.conf is used).<br>
+16583:• username, password - the PostgreSQL credentials;<br>
+16584:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16586:postgresql.conf is used).<br>
+16592:• username, password - the PostgreSQL credentials;<br>
+16593:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16595:postgresql.conf is used).<br>
+16600:<br> The PostgreSQL buffer cache hit rate.<br> Return value: Float.
+16603:• username, password - the PostgreSQL credentials;<br>
+16604:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16606:postgresql.conf is used).<br>
+16611:• username, password - the PostgreSQL credentials;<br>
+16612:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16614:postgresql.conf is used).<br>
+16619:• username, password - the PostgreSQL credentials;<br>
+16626:• username, password - the PostgreSQL credentials;<br>
+16627:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16629:postgresql.conf is used).<br>
+16634:• username, password - the PostgreSQL credentials;<br>
+16635:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16637:postgresql.conf is used).<br>
+16639:<br> The list of PostgreSQL databases. Used for low-level discovery.<br> Return value: JSON object.
+16642:• username, password - the PostgreSQL credentials;<br>
+16643:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16645:postgresql.conf is used).<br>
+16650:• username, password - the PostgreSQL credentials;<br>
+16651:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16653:postgresql.conf is used).<br>
+16661:• username, password - the PostgreSQL credentials;<br>
+16662:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16664:postgresql.conf is used).<br>
+16669:• username, password - the PostgreSQL credentials;<br>
+16670:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16672:postgresql.conf is used).<br>
+16677:• username, password - the PostgreSQL credentials;<br>
+16678:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16680:postgresql.conf is used).<br>
+16685:• username, password - the PostgreSQL credentials;<br>
+16686:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16688:postgresql.conf is used).<br>
+16694:• username, password - the PostgreSQL credentials;<br>
+16695:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16697:postgresql.conf is used).<br>
+16702:• username, password - the PostgreSQL credentials;<br>
+16703:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16705:postgresql.conf is used);<br>
+16711:• username, password - the PostgreSQL credentials.
+16719:• username, password - the PostgreSQL credentials.
+16724:• username, password - the PostgreSQL credentials.
+16729:• username, password - the PostgreSQL credentials.
+16734:• username, password - the PostgreSQL credentials.
+16739:• username, password - the PostgreSQL credentials.
+16744:• username, password - the PostgreSQL credentials.
+16746:<br> The PostgreSQL uptime in milliseconds.<br> Return value: Float.
+16749:• username, password - the PostgreSQL credentials;<br>
+16750:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16752:postgresql.conf is used).<br>
+16754:<br> Returns PostgreSQL version.<br> Return value: String.
+16757:• username, password - the PostgreSQL credentials;<br>
+16758:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16760:postgresql.conf is used).<br>
+16768:• username, password - the PostgreSQL credentials;<br>
+16769:• database name - the database name (if omitted, the value of Plugins.PostgreSQL.Default.Database from
+16771:postgresql.conf is used).<br>
+17081:Checks if a service is running and responding to UDP requests.
+18071:Checks if a service is running and responding to UDP requests.
+18177:<br> Checks if a service is running and responding to UDP requests.<br> Return value: 0 - the service is down; 1 - the service is
+18388:requests should be disabled.
+18445:4. Specify the max repetition value (default: 10) for native SNMP bulk requests (GetBulkRequest-PDUs); only for discovery[]
+18447:5. Mark the Use combined requests checkbox to allow combined processing of SNMP requests (not related to native SNMP bulk
+18448:requests ”walk” and ”get”).
+18540:This option makes use of native SNMP bulk requests (GetBulkRequest-PDUs) asynchronously.
+18555:GetBulk requests are used with SNMPv2 and v3 interfaces and GetNext for SNMPv1 interfaces;
+18556:max repetitions for bulk requests are configured on the interface level.
+18557:The max repetitions parameter affects bulk requests by determining the maximum number of
+18636:Native SNMP bulk requests
+18637:The walk[OID1,OID2,...] item allows to use native SNMP functionality for bulk requests (GetBulkRequest-PDUs), available in
+18639:A GetBulk request in SNMP executes multiple GetNext requests and returns the result in a single response. This may be used for
+18643:Note that using native SNMP bulk requests is not related to the option of combining SNMP requests, which is Zabbix own way of
+18644:combining multiple SNMP requests (see next section).
+18686:32 variables, the subsequent requests will be of sizes 29, 30, 31, 32, and 33. The last request will fail and Zabbix will never issue
+18697:If, however, a device cannot handle combined requests properly for other reasons and the heuristic described above does not
+18698:work, there is a ”Use combined requests” setting for each interface that allows to disable combined requests for that device.
+18699:If combined requests cause partial or malformed responses that result in incorrect per-second (delta) calculations (for example,
+18700:apparent spikes in interface counters), disable Use combined requests for the affected interface to force separate per-item queries;
+18701:this often prevents false spikes. Alternatively, consider using asynchronous get[] or walk[] items, which are executed asynchronously and are not subject to the per-interface Use combined requests batching — they can be used instead of legacy synchronous OID checks to avoid combined-request related issues. Look for server/proxy log entries similar to the one shown in the
+18704:in the Zabbix server or Zabbix proxy configuration files to reduce the frequency of requests. Items may become unsupported if
+19187:curl -o /usr/sbin/zabbix_trap_handler.sh https://raw.githubusercontent.com/zabbix/zabbix-docker/7.4/templa
+19832:– all - total cache requests (default);
+19838:– requests - the number of cached requests;
+19839:– pitems - percentage of cached items from cached items + requests. Low percentage most likely means that the cache
+19868:– requests - the total number of requests;
+19987:For sending data to Zabbix server using the history.push API method, you could make the following HTTP POST request containing some test values:
+19989:curl --request POST \
+19990:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+19992:--header 'Content-Type: application/json-rpc' \
+19993:--data '{"jsonrpc":"2.0","method":"history.push","params":[{"itemid":10600,"value":"test value 1"},{"ite
+19997:"jsonrpc": "2.0",
+20140:PostgreSQL
+20141:To install the PostgreSQL unixODBC database driver, use the package manager for the system of your choice:
+20144:apt install odbc-postgresql
+20146:dnf install postgresql-odbc
+20149:To install the database driver without a package manager, please refer to PostgreSQL documentation.
+20207:Thread serialization level. Supported for PostgreSQL.
+20264:The odbc.ini file for PostgreSQL may contain additional parameters:
+20267:Description=PostgreSQL Test Database
+20268:Driver=postgresql
+20299:PostgreSQL backend protocol version (ignored when using SSL connections).
+20390:containing % must be enclosed in curly brackets {}.
+20481:number of redirects is hard-coded to 10 (using cURL option CURLOPT_MAXREDIRS).
+20483:Zabbix server/proxy must be initially configured with cURL (libcurl) support.
+20492:The persistent connections cURL feature has been added to HTTP agent checks since Zabbix 7.0.
+20532:This sets the CURLOPT_URL cURL option.
+20543:This sets the CURLOPT_URL cURL option.
+20547:Select request method type: GET, POST, PUT or HEAD
+20577:This sets the CURLOPT_HTTPHEADER cURL option.
+20585:This uses the CURLINFO_RESPONSE_CODE cURL option.
+20590:This sets the CURLOPT_FOLLOWLOCATION cURL option.
+20618:socks4, socks5; see documentation; the protocol prefix support was added in cURL 7.21.7). With
+20629:This sets the CURLOPT_PROXY cURL option.
+20638:This sets the CURLOPT_HTTPAUTH cURL option.
+20657:This sets the CURLOPT_SSL_VERIFYPEER cURL option.
+20663:This sets the CURLOPT_SSL_VERIFYHOST cURL option.
+20676:This sets the CURLOPT_SSLCERT cURL option.
+20694:This sets the CURLOPT_SSLKEY cURL option.
+20699:This sets the CURLOPT_KEYPASSWD cURL option.
+20707:This sets the CURLOPT_TIMEOUT cURL option.
+20742:More details are available by running a shell command: # man curl.
+20753:Send simple GET requests to retrieve data from services such as Elasticsearch:
+20777:Send simple POST requests to retrieve data from services such as Elasticsearch:
+20778:• Create a POST item with URL: http://localhost:9200/str/values/_search?scroll=10s
+20779:• Configure the following POST body to obtain the processor load (1 min average per core)
+20839:Note the use of the POST method with JSON data, setting request headers and asking to return headers only:
+20915:server accepts handled requests
+20919:• Configure a sample dependent item for requests per second:
+20923:• Sample dependent item value preprocessing with regular expression server accepts handled requests\s+([0-9]+)
+21213:to manage the new session. Inactivity is defined by the absence of both outgoing requests and incoming responses. If you want
+22150:Multiple HTTP requests
+24912:Similarly, an entity can have a tag without a value and the same tag with a value (for example, database and database:postgresql).
+25090:The values represented here are raw, i.e. no units or postprocessing of values is used. Value mapping, however, is applied.
+25982:Templates are often used to group entities for particular services or applications (like Apache, MySQL, PostgreSQL, Postfix...) and
+26016:Alternatively, you can import all YAML files at once using the import_templates.sh script. The script requires curl and jq
+26024:./import_templates.sh /tmp/templates_2M_7.4 https://example.com/zabbix/api_jsonrpc.php d8d6b5c78ee2a8333db
+26061:• PostgreSQL by Zabbix agent
+26062:• PostgreSQL by Zabbix agent active
+26090:• PostgreSQL by Zabbix agent 2
+26091:• PostgreSQL by Zabbix agent 2 active
+26242:• PostgreSQL by ODBC
+27984:None - do not use the CURLOPT_USE_SSL option
+27985:STARTTLS - use the CURLOPT_USE_SSL option with CURLUSESSL_ALL value
+27986:SSL/TLS - use of CURLOPT_USE_SSL is optional
+27991:The value of ”SSLCALocation” server configuration directive should be put into CURLOPT_CAPATH
+27993:This sets cURL option CURLOPT_SSL_VERIFYPEER.
+27999:This sets cURL option CURLOPT_SSL_VERIFYHOST.
+28004:None - no cURL options are set
+28006:to cURL
+28013:This sets the value of CURLOPT_USERNAME.
+28019:This sets the value of CURLOPT_PASSWORD.
+28038:To enable SMTP authentication, Zabbix server must be compiled with the --with-libcurl compilation option, which
+28039:requires libcurl (see server requirements for version details).
+28457:The code has access to all parameters, it may perform HTTP GET, POST, PUT and DELETE
+28458:requests, support additional methods such as CONNECT, PATCH, HEAD, OPTIONS and TRACE, and
+28604:resp = req.post('https://jira.example.com/rest/api/2/issue/',
+28636:response = req.post(params.hook_url, 'payload=' + encodeURIComponent(value));
+29628:• Use IPMI ’reboot’ command to reboot some remote server if it does not answer requests
+29656:PostgreSQL
+30747:Macro name. The name must be wrapped in curly brackets and start with a dollar sign.
+31036:Post field value
+31037:Raw post
+32051:curl \
+32165:curl \
+32259:#### Finally test with Curl; note that "data" need to be manually added after mount point and "/v1" before
+32260:curl --header "X-Vault-Token: <VaultToken>" https://127.0.0.1:8200/v1/secret/data/zabbix/database
+32361:#### Finally test with Curl; note that "data" need to be manually added after mount point and "/v1" before
+32362:curl --header "X-Vault-Token: <VaultToken>" https://127.0.0.1:8200/v1/secret/data/zabbix/macros
+32729:protocol prefix support was added in cURL 7.21.7). With no protocol specified, the proxy will be
+32749:This sets the CURLOPT_SSL_VERIFYHOST cURL option.
+32798:POST /v1/history HTTP/1.1
+32812:POST /v1/events HTTP/1.1
+32823:”201”, ”202”, ”203”, or ”204” for requests that were handled successfully, other for failed requests.
+33285:To perform web monitoring Zabbix server must be initially configured with cURL (libcurl) support.
+33287:To activate web monitoring you need to define web scenarios. A web scenario consists of one or several HTTP requests or ”steps”.
+33309:option Follow redirects below). Maximum number of redirects is hard-coded to 10 (using cURL option CURLOPT_MAXREDIRS). All
+33362:This sets the CURLOPT_PROXY cURL option.
+33364:protocol prefix support was added in cURL 7.21.7). With no protocol specified, the proxy will be
+33376:Variables that may be used in scenario steps (URL, post variables).
+33399:Variables are automatically URL-encoded when used in query fields or form data for post
+33400:variables, but must be URL-encoded manually when used in raw post or directly in URL.
+33421:optionally using some additional features supported by the CURLOPT_HTTPHEADER cURL option.
+33471:curl.
+33521:Post
+33523:HTTP POST variables.
+33539:Step-level variables that may be used for GET and POST functions.
+33547:Variables are automatically URL-encoded when used in query fields or form data for post
+33548:variables, but must be URL-encoded manually when used in raw post or directly in URL.
+33562:This sets the CURLOPT_HTTPHEADER cURL option.
+33567:This sets the CURLOPT_FOLLOWLOCATION cURL option.
+33653:This sets the CURLOPT_SSL_VERIFYPEER cURL option.
+33659:This sets the CURLOPT_SSL_VERIFYHOST cURL option.
+33671:This sets the CURLOPT_SSLCERT cURL option.
+33681:This sets the CURLOPT_SSLKEY cURL option.
+33686:This sets the CURLOPT_KEYPASSWD cURL option.
+33890:• In the Post fields section, add three post fields:
+33919:• In the Post fields section, add two post fields:
+33973:Configuration If Zabbix server is compiled from sources, it must be compiled with the --with-libcurl --with-libxml2
+34388:The average number of outstanding read requests to the virtual disk during the
+34399:The average number of outstanding write requests to the virtual disk during the
+35104:<br> The average number of outstanding read requests to the virtual disk during the collection interval.<br> Return value: Integer.
+35135:<br> The average number of outstanding write requests to the virtual disk during the collection interval.<br> Return value: Integer.
+37797:posts
+37818:post_type
+37822:Type of post data body.
+37869:Possible values: GET (0, default), POST (1), PUT (2), HEAD (3).
+38808:posts
+38810:Root element for HTTP POST variables (a string (raw post data) or an array of HTTP
+38816:(required) Post field name.
+38822:(required) Post field value.
+39763:Max repetition value for native SNMP bulk requests (GetBulkRequest-PDUs).
+39828:Use bulk requests for SNMP.
+40156:posts
+40177:post_type
+40181:Type of post data body.
+40228:Possible values: GET (0, default), POST (1), PUT (2), HEAD (3).
+41166:posts
+41168:Root element for HTTP POST variables (a string (raw post data) or an array of HTTP
+41174:(required) Post field name.
+41180:(required) Post field value.
+42751:response = request.post(params.endpoint, data);
+43338:• If a host responded both to Zabbix agent and SNMP requests, both types of interfaces will be created.
+43454:Since Zabbix 7.0 HTTP/HTTPs checking is done via libcurl. If Zabbix server/proxy is compiled
+43455:without libcurl, then HTTP checks will work like in previous versions (i.e. as TCP checks), but
+43645:The delay between requests is specified in the RefreshActiveChecks parameter of the agent. The first request is sent
+45059:SNMP requests themselves.
+46699:If specified then active proxy requests are only accepted from this list of comma-delimited IP
+47034:When using Zabbix sender, data requests are also redirected to the correct online proxy for the host, based on the current
+47105:./configure --enable-server --enable-agent --with-mysql --enable-ipv6 --with-net-snmp --with-libcurl --wit
+47724:For more information on setting up and operating an internal CA, generating and signing certificate requests, and revoking certificates, refer to tutorials such as the OpenSSL PKI Tutorial v2.0.
+47989:Similarly, a passive proxy will not accept requests from such a server.
+54290:The values displayed in this list are raw, that is, no postprocessing is applied.
+58714:token is assigned to a single user and inherits that user’s permissions. Requests authenticated with an API token are authorized
+59336:AuthN requests
+59337:Logout requests
+59581:The Duo Universal Prompt MFA method requires the installation of the php-curl extension, access to Zabbix over HTTPS,
+60100:[MySQL|PostgreSQL] database <DB Name> [on <DB Host>:<DB Port>] is not
+61745:2 Securing PostgreSQL/TimescaleDB
+61748:This section contains best practices for securing a PostgreSQL database.
+61750:For a basic setup, see the default PostgreSQL database creation instructions, which include creating the ’zabbix’ user with
+61761:createuser -U postgres -h localhost --pwprompt usr_owner
+61762:createdb -U postgres -h localhost -O usr_owner -E Unicode -T template0 zabbix
+61772:The following commands on this page must be executed while the connection to PostgreSQL is made specifically to the
+61827:If the PostgreSQL zabbix schema has already been created in the zabbix database, you can enable TimescaleDB with the
+61830:echo "CREATE EXTENSION IF NOT EXISTS timescaledb WITH SCHEMA zabbix CASCADE;" | sudo -u postgres psql zabb
+61845:openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/httpd/ssl/private/apache-selfsigned.key Fill out the prompts appropriately. The most important line is the one that requests the Common Name. You must enter the domain
+62040:To minimize the number of requests to the target entity, Zabbix allows the creation of master and dependent items. In this case,
+62078:The Zabbix API is an HTTP-based API, and it is shipped as a part of the web frontend. It uses the JSON-RPC 2.0 protocol, which
+62081:• Requests and responses between the clients and the API are encoded using the JSON format.
+62082:For more information about the protocol and JSON, see the JSON-RPC 2.0 specification and the JSON format homepage.
+62083:For more information about integrating Zabbix functionality into your Python applications, see Python library for Zabbix.
+62096:Performing requests
+62098:Once you have set up the frontend, you can use remote HTTP requests to call the API. To do that, you
+62100:need to send HTTP POST requests to the api_jsonrpc.php file located in the frontend directory.<br> For example, if your Zabbix
+62104:curl --request POST \
+62105:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62106:--header 'Content-Type: application/json-rpc' \
+62107:--data '{"jsonrpc":"2.0","method":"apiinfo.version","params":{},"id":1}'
+62108:The request must have the Content-Type header set to one of these values: application/json-rpc, application/json
+62111:• jsonrpc - the version of the JSON-RPC protocol used by the API (Zabbix API implements JSON-RPC version 2.0);
+62120:"jsonrpc": "2.0",
+62125:• jsonrpc - the version of the JSON-RPC protocol;
+62134:curl --request POST \
+62135:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62136:--header 'Content-Type: application/json-rpc' \
+62137:--data '{"jsonrpc":"2.0","method":"user.login","params":{"username":"Admin","password":"zabbix"},"id":1}
+62141:"jsonrpc": "2.0",
+62146:All API requests require an authentication or an API token. You can provide the credentials by using the Authorization header in the
+62149:curl --request POST \
+62150:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62156:The Authorization header is supported in cross-origin requests (CORS).
+62169:curl --request POST \
+62170:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62172:--header 'Content-Type: application/json-rpc' \
+62183:"jsonrpc": "2.0",
+62200:"jsonrpc": "2.0",
+62223:curl --request POST \
+62224:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62226:--header 'Content-Type: application/json-rpc' \
+62227:--data '{"jsonrpc":"2.0","method":"item.create","params":{"name":"Free disk space on /home/joe/","key_":
+62229:requests:
+62232:"jsonrpc": "2.0",
+62249:curl --request POST \
+62250:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62252:--header 'Content-Type: application/json-rpc' \
+62253:--data '{"jsonrpc":"2.0","method":"trigger.create","params":[{"description":"Processor load is too high
+62257:"jsonrpc": "2.0",
+62268:curl --request POST \
+62269:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62271:--header 'Content-Type: application/json-rpc' \
+62272:--data '{"jsonrpc":"2.0","method":"item.update","params":{"itemid":"10092","status":0},"id":5}'
+62276:"jsonrpc": "2.0",
+62290:curl --request POST \
+62291:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62293:--header 'Content-Type: application/json-rpc' \
+62294:--data '{"jsonrpc":"2.0","method":"trigger.update","params":[{"triggerid":"13938","status":0},{"triggeri
+62298:"jsonrpc": "2.0",
+62320:curl --request POST \
+62321:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62323:--header 'Content-Type: application/json-rpc' \
+62324:--data '{"jsonrpc":"2.0","method":"host.create","params":{"host":"Linux server","interfaces":[{"type":1,
+62328:"jsonrpc": "2.0",
+63671:"jsonrpc": "2.0",
+63758:"jsonrpc": "2.0",
+63771:"jsonrpc": "2.0",
+63807:"jsonrpc": "2.0",
+63825:"jsonrpc": "2.0",
+63879:"jsonrpc": "2.0",
+63893:"jsonrpc": "2.0",
+63929:"jsonrpc": "2.0",
+63945:"jsonrpc": "2.0",
+63979:"jsonrpc": "2.0",
+64018:"jsonrpc": "2.0",
+64029:"jsonrpc": "2.0",
+64203:"jsonrpc": "2.0",
+64220:"jsonrpc": "2.0",
+64336:"jsonrpc": "2.0",
+64351:"jsonrpc": "2.0",
+64499:"jsonrpc": "2.0",
+64510:"jsonrpc": "2.0",
+64861:"jsonrpc": "2.0",
+64876:"jsonrpc": "2.0",
+64936:"jsonrpc": "2.0",
+64944:"jsonrpc": "2.0",
+65240:"jsonrpc": "2.0",
+65254:"jsonrpc": "2.0",
+65466:Time interval between JIT provision requests for logged-in user.
+65541:"jsonrpc": "2.0",
+65551:"jsonrpc": "2.0",
+65598:"jsonrpc": "2.0",
+65610:"jsonrpc": "2.0",
+65705:"jsonrpc": "2.0",
+65715:"jsonrpc": "2.0",
+65742:"jsonrpc": "2.0",
+65754:"jsonrpc": "2.0",
+65848:"jsonrpc": "2.0",
+65864:"jsonrpc": "2.0",
+66149:"jsonrpc": "2.0",
+66183:"jsonrpc": "2.0",
+66483:"jsonrpc": "2.0",
+66550:"jsonrpc": "2.0",
+66989:"jsonrpc": "2.0",
+67012:"jsonrpc": "2.0",
+67043:"jsonrpc": "2.0",
+67057:"jsonrpc": "2.0",
+67165:"jsonrpc": "2.0",
+67177:"jsonrpc": "2.0",
+67292:"jsonrpc": "2.0",
+67304:"jsonrpc": "2.0",
+67317:"jsonrpc": "2.0",
+67342:"jsonrpc": "2.0",
+67656:"jsonrpc": "2.0",
+67680:"jsonrpc": "2.0",
+67697:"jsonrpc": "2.0",
+67730:"jsonrpc": "2.0",
+67767:"jsonrpc": "2.0",
+67778:"jsonrpc": "2.0",
+67896:"jsonrpc": "2.0",
+67908:"jsonrpc": "2.0",
+67986:"jsonrpc": "2.0",
+68000:"jsonrpc": "2.0",
+68012:"jsonrpc": "2.0",
+68031:"jsonrpc": "2.0",
+68444:"jsonrpc": "2.0",
+68502:"jsonrpc": "2.0",
+68539:"jsonrpc": "2.0",
+68550:"jsonrpc": "2.0",
+68676:"jsonrpc": "2.0",
+68693:"jsonrpc": "2.0",
+68934:"jsonrpc": "2.0",
+68948:"jsonrpc": "2.0",
+68962:"jsonrpc": "2.0",
+68993:"jsonrpc": "2.0",
+69009:"jsonrpc": "2.0",
+69020:"jsonrpc": "2.0",
+69273:"jsonrpc": "2.0",
+69342:"jsonrpc": "2.0",
+69602:"jsonrpc": "2.0",
+69691:"jsonrpc": "2.0",
+69741:"jsonrpc": "2.0",
+69787:"jsonrpc": "2.0",
+69838:"jsonrpc": "2.0",
+69887:"jsonrpc": "2.0",
+69937:"jsonrpc": "2.0",
+69983:"jsonrpc": "2.0",
+70473:"jsonrpc": "2.0",
+70648:"jsonrpc": "2.0",
+70867:"jsonrpc": "2.0",
+70964:"jsonrpc": "2.0",
+71937:"jsonrpc": "2.0",
+72122:"jsonrpc": "2.0",
+72330:"jsonrpc": "2.0",
+72389:"jsonrpc": "2.0",
+72602:"jsonrpc": "2.0",
+72666:"jsonrpc": "2.0",
+73261:"jsonrpc": "2.0",
+73363:"jsonrpc": "2.0",
+73512:"jsonrpc": "2.0",
+73576:"jsonrpc": "2.0",
+73734:"jsonrpc": "2.0",
+73822:"jsonrpc": "2.0",
+74122:"jsonrpc": "2.0",
+74196:"jsonrpc": "2.0",
+74425:"jsonrpc": "2.0",
+74494:"jsonrpc": "2.0",
+74894:"jsonrpc": "2.0",
+74986:"jsonrpc": "2.0",
+75331:"jsonrpc": "2.0",
+75400:"jsonrpc": "2.0",
+76070:"jsonrpc": "2.0",
+76229:"jsonrpc": "2.0",
+76320:"jsonrpc": "2.0",
+76366:"jsonrpc": "2.0",
+76382:"jsonrpc": "2.0",
+76545:"jsonrpc": "2.0",
+76684:"jsonrpc": "2.0",
+76831:"jsonrpc": "2.0",
+77474:"jsonrpc": "2.0",
+77639:"jsonrpc": "2.0",
+77928:"jsonrpc": "2.0",
+78010:"jsonrpc": "2.0",
+78448:"jsonrpc": "2.0",
+78575:"jsonrpc": "2.0",
+78918:"jsonrpc": "2.0",
+78967:"jsonrpc": "2.0",
+79070:"jsonrpc": "2.0",
+79134:"jsonrpc": "2.0",
+79215:"jsonrpc": "2.0",
+79269:"jsonrpc": "2.0",
+79934:"jsonrpc": "2.0",
+80159:"jsonrpc": "2.0",
+80860:"jsonrpc": "2.0",
+80939:"jsonrpc": "2.0",
+81176:"jsonrpc": "2.0",
+81295:"jsonrpc": "2.0",
+81515:"jsonrpc": "2.0",
+81574:"jsonrpc": "2.0",
+81653:"jsonrpc": "2.0",
+81702:"jsonrpc": "2.0",
+81928:"jsonrpc": "2.0",
+81977:"jsonrpc": "2.0",
+82181:"jsonrpc": "2.0",
+82193:"jsonrpc": "2.0",
+82527:"jsonrpc": "2.0",
+82541:"jsonrpc": "2.0",
+82924:"jsonrpc": "2.0",
+82935:"jsonrpc": "2.0",
+83099:"jsonrpc": "2.0",
+83119:"jsonrpc": "2.0",
+83156:"jsonrpc": "2.0",
+83167:"jsonrpc": "2.0",
+83308:"jsonrpc": "2.0",
+83322:"jsonrpc": "2.0",
+83455:"jsonrpc": "2.0",
+83466:"jsonrpc": "2.0",
+83836:"jsonrpc": "2.0",
+83848:"jsonrpc": "2.0",
+83861:"jsonrpc": "2.0",
+83874:"jsonrpc": "2.0",
+83891:"jsonrpc": "2.0",
+83903:"jsonrpc": "2.0",
+83916:"jsonrpc": "2.0",
+83927:"jsonrpc": "2.0",
+83942:"jsonrpc": "2.0",
+83958:"jsonrpc": "2.0",
+84316:"jsonrpc": "2.0",
+84332:"jsonrpc": "2.0",
+84457:"jsonrpc": "2.0",
+84471:"jsonrpc": "2.0",
+84544:"jsonrpc": "2.0",
+84561:"jsonrpc": "2.0",
+84598:"jsonrpc": "2.0",
+84618:"jsonrpc": "2.0",
+84907:"jsonrpc": "2.0",
+84929:"jsonrpc": "2.0",
+84966:"jsonrpc": "2.0",
+84977:"jsonrpc": "2.0",
+85214:"jsonrpc": "2.0",
+85226:"jsonrpc": "2.0",
+85371:"jsonrpc": "2.0",
+85383:"jsonrpc": "2.0",
+85591:"jsonrpc": "2.0",
+85602:"jsonrpc": "2.0",
+85894:"jsonrpc": "2.0",
+85916:"jsonrpc": "2.0",
+85952:"jsonrpc": "2.0",
+85963:"jsonrpc": "2.0",
+86197:"jsonrpc": "2.0",
+86208:"jsonrpc": "2.0",
+86288:"jsonrpc": "2.0",
+86300:"jsonrpc": "2.0",
+86454:"jsonrpc": "2.0",
+86466:"jsonrpc": "2.0",
+86509:"jsonrpc": "2.0",
+86519:"jsonrpc": "2.0",
+86544:"jsonrpc": "2.0",
+86557:"jsonrpc": "2.0",
+86584:"jsonrpc": "2.0",
+86597:"jsonrpc": "2.0",
+86605:"jsonrpc": "2.0",
+86618:"jsonrpc": "2.0",
+86907:"jsonrpc": "2.0",
+86921:"jsonrpc": "2.0",
+87070:"jsonrpc": "2.0",
+87085:"jsonrpc": "2.0",
+87233:"jsonrpc": "2.0",
+87265:"jsonrpc": "2.0",
+88149:Site ZIP/postal code.
+88400:"jsonrpc": "2.0",
+88455:"jsonrpc": "2.0",
+88468:"jsonrpc": "2.0",
+88503:"jsonrpc": "2.0",
+88516:"jsonrpc": "2.0",
+88545:"jsonrpc": "2.0",
+88561:"jsonrpc": "2.0",
+88578:"jsonrpc": "2.0",
+88591:"jsonrpc": "2.0",
+88608:"jsonrpc": "2.0",
+88652:"jsonrpc": "2.0",
+88663:"jsonrpc": "2.0",
+89166:"jsonrpc": "2.0",
+89181:"jsonrpc": "2.0",
+89248:"jsonrpc": "2.0",
+89264:"jsonrpc": "2.0",
+89291:"jsonrpc": "2.0",
+89306:"jsonrpc": "2.0",
+89332:"jsonrpc": "2.0",
+89343:"jsonrpc": "2.0",
+89370:"jsonrpc": "2.0",
+89391:"jsonrpc": "2.0",
+89415:"jsonrpc": "2.0",
+89434:"jsonrpc": "2.0",
+89461:"jsonrpc": "2.0",
+89479:"jsonrpc": "2.0",
+89496:"jsonrpc": "2.0",
+89518:"jsonrpc": "2.0",
+89558:"jsonrpc": "2.0",
+89574:"jsonrpc": "2.0",
+89612:"jsonrpc": "2.0",
+89623:"jsonrpc": "2.0",
+89639:"jsonrpc": "2.0",
+89650:"jsonrpc": "2.0",
+89669:"jsonrpc": "2.0",
+89685:"jsonrpc": "2.0",
+89848:"jsonrpc": "2.0",
+89876:"jsonrpc": "2.0",
+89964:"jsonrpc": "2.0",
+89975:"jsonrpc": "2.0",
+90071:"jsonrpc": "2.0",
+90092:"jsonrpc": "2.0",
+90200:"jsonrpc": "2.0",
+90211:"jsonrpc": "2.0",
+90224:"jsonrpc": "2.0",
+90245:"jsonrpc": "2.0",
+90258:"jsonrpc": "2.0",
+90279:"jsonrpc": "2.0",
+90292:"jsonrpc": "2.0",
+90309:"jsonrpc": "2.0",
+90322:"jsonrpc": "2.0",
+90336:"jsonrpc": "2.0",
+90349:"jsonrpc": "2.0",
+90364:"jsonrpc": "2.0",
+90381:"jsonrpc": "2.0",
+90395:"jsonrpc": "2.0",
+90505:"jsonrpc": "2.0",
+90515:"jsonrpc": "2.0",
+90553:"jsonrpc": "2.0",
+90567:"jsonrpc": "2.0",
+90842:"jsonrpc": "2.0",
+90858:"jsonrpc": "2.0",
+90927:"jsonrpc": "2.0",
+90952:"jsonrpc": "2.0",
+91010:"jsonrpc": "2.0",
+91027:"jsonrpc": "2.0",
+91090:"jsonrpc": "2.0",
+91111:"jsonrpc": "2.0",
+91181:"jsonrpc": "2.0",
+91197:"jsonrpc": "2.0",
+91237:"jsonrpc": "2.0",
+91248:"jsonrpc": "2.0",
+91452:Whether to use bulk SNMP requests.
+91454:0 - don’t use bulk requests;
+91455:1 - (default) - use bulk requests.
+91469:Max repetition value for native SNMP bulk requests
+91566:"jsonrpc": "2.0",
+91582:"jsonrpc": "2.0",
+91597:"jsonrpc": "2.0",
+91618:"jsonrpc": "2.0",
+91656:"jsonrpc": "2.0",
+91666:"jsonrpc": "2.0",
+91820:"jsonrpc": "2.0",
+91831:"jsonrpc": "2.0",
+91928:"jsonrpc": "2.0",
+91953:"jsonrpc": "2.0",
+92017:"jsonrpc": "2.0",
+92035:"jsonrpc": "2.0",
+92095:"jsonrpc": "2.0",
+92113:"jsonrpc": "2.0",
+92153:"jsonrpc": "2.0",
+92164:"jsonrpc": "2.0",
+92477:Whether to use bulk SNMP requests.
+92479:0 - don’t use bulk requests;
+92480:1 - (default) - use bulk requests.
+92494:Max repetition value for native SNMP bulk requests
+92667:"jsonrpc": "2.0",
+92710:"jsonrpc": "2.0",
+92751:"jsonrpc": "2.0",
+92762:"jsonrpc": "2.0",
+92971:"jsonrpc": "2.0",
+92986:"jsonrpc": "2.0",
+93140:"jsonrpc": "2.0",
+93151:"jsonrpc": "2.0",
+93167:"jsonrpc": "2.0",
+93187:"jsonrpc": "2.0",
+93200:"jsonrpc": "2.0",
+93228:"jsonrpc": "2.0",
+93487:"jsonrpc": "2.0",
+93497:"jsonrpc": "2.0",
+93547:"jsonrpc": "2.0",
+93562:"jsonrpc": "2.0",
+93703:"jsonrpc": "2.0",
+93729:"jsonrpc": "2.0",
+93762:"jsonrpc": "2.0",
+93776:"jsonrpc": "2.0",
+93893:"jsonrpc": "2.0",
+93905:"jsonrpc": "2.0",
+93976:"jsonrpc": "2.0",
+93987:"jsonrpc": "2.0",
+94090:"jsonrpc": "2.0",
+94102:"jsonrpc": "2.0",
+94116:"jsonrpc": "2.0",
+94128:"jsonrpc": "2.0",
+94162:"jsonrpc": "2.0",
+94173:"jsonrpc": "2.0",
+94295:"jsonrpc": "2.0",
+94308:"jsonrpc": "2.0",
+94347:"jsonrpc": "2.0",
+94358:"jsonrpc": "2.0",
+94800:post_type
+94804:Type of post data body stored in posts property.
+94813:posts
+94819:- required if type is set to ”HTTP agent” and post_type is set to
+94821:- supported if type is set to ”HTTP agent” and post_type is set to
+94882:1 - POST;
+94894:Possible values if request_method is set to ”GET”, ”POST”, or ”PUT”:
+95794:"jsonrpc": "2.0",
+95820:"jsonrpc": "2.0",
+95833:"jsonrpc": "2.0",
+95853:"jsonrpc": "2.0",
+95866:"jsonrpc": "2.0",
+95891:"jsonrpc": "2.0",
+95908:"jsonrpc": "2.0",
+95923:"jsonrpc": "2.0",
+95932:Create POST request method item with JSON response preprocessing.
+95936:"jsonrpc": "2.0",
+95979:"jsonrpc": "2.0",
+95993:"jsonrpc": "2.0",
+96001:"params": "var request = new HttpRequest();\nreturn request.post(\"https://postman-echo.com/post\"
+96016:"jsonrpc": "2.0",
+96053:"jsonrpc": "2.0",
+96064:"jsonrpc": "2.0",
+96392:"jsonrpc": "2.0",
+96408:"jsonrpc": "2.0",
+96447:"posts": "",
+96450:"post_type": "0",
+96506:"posts": "",
+96512:"post_type": "0",
+96568:"posts": "",
+96571:"post_type": "0",
+96630:"posts": "",
+96633:"post_type": "0",
+96692:"posts": "",
+96695:"post_type": "0",
+96728:"jsonrpc": "2.0",
+96745:"jsonrpc": "2.0",
+96784:"posts": "",
+96787:"post_type": "0",
+96846:"posts": "",
+96849:"post_type": "0",
+96875:Find HTTP agent item with post body type XML for specific host ID.
+96879:"jsonrpc": "2.0",
+96885:"post_type": 3
+96893:"jsonrpc": "2.0",
+96937:"posts": "<body>\r\n<![CDATA[{$MACRO}<foo></bar>]]>\r\n</body>",
+96940:"post_type": "3",
+96973:"jsonrpc": "2.0",
+96985:"jsonrpc": "2.0",
+97062:"jsonrpc": "2.0",
+97073:"jsonrpc": "2.0",
+97087:"jsonrpc": "2.0",
+97102:"jsonrpc": "2.0",
+97115:"jsonrpc": "2.0",
+97126:"jsonrpc": "2.0",
+97139:"jsonrpc": "2.0",
+97160:"jsonrpc": "2.0",
+97173:"jsonrpc": "2.0",
+97185:"jsonrpc": "2.0",
+97543:post_type
+97547:Type of post data body stored in posts property.
+97556:posts
+97562:- required if type is set to ”HTTP agent” and post_type is set to
+97564:- supported if type is set to ”HTTP agent” and post_type is set to
+97611:1 - POST;
+97623:Possible values if request_method is set to ”GET”, ”POST”, or ”PUT”:
+98511:"jsonrpc": "2.0",
+98530:"jsonrpc": "2.0",
+98543:"jsonrpc": "2.0",
+98575:"jsonrpc": "2.0",
+98591:"jsonrpc": "2.0",
+98607:"jsonrpc": "2.0",
+98620:"jsonrpc": "2.0",
+98657:"jsonrpc": "2.0",
+98671:"jsonrpc": "2.0",
+98679:"params": "var request = new HttpRequest();\nreturn request.post(\"https://postman-echo.com/post\"
+98694:"jsonrpc": "2.0",
+98728:"jsonrpc": "2.0",
+98739:"jsonrpc": "2.0",
+99010:"jsonrpc": "2.0",
+99021:"jsonrpc": "2.0",
+99059:"posts": "",
+99062:"post_type": "0",
+99115:"posts": "",
+99118:"post_type": "0",
+99142:"jsonrpc": "2.0",
+99157:"jsonrpc": "2.0",
+99195:"posts": "",
+99198:"post_type": "0",
+99222:"jsonrpc": "2.0",
+99236:"jsonrpc": "2.0",
+99274:"posts": "",
+99277:"post_type": "0",
+99351:"jsonrpc": "2.0",
+99362:"jsonrpc": "2.0",
+99378:"jsonrpc": "2.0",
+99389:"jsonrpc": "2.0",
+99402:"jsonrpc": "2.0",
+99419:"jsonrpc": "2.0",
+99432:"jsonrpc": "2.0",
+99453:"jsonrpc": "2.0",
+99466:"jsonrpc": "2.0",
+99478:"jsonrpc": "2.0",
+99872:post_type
+99876:Type of post data body stored in posts property.
+99885:posts
+99891:- required if type is set to ”HTTP agent” and post_type is set to
+99893:- supported if type is set to ”HTTP agent” and post_type is set to
+99932:1 - POST;
+99944:Possible values if request_method is set to ”GET”, ”POST”, or ”PUT”:
+101177:"jsonrpc": "2.0",
+101192:"jsonrpc": "2.0",
+101206:"jsonrpc": "2.0",
+101248:"jsonrpc": "2.0",
+101260:"jsonrpc": "2.0",
+101288:"jsonrpc": "2.0",
+101303:"jsonrpc": "2.0",
+101347:"jsonrpc": "2.0",
+101360:"jsonrpc": "2.0",
+101398:"jsonrpc": "2.0",
+101413:"jsonrpc": "2.0",
+101437:"jsonrpc": "2.0",
+101449:"jsonrpc": "2.0",
+101504:"name": "Discover PostgreSQL host",
+101513:"value": "^postgresql\\.service$"
+101536:"value": "postgresql"
+101549:"jsonrpc": "2.0",
+101563:"jsonrpc": "2.0",
+101570:"params": "var request = new HttpRequest();\nreturn request.post(\"https://postman-echo.com/post\"
+101583:"jsonrpc": "2.0",
+101599:"jsonrpc": "2.0",
+101615:"jsonrpc": "2.0",
+101651:"jsonrpc": "2.0",
+101665:"jsonrpc": "2.0",
+101914:"jsonrpc": "2.0",
+101926:"jsonrpc": "2.0",
+101956:"posts": "",
+101959:"post_type": "0",
+102010:"posts": "",
+102013:"post_type": "0",
+102043:"jsonrpc": "2.0",
+102055:"jsonrpc": "2.0",
+102100:"jsonrpc": "2.0",
+102117:"jsonrpc": "2.0",
+102156:"posts": "",
+102159:"post_type": "0",
+102198:"jsonrpc": "2.0",
+102210:"jsonrpc": "2.0",
+102264:"name": "Discover PostgreSQL host",
+102274:"value": "^postgresql\\.service$",
+102291:"value": "postgresql"
+102384:"jsonrpc": "2.0",
+102403:"jsonrpc": "2.0",
+102415:"jsonrpc": "2.0",
+102431:"jsonrpc": "2.0",
+102447:"jsonrpc": "2.0",
+102458:"jsonrpc": "2.0",
+102471:"jsonrpc": "2.0",
+102489:"jsonrpc": "2.0",
+102502:"jsonrpc": "2.0",
+102517:"jsonrpc": "2.0",
+102530:"jsonrpc": "2.0",
+102544:"jsonrpc": "2.0",
+102944:post_type
+102948:Type of post data body stored in posts property.
+102957:posts
+102963:- required if type is set to ”HTTP agent” and post_type is set to
+102965:- supported if type is set to ”HTTP agent” and post_type is set to
+103004:1 - POST;
+103016:Possible values if request_method is set to ”GET”, ”POST”, or ”PUT”:
+104249:"jsonrpc": "2.0",
+104263:"jsonrpc": "2.0",
+104301:"jsonrpc": "2.0",
+104312:"jsonrpc": "2.0",
+104574:"jsonrpc": "2.0",
+104584:"jsonrpc": "2.0",
+104623:"posts": "",
+104626:"post_type": "0",
+104721:"jsonrpc": "2.0",
+104738:"jsonrpc": "2.0",
+105073:"jsonrpc": "2.0",
+105113:"jsonrpc": "2.0",
+105149:"jsonrpc": "2.0",
+105160:"jsonrpc": "2.0",
+105308:"jsonrpc": "2.0",
+105321:"jsonrpc": "2.0",
+105448:"jsonrpc": "2.0",
+105462:"jsonrpc": "2.0",
+106891:"jsonrpc": "2.0",
+106903:"jsonrpc": "2.0",
+106917:"jsonrpc": "2.0",
+106956:"jsonrpc": "2.0",
+106969:"jsonrpc": "2.0",
+106994:"jsonrpc": "2.0",
+107007:"jsonrpc": "2.0",
+107031:"jsonrpc": "2.0",
+107044:"jsonrpc": "2.0",
+107069:"jsonrpc": "2.0",
+107082:"jsonrpc": "2.0",
+107105:"jsonrpc": "2.0",
+107147:"jsonrpc": "2.0",
+107158:"jsonrpc": "2.0",
+107324:"jsonrpc": "2.0",
+107344:"jsonrpc": "2.0",
+107636:"jsonrpc": "2.0",
+107648:"jsonrpc": "2.0",
+107661:"jsonrpc": "2.0",
+107672:"jsonrpc": "2.0",
+108265:"jsonrpc": "2.0",
+108301:"jsonrpc": "2.0",
+108314:"jsonrpc": "2.0",
+108345:"jsonrpc": "2.0",
+108358:"jsonrpc": "2.0",
+108397:"jsonrpc": "2.0",
+108428:"jsonrpc": "2.0",
+108439:"jsonrpc": "2.0",
+108609:"jsonrpc": "2.0",
+108620:"jsonrpc": "2.0",
+108768:"jsonrpc": "2.0",
+108782:"jsonrpc": "2.0",
+108836:"jsonrpc": "2.0",
+108849:"jsonrpc": "2.0",
+108954:"jsonrpc": "2.0",
+108968:"jsonrpc": "2.0",
+109105:"jsonrpc": "2.0",
+109121:"jsonrpc": "2.0",
+109152:"jsonrpc": "2.0",
+109162:"jsonrpc": "2.0",
+109285:"jsonrpc": "2.0",
+109298:"jsonrpc": "2.0",
+109351:"jsonrpc": "2.0",
+109363:"jsonrpc": "2.0",
+109469:"jsonrpc": "2.0",
+109484:"jsonrpc": "2.0",
+109522:"jsonrpc": "2.0",
+109536:"jsonrpc": "2.0",
+109636:"jsonrpc": "2.0",
+109651:"jsonrpc": "2.0",
+109710:"jsonrpc": "2.0",
+109721:"jsonrpc": "2.0",
+110239:"jsonrpc": "2.0",
+110256:"jsonrpc": "2.0",
+110315:"jsonrpc": "2.0",
+110332:"jsonrpc": "2.0",
+110670:"jsonrpc": "2.0",
+110686:"jsonrpc": "2.0",
+110699:"jsonrpc": "2.0",
+110720:"jsonrpc": "2.0",
+110736:"jsonrpc": "2.0",
+110748:"jsonrpc": "2.0",
+110761:"jsonrpc": "2.0",
+110780:"jsonrpc": "2.0",
+110817:"jsonrpc": "2.0",
+110828:"jsonrpc": "2.0",
+110960:"jsonrpc": "2.0",
+110970:"jsonrpc": "2.0",
+111085:"jsonrpc": "2.0",
+111103:"jsonrpc": "2.0",
+111118:"jsonrpc": "2.0",
+111130:"jsonrpc": "2.0",
+111143:"jsonrpc": "2.0",
+111155:"jsonrpc": "2.0",
+111275:"jsonrpc": "2.0",
+111287:"jsonrpc": "2.0",
+111321:"jsonrpc": "2.0",
+111332:"jsonrpc": "2.0",
+111456:"jsonrpc": "2.0",
+111467:"jsonrpc": "2.0",
+111543:"jsonrpc": "2.0",
+111557:"jsonrpc": "2.0",
+111705:"jsonrpc": "2.0",
+111723:"jsonrpc": "2.0",
+111754:"jsonrpc": "2.0",
+111768:"jsonrpc": "2.0",
+111878:"jsonrpc": "2.0",
+111892:"jsonrpc": "2.0",
+111978:"jsonrpc": "2.0",
+112006:"jsonrpc": "2.0",
+112319:"jsonrpc": "2.0",
+112361:"jsonrpc": "2.0",
+112396:"jsonrpc": "2.0",
+112407:"jsonrpc": "2.0",
+112527:"jsonrpc": "2.0",
+112543:"jsonrpc": "2.0",
+112667:"jsonrpc": "2.0",
+112681:"jsonrpc": "2.0",
+113176:"jsonrpc": "2.0",
+113199:"jsonrpc": "2.0",
+113237:"jsonrpc": "2.0",
+113248:"jsonrpc": "2.0",
+113372:"jsonrpc": "2.0",
+113384:"jsonrpc": "2.0",
+113851:"jsonrpc": "2.0",
+113874:"jsonrpc": "2.0",
+113887:"jsonrpc": "2.0",
+113904:"jsonrpc": "2.0",
+114331:"jsonrpc": "2.0",
+114359:"jsonrpc": "2.0",
+114372:"jsonrpc": "2.0",
+114397:"jsonrpc": "2.0",
+114411:"jsonrpc": "2.0",
+114430:"jsonrpc": "2.0",
+114445:"jsonrpc": "2.0",
+114460:"jsonrpc": "2.0",
+114473:"jsonrpc": "2.0",
+114491:"jsonrpc": "2.0",
+114524:"jsonrpc": "2.0",
+114535:"jsonrpc": "2.0",
+114632:"jsonrpc": "2.0",
+114643:"jsonrpc": "2.0",
+114668:"jsonrpc": "2.0",
+114680:"jsonrpc": "2.0",
+114693:"jsonrpc": "2.0",
+114706:"jsonrpc": "2.0",
+114846:"jsonrpc": "2.0",
+114858:"jsonrpc": "2.0",
+115118:"jsonrpc": "2.0",
+115139:"jsonrpc": "2.0",
+115397:"jsonrpc": "2.0",
+115411:"jsonrpc": "2.0",
+115506:"jsonrpc": "2.0",
+115521:"jsonrpc": "2.0",
+115779:"jsonrpc": "2.0",
+115796:"jsonrpc": "2.0",
+115861:"jsonrpc": "2.0",
+115872:"jsonrpc": "2.0",
+115885:"jsonrpc": "2.0",
+115901:"jsonrpc": "2.0",
+116305:"jsonrpc": "2.0",
+116317:"jsonrpc": "2.0",
+116351:"jsonrpc": "2.0",
+116362:"jsonrpc": "2.0",
+116611:"jsonrpc": "2.0",
+116623:"jsonrpc": "2.0",
+116785:"jsonrpc": "2.0",
+116803:"jsonrpc": "2.0",
+116816:"jsonrpc": "2.0",
+116833:"jsonrpc": "2.0",
+117456:"jsonrpc": "2.0",
+117466:"jsonrpc": "2.0",
+117568:"jsonrpc": "2.0",
+117579:"jsonrpc": "2.0",
+117843:"jsonrpc": "2.0",
+117869:"value": "postgresql"
+117889:"jsonrpc": "2.0",
+117921:"jsonrpc": "2.0",
+117934:"jsonrpc": "2.0",
+118063:"jsonrpc": "2.0",
+118077:"jsonrpc": "2.0",
+118097:"value": "postgresql"
+118353:"jsonrpc": "2.0",
+118372:"jsonrpc": "2.0",
+118421:"jsonrpc": "2.0",
+118441:"jsonrpc": "2.0",
+118634:"jsonrpc": "2.0",
+118661:"jsonrpc": "2.0",
+118674:"jsonrpc": "2.0",
+118685:"jsonrpc": "2.0",
+118702:"jsonrpc": "2.0",
+118724:"jsonrpc": "2.0",
+119144:"jsonrpc": "2.0",
+119165:"jsonrpc": "2.0",
+119178:"jsonrpc": "2.0",
+119196:"jsonrpc": "2.0",
+119208:"jsonrpc": "2.0",
+119237:"jsonrpc": "2.0",
+119299:"jsonrpc": "2.0",
+119310:"jsonrpc": "2.0",
+119552:"jsonrpc": "2.0",
+119582:"jsonrpc": "2.0",
+119617:"jsonrpc": "2.0",
+119628:"jsonrpc": "2.0",
+119945:"jsonrpc": "2.0",
+119962:"jsonrpc": "2.0",
+120037:"jsonrpc": "2.0",
+120053:"jsonrpc": "2.0",
+120076:"jsonrpc": "2.0",
+120088:"jsonrpc": "2.0",
+120115:"jsonrpc": "2.0",
+120137:"jsonrpc": "2.0",
+120219:"jsonrpc": "2.0",
+120241:"jsonrpc": "2.0",
+120255:"jsonrpc": "2.0",
+120280:"jsonrpc": "2.0",
+120358:"jsonrpc": "2.0",
+120372:"jsonrpc": "2.0",
+120386:"jsonrpc": "2.0",
+120400:"jsonrpc": "2.0",
+120480:"jsonrpc": "2.0",
+120505:"jsonrpc": "2.0",
+120520:"jsonrpc": "2.0",
+120550:"jsonrpc": "2.0",
+120638:"jsonrpc": "2.0",
+120654:"jsonrpc": "2.0",
+120667:"jsonrpc": "2.0",
+120682:"jsonrpc": "2.0",
+120695:"jsonrpc": "2.0",
+120714:"jsonrpc": "2.0",
+120727:"jsonrpc": "2.0",
+120743:"jsonrpc": "2.0",
+120756:"jsonrpc": "2.0",
+120774:"jsonrpc": "2.0",
+120787:"jsonrpc": "2.0",
+120802:"jsonrpc": "2.0",
+121137:"jsonrpc": "2.0",
+121169:"jsonrpc": "2.0",
+121208:"jsonrpc": "2.0",
+121219:"jsonrpc": "2.0",
+121337:"jsonrpc": "2.0",
+121349:"jsonrpc": "2.0",
+121516:"jsonrpc": "2.0",
+121527:"jsonrpc": "2.0",
+121541:"jsonrpc": "2.0",
+121575:"jsonrpc": "2.0",
+121662:"jsonrpc": "2.0",
+121672:"jsonrpc": "2.0",
+121708:"jsonrpc": "2.0",
+121719:"jsonrpc": "2.0",
+121923:"jsonrpc": "2.0",
+121939:"jsonrpc": "2.0",
+122008:"jsonrpc": "2.0",
+122033:"jsonrpc": "2.0",
+122093:"jsonrpc": "2.0",
+122110:"jsonrpc": "2.0",
+122173:"jsonrpc": "2.0",
+122195:"jsonrpc": "2.0",
+122258:"jsonrpc": "2.0",
+122273:"jsonrpc": "2.0",
+122313:"jsonrpc": "2.0",
+122324:"jsonrpc": "2.0",
+122464:"jsonrpc": "2.0",
+122478:"jsonrpc": "2.0",
+122490:"jsonrpc": "2.0",
+122502:"jsonrpc": "2.0",
+122536:"jsonrpc": "2.0",
+122547:"jsonrpc": "2.0",
+122603:"jsonrpc": "2.0",
+122614:"jsonrpc": "2.0",
+122749:"jsonrpc": "2.0",
+122760:"jsonrpc": "2.0",
+122805:"jsonrpc": "2.0",
+122816:"jsonrpc": "2.0",
+123004:"jsonrpc": "2.0",
+123025:"jsonrpc": "2.0",
+123334:"jsonrpc": "2.0",
+123374:"jsonrpc": "2.0",
+123407:"jsonrpc": "2.0",
+123418:"jsonrpc": "2.0",
+123836:"jsonrpc": "2.0",
+123850:"jsonrpc": "2.0",
+123893:"jsonrpc": "2.0",
+123914:"jsonrpc": "2.0",
+123934:"jsonrpc": "2.0",
+123951:"jsonrpc": "2.0",
+124025:"jsonrpc": "2.0",
+124036:"jsonrpc": "2.0",
+124052:"jsonrpc": "2.0",
+124072:"jsonrpc": "2.0",
+124085:"jsonrpc": "2.0",
+124103:"jsonrpc": "2.0",
+124384:"jsonrpc": "2.0",
+124408:"jsonrpc": "2.0",
+124440:"jsonrpc": "2.0",
+124451:"jsonrpc": "2.0",
+124765:"jsonrpc": "2.0",
+124777:"jsonrpc": "2.0",
+124857:"jsonrpc": "2.0",
+124874:"jsonrpc": "2.0",
+124949:"jsonrpc": "2.0",
+124962:"jsonrpc": "2.0",
+124975:"jsonrpc": "2.0",
+124995:"jsonrpc": "2.0",
+125413:Authentication token, which must be used in the following API requests.
+125439:"jsonrpc": "2.0",
+125449:"jsonrpc": "2.0",
+125485:"jsonrpc": "2.0",
+125495:"jsonrpc": "2.0",
+125578:"jsonrpc": "2.0",
+125606:"jsonrpc": "2.0",
+125645:"jsonrpc": "2.0",
+125656:"jsonrpc": "2.0",
+125859:"jsonrpc": "2.0",
+125869:"jsonrpc": "2.0",
+125942:"jsonrpc": "2.0",
+125957:"jsonrpc": "2.0",
+126050:"jsonrpc": "2.0",
+126062:"jsonrpc": "2.0",
+126189:Authentication token, which must be used in the following API requests.
+126218:"jsonrpc": "2.0",
+126229:"jsonrpc": "2.0",
+126238:"jsonrpc": "2.0",
+126250:"jsonrpc": "2.0",
+126309:"jsonrpc": "2.0",
+126317:"jsonrpc": "2.0",
+126349:"jsonrpc": "2.0",
+126360:"jsonrpc": "2.0",
+126398:"jsonrpc": "2.0",
+126409:"jsonrpc": "2.0",
+126446:"jsonrpc": "2.0",
+126457:"jsonrpc": "2.0",
+126535:"jsonrpc": "2.0",
+126547:"jsonrpc": "2.0",
+126560:"jsonrpc": "2.0",
+126571:"jsonrpc": "2.0",
+126966:Zabbix will send the SAML authentication requests.
+126984:Zabbix will send the SAML logout requests.
+127046:sign_authn_requests
+127050:Whether the SAML AuthN requests should be signed with a SAML
+127053:0 - (default) Do not sign AuthN requests;
+127054:1 - Sign AuthN requests.
+127077:sign_logout_requests
+127081:Whether the SAML logout requests should be signed with a SAML
+127084:0 - (default) Do not sign logout requests;
+127085:1 - Sign logout requests.
+127243:"jsonrpc": "2.0",
+127261:"jsonrpc": "2.0",
+127275:"jsonrpc": "2.0",
+127336:"jsonrpc": "2.0",
+127372:"jsonrpc": "2.0",
+127383:"jsonrpc": "2.0",
+127524:"jsonrpc": "2.0",
+127536:"jsonrpc": "2.0",
+127558:"sign_authn_requests": "0",
+127559:"sign_logout_requests": "0",
+127726:"jsonrpc": "2.0",
+127746:"jsonrpc": "2.0",
+127755:"jsonrpc": "2.0",
+127772:"jsonrpc": "2.0",
+127786:"jsonrpc": "2.0",
+127803:"jsonrpc": "2.0",
+127850:"jsonrpc": "2.0",
+127861:"jsonrpc": "2.0",
+127877:"jsonrpc": "2.0",
+127909:"jsonrpc": "2.0",
+128136:"jsonrpc": "2.0",
+128155:"jsonrpc": "2.0",
+128194:"jsonrpc": "2.0",
+128205:"jsonrpc": "2.0",
+128384:"jsonrpc": "2.0",
+128395:"jsonrpc": "2.0",
+128525:"jsonrpc": "2.0",
+128549:"jsonrpc": "2.0",
+128829:"jsonrpc": "2.0",
+128841:"jsonrpc": "2.0",
+128877:"jsonrpc": "2.0",
+128888:"jsonrpc": "2.0",
+128920:"jsonrpc": "2.0",
+128933:"jsonrpc": "2.0",
+128965:"jsonrpc": "2.0",
+128976:"jsonrpc": "2.0",
+129146:"jsonrpc": "2.0",
+129157:"jsonrpc": "2.0",
+129185:"jsonrpc": "2.0",
+129199:"jsonrpc": "2.0",
+129300:"jsonrpc": "2.0",
+129311:"jsonrpc": "2.0",
+129351:"jsonrpc": "2.0",
+129362:"jsonrpc": "2.0",
+129375:"jsonrpc": "2.0",
+129389:"jsonrpc": "2.0",
+129422:"jsonrpc": "2.0",
+129433:"jsonrpc": "2.0",
+129596:"jsonrpc": "2.0",
+129621:"jsonrpc": "2.0",
+129652:"jsonrpc": "2.0",
+129666:"jsonrpc": "2.0",
+129779:"jsonrpc": "2.0",
+129789:"jsonrpc": "2.0",
+129810:"jsonrpc": "2.0",
+129822:"jsonrpc": "2.0",
+129899:"jsonrpc": "2.0",
+129910:"jsonrpc": "2.0",
+129922:"jsonrpc": "2.0",
+129944:"jsonrpc": "2.0",
+130202:posts
+130207:HTTP POST variables as a string (raw post data) or as an array of HTTP
+130253:The HTTP field object defines the name and value that is used to specify the web scenario variables, HTTP headers, and POST fields
+130265:Name of header/variable/POST or GET field.
+130273:Value of header/variable/POST or GET field.
+130349:"jsonrpc": "2.0",
+130374:"jsonrpc": "2.0",
+130411:"jsonrpc": "2.0",
+130422:"jsonrpc": "2.0",
+130624:"jsonrpc": "2.0",
+130636:"jsonrpc": "2.0",
+130666:"posts": "",
+130690:"posts": "",
+130752:"jsonrpc": "2.0",
+130766:"jsonrpc": "2.0",
+131076:"jsonrpc": "2.0",
+131092:"jsonrpc": "2.0",
+131104:"jsonrpc": "2.0",
+131118:"jsonrpc": "2.0",
+131128:"jsonrpc": "2.0",
+131153:"jsonrpc": "2.0",
+131212:"jsonrpc": "2.0",
+131235:"jsonrpc": "2.0",
+131398:HTTP agent item is an item for executing data requests over HTTP/HTTPS. HTTP agent items are useful for sending requests to
+132234:Plugins.PostgreSQL.Sessions.Session1.Uri=tcp://192.0.2.234:5432
+132235:Plugins.PostgreSQL.Sessions.Session1.User=old_username
+132236:Plugins.PostgreSQL.Sessions.Session1.Password=session_password
+132237:Item key: pgsql.ping[session1,new_username,,postgres]
+132238:As a result of this configuration, the agent will connect to PostgreSQL using the following parameters:
+132245:• Database name from the item key: postgres
+132250:Plugins.PostgreSQL.Default.Uri=tcp://192.0.2.234:5432
+132251:Plugins.PostgreSQL.Default.User=zabbix
+132252:Plugins.PostgreSQL.Default.Password=password
+132253:Item key: pgsql.ping[,,,postgres]
+132254:As a result of this configuration, the agent will connect to PostgreSQL using the parameters:
+132258:• Database name from the item key: postgres
+132989:PostgreSQL
+132995:PostgreSQL and its
+133022:See also PostgreSQL plugin configuration
+133145:• PostgreSQL/TimescaleDB
+133187:PostgreSQL
+133195:sudo -u postgres createuser --pwprompt zabbix
+133200:sudo -u postgres createdb -O zabbix -E Unicode -T template0 zabbix
+133204:cd database/postgresql
+133315:• PostgreSQL
+133321:the upgrade while the server is running (only for MySQL, MariaDB, and PostgreSQL without TimescaleDB).
+133371:• Follow post-migration instructions to drop the old tables.
+133394:Follow post-migration instructions to drop the old tables.
+133436:Follow post-migration instructions to drop the old tables.
+133437:PostgreSQL
+133439:skip this section and proceed to PostgreSQL + TimescaleDB.
+133444:sudo -u zabbix psql zabbix < /usr/share/zabbix/sql-scripts/postgresql/option-patches/history_upgrade_prepa
+133453:See tips for improving INSERT performance: PostgreSQL: Bulk Loading Huge Amounts of Data, Checkpoint Distance and Amount
+133455:• Follow post-migration instructions to drop the old tables.
+133578:• Follow post-migration instructions to drop the old tables.
+133579:PostgreSQL + TimescaleDB
+133587:– If compression is enabled (on default installation), run the script from /usr/share/zabbix/sql-scripts/postgresql/times
+133589:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/with-compression/history_
+133591:– If compression is disabled, run the script from /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patc
+133593:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/without-compression/histo
+133596:– If compression is enabled (on default installation), run scripts from /usr/share/zabbix/sql-scripts/postgresql/timesca
+133598:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/with-compression/history_
+133599:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/with-compression/history_
+133600:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/with-compression/history_
+133601:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/with-compression/history_
+133602:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/with-compression/history_
+133603:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/with-compression/trends_u
+133605:– If compression is disabled, run scripts from /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patche
+133607:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/without-compression/histo
+133608:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/without-compression/histo
+133609:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/without-compression/histo
+133610:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/without-compression/histo
+133611:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/without-compression/histo
+133612:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/option-patches/without-compression/trend
+133614:• Follow post-migration instructions to drop the old tables.
+133615:Post-migration
+133741:PostgreSQL
+133743:PostgreSQL automatically rebuilds indexes for the primary key during the ALTER TABLE operation. However, it is highly recommended to also manually rebuild indexes with the REINDEX TABLE CONCURRENTLY statement to ensure optimal database
+133751:• Increasing the maintenance_work_mem PostgreSQL parameter may help to reduce disk space usage when manually rebuilding indexes. However, modifying this variable may impact overall memory usage of the database.
+133753:location for the index rebuild. You can set the temp_tablespaces PostgreSQL parameter to specify a different tablespace
+133847:PostgreSQL
+133854:• PostgreSQL encryption options.
+133865:7 based systems and PostgreSQL 9.2, MariaDB 5.5 without encryption support.
+133880:uses a socket file (on Unix) or shared memory (on Windows) cannot be encrypted.<br> For PostgreSQL, the TLS encryption
+134074:for PostgreSQL.
+134112:See also: Encryption configuration examples for MySQL, Encryption configuration examples for PostgreSQL.
+134170:(PostgreSQL) Setting this option will be considered as an
+134379:2 PostgreSQL encryption configuration
+134382:This section provides several encryption configuration examples for CentOS 8.2 and PostgreSQL 13.
+134384:Connection between Zabbix frontend and PostgreSQL cannot be encrypted (parameters in GUI are disabled), if the value
+134388:Install the PostgreSQL database using the official repository.
+134389:PostgreSQL is not configured to accept TLS connections out-of-the-box. Please follow instructions from PostgreSQL documentation
+134390:for certificate preparation with postgresql.conf and also for user access control through ph_hba.conf.
+134391:By default, the PostgreSQL socket is bound to the localhost, for the network remote connections to allow listening on the real
+134393:PostgreSQL settings for all modes can look like this:
+134394:/var/lib/pgsql/13/data/postgresql.conf:
+134605:Zabbix supports TimescaleDB, a PostgreSQL-based database solution of automatically partitioning data into time-based chunks to
+134611:• Creating a TimescaleDB database or migrating from existing PostgreSQL tables to TimescaleDB (see Configuration).
+134620:Before installing TimescaleDB, install a supported PostgreSQL release from the official PostgreSQL repository.
+134624:echo "CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;" | sudo -u postgres psql zabbix
+134630:-u postgres psql zabbix
+134633:Then run the postgresql/timescaledb/schema.sql script. For new installations, the script must be run after the regular
+134634:PostgreSQL database has been created with initial schema/data (see database creation).
+134636:cat /usr/share/zabbix/sql-scripts/postgresql/timescaledb/schema.sql | sudo -u zabbix psql zabbix
+134648:For PostgreSQL and TimescaleDB, the postgresql/timescaledb/schema.sql script sets two additional parameters:
+134656:You may want to run the timescaledb-tune tool provided by TimescaleDB to optimize PostgreSQL configuration parameters
+134657:in your postgresql.conf.
+134666:3. Run the postgresql/timescaledb/schema.sql script; this configures the new TimescaleDB hypertables.
+134670:that, since Zabbix 7.0.0, the script’s location and name have changed from postgresql/timescaledb.sql to
+134672:postgresql/timescaledb/schema.sql.
+134843:curl -X PUT \
+134889:curl -X PUT \
+134924:curl -X PUT \
+134967:curl -X PUT \
+135328:It is possible to configure Entra ID to validate the signature of signed authentication requests.
+135499:be sent as requests to Zabbix.
+135898:The database schema name. Used for PostgreSQL.
+136081:Determines how often Zabbix server requests history data from a Zabbix proxy.
+136433:For PostgreSQL:
+136450:Default for PostgreSQL: 5432
+136453:The database schema name. Used for PostgreSQL.
+136463:identity specified by DBHost matches its certificate.<br><br> With MySQL, starting from 5.7.11, and PostgreSQL the following
+136519:requests. If IPv6 support is enabled then 127.0.0.1, ::127.0.0.1, ::ffff:127.0.0.1 are treated equally and ::/0 will allow
+136549:(starting from the oldest entry) will be deleted per cycle.<br>Note: To lower load on server startup housekeeping is postponed for
+136651:Determines how often Zabbix server requests history data from a Zabbix proxy in seconds. Used only for proxies in the passive
+136674:• script item JavaScript HTTP requests
+136675:• preprocessing JavaScript HTTP requests
+136690:used.<br>Note that the value of this parameter will be set as libcurl option CURLOPT_CAPATH. For libcurl versions before 7.42.0,
+136691:this only has effect if libcurl was compiled to use OpenSSL. For more information see cURL web page.<br>This parameter is used
+136769:More workers should be set if preprocessing is not CPU-bound and has lots of network requests.
+136803:will be accepted only from the addresses listed here. If this parameter is not set no stats requests will be accepted.<br>If IPv6
+136815:• requests to Zabbix web service
+136823:• asynchronous poller DNS requests
+136932:The size of the history value cache, in bytes.<br>The shared memory size for caching item history data requests.<br>Setting to
+137081:The database schema name. Used for PostgreSQL.
+137563:For PostgreSQL:
+137581:Default for PostgreSQL: 5432
+137587:The database schema name. Used for PostgreSQL.
+137598:matches its certificate.<br> On MySQL starting from 5.7.11 and PostgreSQL the following values are supported: ”required”, ”verify”, ”verify_full”.<br> On MariaDB starting from version 10.2.6 ”required” and ”verify_full” values are supported.<br>By default
+137649:database.<br>Note: To lower load on proxy startup housekeeping is postponed for 30 minutes after proxy start.
+137796:• script item JavaScript HTTP requests
+137797:• preprocessing JavaScript HTTP requests
+137807:be set as the CURLOPT_CAPATH libcurl option. For libcurl versions before 7.42.0, this only has effect if libcurl was compiled to use
+137808:OpenSSL. For more information see the cURL web page.<br>This parameter is used in web monitoring and in SMTP authentication.
+137852:More workers should be set if preprocessing is not CPU-bound and has lots of network requests.
+137868:will be accepted only from the addresses listed here. If this parameter is not set no stats requests will be accepted.<br>If IPv6
+137883:• Asynchronous poller DNS requests
+138546:• sending requests to Zabbix server, including item configuration requests and item data in active checks;
+138795:If set, the agent will listen on this port for HTTP status requests (http://localhost:<port>/status).
+139129:If set, the agent will listen on this port for HTTP status requests (http://localhost:<port>/status).
+139138:• sending requests to Zabbix server, including item configuration requests and item data in active checks;
+139689:• sending requests to Zabbix server, including item configuration requests and item data in active checks;
+139906:If set, the agent will listen on this port for HTTP status requests (http://localhost:<port>/status).
+140255:If set, the agent will listen on this port for HTTP status requests (http://localhost:<port>/status).
+140261:• sending requests to Zabbix server, including item configuration requests and item data in active checks;
+141935:12 PostgreSQL plugin
+141938:This section lists parameters supported in the PostgreSQL Zabbix agent 2 plugin configuration file (postgresql.conf).
+141939:The PostgreSQL plugin is a loadable plugin and is available and fully described in the PostgreSQL plugin repository.
+141972:Plugins.PostgreSQL.Default.CacheMode
+141977:Cache mode for the PostgreSQL connection.
+141980:PostgreSQL server;
+141988:Plugins.PostgreSQL.CallTimeout
+141991:Plugins.PostgreSQL.CustomQueriesPath
+142002:/usr/local/share/zabbix/custom-queries/postgreSQL
+142014:Queries\PostgreSQL
+142025:Plugins.PostgreSQL.CustomQueriesEnabled
+142032:postgresql.custom.query item key. If disabled, no
+142034:Plugins.PostgreSQL.Default.Database
+142037:Default database for connecting to PostgreSQL; used if no
+142040:Plugins.PostgreSQL.Default.Password
+142043:Default password for connecting to PostgreSQL; used if no
+142046:Plugins.PostgreSQL.Default.TLSCAFile
+142055:ins.PostgreSQL.Default.TLSConnect
+142065:Plugins.PostgreSQL.Default.TLSCertFile
+142068:Full pathname of a file containing the PostgreSQL certificate
+142074:ins.PostgreSQL.Default.TLSConnect
+142084:Plugins.PostgreSQL.Default.TLSConnect
+142109:Plugins.PostgreSQL.Default.TLSKeyFile
+142113:Full pathname of a file containing the PostgreSQL private key
+142119:ins.PostgreSQL.Default.TLSConnect
+142129:Plugins.PostgreSQL.Default.Uri
+142132:Default URI for connecting to PostgreSQL; used if no value is
+142141:unix:/var/run/postgresql/.s.PGSQL.5432
+142142:Plugins.PostgreSQL.Default.User
+142145:Default username for connecting to PostgreSQL; used if no
+142148:Plugins.PostgreSQL.KeepAlive
+142158:Plugins.PostgreSQL.Sessions.<SessionName>.CacheMode
+142162:Cache mode for the PostgreSQL connection.
+142167:PostgreSQL server;
+142175:Plugins.PostgreSQL.Sessions.<SessionName>.Database
+142182:Plugins.PostgreSQL.Sessions.<SessionName>.Password
+142197:Plugins.PostgreSQL.Sessions.<SessionName>.TLSCAFile
+142204:ins.PostgreSQL.Sessions.<SessionName>.TLSConnect
+142212:Plugins.PostgreSQL.Sessions.<SessionName>.TLSCertFile
+142215:Full pathname of a file containing the PostgreSQL certificate
+142217:ins.PostgreSQL.Sessions.<SessionName>.TLSKeyFile
+142224:Plugins.PostgreSQL.Sessions.<SessionName>.TLSConnect
+142227:Encryption type for PostgreSQL connection.
+142249:Plugins.PostgreSQL.Sessions.<SessionName>.TLSKeyFile
+142253:Full pathname of a file containing the PostgreSQL private key.
+142255:ins.PostgreSQL.Sessions.<SessionName>.TLSCertFile
+142261:Plugins.PostgreSQL.Sessions.<SessionName>.Uri
+142274:unix:/var/run/postgresql/.s.PGSQL.5432
+142275:Plugins.PostgreSQL.Sessions.<SessionName>.User
+142282:Plugins.PostgreSQL.System.Path
+142285:Path to the PostgreSQL plugin executable.
+142288:Plugins.PostgreSQL.System.Path=/usr/libexec/zabbix/zabbix
+142289:Plugins.PostgreSQL.Timeout
+143210:"fields": ["httpstepid", "httptestid", "name", "no", "url", "timeout", "posts", "required", "status_codes"
+144196:"fields": ["httpstepid", "httptestid", "name", "no", "url", "timeout", "posts", "required", "status_codes"
+144829:These parameters are present in all requests/responses:
+144840:For requests - the incrementing identifier used to
+144841:link requests with responses. Unique within a
+144862:Parameters specific to log requests:
+144894:Parameters specific to register requests:
+145007:Parameters specific to export requests:
+145077:Parameters specific to Configure requests:
+145115:Parameters specific to Validate requests:
+145294:Python
+145947:agent 2 requests/responses is expressed by the ”variant” tag value.
+147232:PostgreSQL
+147234:invalid byte sequence for encoding) and data will not be stored. An appropriate warning message will be written to the zabbix_server.log.<br> Relevant for at least PostgreSQL version 9.1.3.
+147716:running ps and top commands. Examples of such programs include PostgreSQL, Sendmail, Zabbix.
+147948:Uses (and only works with) libcurl, does not verify the authenticity of the certificate, does not verify the host name in the SSL
+148506:Requests will be accepted only from these addresses.
+148562:Receiving internal metric requests from an external Zabbix instance is handled by the trapper process that validates the request,
+148624:"requests": N,
+148807:10. Test SPNEGO exchange with curl (from a client with a valid TGT). A 200 OK (or redirect to app) indicates SPNEGO succeeded:
+148809:curl -v --negotiate -u : http://dc01.example.com/
+148832:• curl --negotiate returning 401/403 often means wrong principal, no ticket, host header mismatch, or filesystem permission issue; check logs and /etc/krb5.conf domain mappings.
+149074:resp = req.post("{$VMWARE.URL}", login);
+149098:resp = req.post("{$VMWARE.URL}", query);
+149113:resp = req.post("{$VMWARE.URL}",logout);
+150696:rate(/host/app.requests.count,1m)>100 #the request count counter has risen at >100 requests per second in
+152785:Post field
+153422:The Site ZIP/postal field in host inventory.<br><br> This macro may be used with a numeric index e.g. {INVENTORY.SITE.ZIP<19>} to point to the first, second, third, etc. host in a trigger expression. See indexed macros.
+155235:MySQL, PostgreSQL, Redis, systemd, and other
+155241:monitoring solution for: PostgreSQL, Redis.
+155673:curl 198.51.100.255/server-status
+156248:• Retrieve the webpage content from Selenium Server with curl:
+156250:curl -L 192.0.2.1:4444
+156996:reduced via the UI (contact Zabbix support for any shrink requests). Free-trial nodes can be converted to paid subscriptions.
+157204:Only PostgreSQL (driver {postgresql});
+157206:ODBC for PostgreSQL, MySQL, Oracle, etc. -
+157268:Zabbix Cloud supports ODBC monitoring only for PostgreSQL. Use the official Zabbix ODBC template and define the connection
+157271:Driver={postgresql}
+157434:Python library for Zabbix Resources for using the official zabbix_utils library to interact with the Zabbix API and build
+158469:The promiseUpdate() method initiates the data update process by retrieving data, typically using web requests or API calls. This
+158474:a new Curl object with the appropriate URL and request parameters, sends a POST request using the fetch() method with the
+158480:const curl = new Curl('zabbix.php');
+158481:curl.setArgument('action', `widget.${this._type}.view`);
+158482:return fetch(curl.getUrl(), {
+158483:method: 'POST',
+159734:• PostgreSQL plugin
+159883:1. Import the required packages for HTTP requests and response reading:
+160034:Python library for Zabbix
+160036:zabbix_utils is the official Python library for Zabbix.
+160042:The library is compatible with supported Zabbix server versions and modern Python releases.
+160049:• Python 3.8 or later (tested on 3.8–3.13)
+160051:Python Package Index (PyPI)
+160064:dnf install python3-zabbix-utils
+160066:dnf install python3-aiohttp # Only for async support
+160069:apt install python3-zabbix-utils
+160070:apt install python3-aiohttp # Only for async support
+160074:git clone https://github.com/zabbix/python-zabbix-utils
+160075:cd python-zabbix-utils/
+160077:python3 setup.py install
+160241:API requests can be made in synchronous or asynchronous mode:
+160242:• In synchronous mode, your Python script sends a request and waits for a response before continuing, which is suitable for
+160244:• In asynchronous mode, the script sends requests without waiting for each response, allowing other operations to proceed in
+160245:parallel; this is more efficient for slow requests or large batches of data.
+160253:If you already use a community Python library, you can usually replace that import with ZabbixAPI from zabbix_utils.
+160256:Before making API requests, you must create a ZabbixAPI instance and log in to Zabbix API.
+160267:If you prefer to group connection parameters, you can pass them as a Python dictionary and unpack it using Python’s keyword
+160325:API requests
+160326:After you’ve logged in, you can make any API requests by calling methods described in the Zabbix API method reference.
+160331:Some Zabbix API method or object names use words that are reserved keywords in Python (e.g., import). To avoid Python
+160332:errors, add an underscore to the method or object name when using it in Python (e.g., api.configuration.import_).
+160355:Asynchronous mode lets your script send API requests without waiting for each one to finish. This can make your script more
+160356:efficient when it needs to perform many API requests or when some requests take a long time.
+160358:• Import Python’s asyncio module (you must first install the required dependencies).
+160400:• In synchronous mode, your Python script requests and waits for data before continuing, which is suitable for simple, sequential, and predictable operations.
+160401:• In asynchronous mode, the script requests data without waiting for each response, allowing other operations to proceed in
+160402:parallel; this is more efficient for slow requests or large batches of data.
+160406:To use zabbix_utils for collecting item values, import the Getter class in your Python script:
+160469:• Import Python’s asyncio module (you must first install the required dependencies).
+160480:### 2. Define the main async function where all data requests will be executed:
+160494:• In synchronous mode, your Python script sends values and waits for a response before continuing; this is suitable for simple,
+160497:parallel; this is more efficient for slow requests or large batches of data.
+160574:Asynchronous mode lets your Python script send values without waiting for a response from Zabbix server or proxy. This can make
+160577:• Import Python’s asyncio module (you must first install the required dependencies).
+160705:The zabbix_utils library uses Python’s standard logging module.
+160707:1. Import Python’s logging module in your script.
+160721:With debug logging enabled, detailed information about requests and responses is printed, for example:

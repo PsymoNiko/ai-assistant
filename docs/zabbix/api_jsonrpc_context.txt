@@ -1,0 +1,92 @@
+19987-For sending data to Zabbix server using the history.push API method, you could make the following HTTP POST request containing some test values:
+19988-
+19989-curl --request POST \
+19990:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+19991---header 'Authorization: Bearer 0424bd59b807674191e7d77572075f33' \
+19992---header 'Content-Type: application/json-rpc' \
+19993---data '{"jsonrpc":"2.0","method":"history.push","params":[{"itemid":10600,"value":"test value 1"},{"ite
+--
+26021-
+26022-Example:
+26023-
+26024:./import_templates.sh /tmp/templates_2M_7.4 https://example.com/zabbix/api_jsonrpc.php d8d6b5c78ee2a8333db
+26025-Template compatibility with Host Wizard
+26026-For a full list of out-of-the-box templates that are currently compatible with the Host Wizard, see hw_compatible_templates.txt.
+26027-You can also make your custom templates compatible with the Host Wizard:
+--
+62097-
+62098-Once you have set up the frontend, you can use remote HTTP requests to call the API. To do that, you
+62099-
+62100:need to send HTTP POST requests to the api_jsonrpc.php file located in the frontend directory.<br> For example, if your Zabbix
+62101-frontend is installed under https://example.com/zabbix, an HTTP request to call the apiinfo.version method may look
+62102-like this:
+62103-
+62104-curl --request POST \
+62105:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62106---header 'Content-Type: application/json-rpc' \
+62107---data '{"jsonrpc":"2.0","method":"apiinfo.version","params":{},"id":1}'
+62108-The request must have the Content-Type header set to one of these values: application/json-rpc, application/json
+--
+62132-would look like this:
+62133-
+62134-curl --request POST \
+62135:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62136---header 'Content-Type: application/json-rpc' \
+62137---data '{"jsonrpc":"2.0","method":"user.login","params":{"username":"Admin","password":"zabbix"},"id":1}
+62138-If you provided the credentials correctly, the response returned by the API should contain the user authentication token:
+--
+62147-request:
+62148-
+62149-curl --request POST \
+62150:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62151---header 'Authorization: Bearer 0424bd59b807674191e7d77572075f33'
+62152-Attention:
+62153-If you are experiencing authentication issues, see Authorization header forwarding.
+--
+62167-Request:
+62168-
+62169-curl --request POST \
+62170:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62171---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62172---header 'Content-Type: application/json-rpc' \
+62173---data @data.json
+--
+62221-host.get request. This can be done using the item.create method:
+62222-
+62223-curl --request POST \
+62224:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62225---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62226---header 'Content-Type: application/json-rpc' \
+62227---data '{"jsonrpc":"2.0","method":"item.create","params":{"name":"Free disk space on /home/joe/","key_":
+--
+62247-Creating multiple triggers Thus, if create methods accept arrays, you can add multiple triggers, for example, this one:
+62248-
+62249-curl --request POST \
+62250:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62251---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62252---header 'Content-Type: application/json-rpc' \
+62253---data '{"jsonrpc":"2.0","method":"trigger.create","params":[{"description":"Processor load is too high
+--
+62266-Updating an item Enable an item by setting its status to 0:
+62267-
+62268-curl --request POST \
+62269:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62270---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62271---header 'Content-Type: application/json-rpc' \
+62272---data '{"jsonrpc":"2.0","method":"item.update","params":{"itemid":"10092","status":0},"id":5}'
+--
+62288-Updating multiple triggers Enable multiple triggers by setting their status to 0:
+62289-
+62290-curl --request POST \
+62291:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62292---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62293---header 'Content-Type: application/json-rpc' \
+62294---data '{"jsonrpc":"2.0","method":"trigger.update","params":[{"triggerid":"13938","status":0},{"triggeri
+--
+62318-an incorrect call to the API? Try to create another host by calling host.create but omitting the mandatory groups parameter:
+62319-
+62320-curl --request POST \
+62321:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62322---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62323---header 'Content-Type: application/json-rpc' \
+62324---data '{"jsonrpc":"2.0","method":"host.create","params":{"host":"Linux server","interfaces":[{"type":1,

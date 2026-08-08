@@ -1,0 +1,111 @@
+131541-Defining items
+131542-Each item is defined in a ZBX_METRIC structure:
+131543-
+131544:typedef struct
+131545-{
+131546-char
+131547-*key;
+--
+131580-
+131581-Module can specify functions to export history data by type: Numeric (float), Numeric (unsigned), Character, Text and Log:
+131582-
+131583:typedef struct
+131584-{
+131585-void
+131586-(*history_float_cb)(const ZBX_HISTORY_FLOAT *history, int history_num);
+--
+131602-Each of them should take ”history” array of ”history_num” elements as arguments. Depending on history data type to be exported,
+131603-”history” is an array of the following structures, respectively:
+131604-
+131605:typedef struct
+131606-{
+131607-zbx_uint64_t
+131608-itemid;
+--
+131614-value;
+131615-}
+131616-ZBX_HISTORY_FLOAT;
+131617:typedef struct
+131618-{
+131619-zbx_uint64_t
+131620-itemid;
+--
+131626-value;
+131627-}
+131628-ZBX_HISTORY_INTEGER;
+131629:typedef struct
+131630-{
+131631-zbx_uint64_t
+131632-itemid;
+--
+131637-const char *value;
+131638-}
+131639-ZBX_HISTORY_STRING;
+131640:typedef struct
+131641-{
+131642-zbx_uint64_t
+131643-itemid;
+--
+131648-const char *value;
+131649-}
+131650-ZBX_HISTORY_TEXT;
+131651:typedef struct
+131652-{
+131653-zbx_uint64_t
+131654-itemid;
+--
+145296-packet = b"ZBXD\1" + struct.pack("<II", len(data), 0) + data
+145297-or
+145298-
+145299:def zbx_create_header(plain_data_size, compressed_data_size=None):
+145300-protocol = b"ZBXD"
+145301-flags = 0x01
+145302-if compressed_data_size is None:
+--
+149904-or (group="DEF" and (tag="Tag2" or
+149905-tag="Tag3:value"))]
+149906-
+149907:Matches similar items of any host from the ABC or DEF group
+149908-with the respective tags.
+149909-
+149910-All referenced items must exist and collect data. Only enabled items on enabled hosts are included in the calculations. Items in
+--
+160369-import asyncio
+160370-from zabbix_utils import AsyncZabbixAPI
+160371-### 2. Define the main async function where all API operations will run:
+160372:async def main():
+160373-# 3. Create an AsyncZabbixAPI instance and log in (must await):
+160374-api = AsyncZabbixAPI(url="127.0.0.1")
+160375-await api.login(user="User", password="zabbix")
+--
+160437-Using encryption
+160438-The Getter does not include built-in encryption support, but you can provide it by creating a wrapper using third-party libraries:
+160439-
+160440:def psk_wrapper(sock, tls):
+160441-# ...
+160442-# Implementation of TLS PSK wrapper for the socket
+160443-# ...
+--
+160478-import asyncio
+160479-from zabbix_utils import AsyncGetter
+160480-### 2. Define the main async function where all data requests will be executed:
+160481:async def main():
+160482-agent = AsyncGetter(host='192.0.2.1', port=10050)
+160483-# 3. Fetch the system.uname value from Zabbix agent (must await):
+160484-response = await agent.get('system.uname')
+--
+160550-Using encryption
+160551-The Sender does not include built-in encryption support, but you can provide it by creating a wrapper using third-party libraries:
+160552-
+160553:def psk_wrapper(sock, tls):
+160554-# ...
+160555-# Implementation of TLS PSK wrapper for the socket
+160556-# ...
+--
+160586-import asyncio
+160587-from zabbix_utils import AsyncSender
+160588-### 2. Define the main async function where all data sending operations (must await) will be executed:
+160589:async def main():
+160590-sender = AsyncSender(server='127.0.0.1', port=10051)
+160591-response = await sender.send_value('Linux server', 'service.status', 1)
+160592-# 3. Print the response returned by Zabbix server or proxy:
