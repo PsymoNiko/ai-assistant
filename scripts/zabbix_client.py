@@ -30,7 +30,9 @@ class ZabbixAPI:
     """
 
     def __init__(self, url: str, user: Optional[str] = None, password: Optional[str] = None, timeout: int = 30):
-        # Ensure we post to api_jsonrpc.php
+        # Ensure the URL has a scheme and we post to api_jsonrpc.php
+        if not url.lower().startswith(("http://", "https://")):
+            url = "http://" + url
         self.api_url = url.rstrip("/") + "/api_jsonrpc.php"
         self.user = user
         self.password = password
@@ -164,4 +166,10 @@ if __name__ == "__main__":
         except ZabbixAPIError as e:
             print("Error:", e)
         finally:
-            api.logout()
+            # Only attempt logout if we actually have an auth token to avoid raising another exception
+            if getattr(api, "_auth", None):
+                try:
+                    api.logout()
+                except ZabbixAPIError:
+                    # Suppress logout errors when running as a small example
+                    pass
