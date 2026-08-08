@@ -25,3 +25,6 @@ Testing:
 
 Change log:
 - complete-1: Initial complete planner export (2026-08-08)
+
+Single-file workflow:
+- 02-planner-single.json: A standalone planner workflow that includes memory retrieval (inline expectations), the structured planner prompt, LLM invocation, parsing, routing, and a safe dispatcher for http_check and noop tools. Import this single workflow into your running n8n instance and set the webhook path (ai-planner-single). This avoids multiple dependent workflow files and is designed to run in environments where n8n is already managed outside the repo's docker-compose.
