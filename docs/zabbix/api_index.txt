@@ -1,0 +1,1806 @@
+284:20 API . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1010
+328:15 Escaping examples . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2104
+419:Python library for Zabbix . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2223
+422:Use Zabbix API . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 2227
+534:API section presents details of working with Zabbix API.
+609:Zabbix API
+610:• Zabbix API provides programmable interface to Zabbix for mass manipulations, third-party software integration and other
+860:Note that a similar button now replaces the Copy link for created API tokens.
+913:• The GLPI webhook media type has been updated to support the RESTful API v2 with OAuth2 authorization (enabled by
+914:default), optional legacy REST API v1 support via configuration flag, ticket creation for problem events, and user-configurable
+1067:Zabbix API
+1068:- Zabbix API allows you to use the JSON RPC protocol to create, update and fetch Zabbix objects (like hosts, items, graphs and
+1127:For example, when you create a new item using the web frontend (or API) it is added to the items table in the database. Then,
+2518:gateway, which uses the JMX management API to query the application of interest remotely. The application does not need any
+2654:lib/slf4j-api-2.0.16.jar
+2725:See also the Python library for Zabbix that has built-in functionality to act like Zabbix sender.
+2770:See also the Python library for Zabbix that has built-in functionality to act like Zabbix get.
+3252:We recommend using the C API (libmysqlclient) library for building
+3944:slf4j-api
+4572:perl Configure VC-WIN64A no-shared no-capieng no-winstore no-srp no-gost no-dgram no-dtls1-method no-dtls1
+4827:perl Configure mingw64 no-shared no-capieng no-winstore no-srp no-gost no-dgram no-dtls1-method no-dtls1_2
+4836:perl Configure mingw no-shared no-capieng no-winstore no-srp no-gost no-dgram no-dtls1-method no-dtls1_2-m
+5028:./Configure --prefix="$OPENSSL_PREFIX" --openssldir="$OPENSSL_PREFIX" --api=1.1.0 no-shared no-capieng nomake
+6369:• for HashiCorp Vault: Vault API endpoint, vault prefix, secret path, and authentication token;
+6370:• for CyberArk Vault: Vault API endpoint, vault prefix, secret query string, and certificates. Upon marking Vault certificates
+7617:In some cases, Apache or NGINX may prevent the Authorization header in API requests from reaching Zabbix. This can cause
+7618:authentication issues when using Zabbix API or single sign-on (SSO) services, such as SAML with Okta.
+7690:location ~ /(api\/|conf[^\.]|include|locale|vendor) {
+7698:location ~ /(api\/|conf[^\.]|include|locale) {
+7723:var apiToken = payload.token;
+7725:return JSON.stringify({ token: apiToken, calls: count });
+7870:2 Escaping-related upgrade issues
+7873:Proper escaping of backslashes has been added in history function string parameters in Zabbix 7.0.
+8063:Defense devices using REST API.
+8103:Escaping of backslashes in history function parameters
+8104:Proper escaping of backslashes has been added in history function string parameters since Zabbix 7.0.0.
+8111:See also escaping-related upgrade issues.
+8861:API) if the template configuration contains such information.
+8973:When creating a subgroup, using leading or trailing slashes, or several slashes in a row is not allowed. Escaping of ’/’ is not
+9559:When creating a subgroup, using leading or trailing slashes, or several slashes in a row is not allowed. Escaping of ’/’ is not
+10351:In Zabbix frontend, multiple scheduling intervals are entered in separate rows. In Zabbix API, they are concatenated into a single
+10449:h9m/30;h10 (API-specific syntax)
+10698:• Escaping of line breaks, carriage return, tabs is automatically done during low-level discovery.
+10955:not possible to add additional escaping before placing the value in the JavaScript code. Please be advised that this can
+11383:See also: Escaping special characters from LLD macro values in JSONPath.
+12006:1 Escaping special characters from LLD macro values in JSONPath
+12008:When low-level discovery macros are used in JSONPath preprocessing and their values are resolved, the following rules of escaping
+12010:• only backslash (\) and double quote (”) characters are considered for escaping;
+12012:• if they are already escaped with a backslash, it is not considered as escaping and both the backslash and the following
+12144:add additional escaping before placing the value in the JavaScript code. Please be advised that this can cause JavaScript
+12504:resp = req.post('https://jira.example.com/rest/api/2/issue/',
+14252:The value is acquired by taking nodename from the uname() system API output.
+14397:system.sw.packages[mini,dpkg,short] → python-minimal, python2.6-minimal, ubuntu-minimal
+14415:• type - possible values: count (number of swapins, default on non-Linux platforms), sectors (sectors swapped in), or pages
+15056:not available through the native Win32 APIs. Zabbix agent implements its own encoding-conversion logic, therefore those code
+15622:ceph.df.details[connString,<user>,<apikey>]
+15629:• user, apikey - the user name and API key for connecting to Ceph.<br>
+15630:ceph.osd.stats[connString,<user>,<apikey>]
+15634:• user, apikey - the user name and API key for connecting to Ceph.<br>
+15635:ceph.osd.discovery[connString,<user>,<apikey>]
+15639:• user, apikey - the user name and API key for connecting to Ceph.<br>
+15640:ceph.osd.dump[connString,<user>,<apikey>]
+15644:• user, apikey - the user name and API key for connecting to Ceph.<br>
+15645:ceph.ping[connString,<user>,<apikey>]
+15650:• user, apikey - the user name and API key for connecting to Ceph.<br>
+15651:ceph.pool.discovery[connString,<user>,<apikey>]
+15655:• user, apikey - the user name and API key for connecting to Ceph.<br>
+15656:ceph.status[connString,<user>,<apikey>]
+15660:• user, apikey - the user name and API key for connecting to Ceph.<br>
+15662:<br> Low-level information about a container.<br> Return value: The output of the ContainerInspect API call serialized as JSON.
+15668:<br> The container resource usage statistics.<br> Return value: The output of the ContainerStats API call and CPU usage percentage serialized as JSON.
+15676:<br> The list of containers.<br> Return value: The output of the ContainerList API call serialized as JSON.
+15685:<br> Information about the current data usage.<br> Return value: The output of the SystemDataUsage API call serialized as JSON.
+15688:<br> Returns the list of images.<br> Return value: The output of the ImageList API call serialized as JSON.
+15694:<br> The system information.<br> Return value: The output of the SystemInfo API call serialized as JSON.
+16850:• This item allows to retrieve a specific property from specific type of interface as described in dbus API.
+19969:Zabbix server is also possible using the history.push API method.
+19987:For sending data to Zabbix server using the history.push API method, you could make the following HTTP POST request containing some test values:
+19990:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+19992:--header 'Content-Type: application/json-rpc' \
+19993:--data '{"jsonrpc":"2.0","method":"history.push","params":[{"itemid":10600,"value":"test value 1"},{"ite
+19994:If the request is correct, the response returned by API could look as follows:
+19997:"jsonrpc": "2.0",
+20029:For more information on how to work with Zabbix API, see API.
+20095:ODBC is a C programming language middle-ware API for accessing database management systems (DBMS). The ODBC concept
+20100:Zabbix supports unixODBC, which is one of the most commonly used open source ODBC API implementations.
+20475:sender protocol (for sending data to Zabbix server or proxy), or using the history.push API method (for sending data to Zabbix
+20714:data sent to Zabbix server using the history.push API method. For more information about
+20836:Checking if Zabbix API is alive, using apiinfo.version.
+20850:Note the usage of macros in query fields. Refer to the Openweathermap API for how to fill them.
+21597:JMX management API to query the application of interest remotely.
+21812:slf4j-api
+21813:xnio-api
+23042:• Global scripts that can be executed in the frontend or via API (this method always uses the system.run[myscript.sh]
+26017:utilities, and uses the configuration.import Zabbix API method. When running the script, provide the directory containing
+26018:the YAML files and your Zabbix API URL and authentication token.
+26024:./import_templates.sh /tmp/templates_2M_7.4 https://example.com/zabbix/api_jsonrpc.php d8d6b5c78ee2a8333db
+26159:• Kubernetes API server by HTTP
+28205:https://oauth2.googleapis.com/token
+28604:resp = req.post('https://jira.example.com/rest/api/2/issue/',
+30359:Please see escaping examples for cases when macro functions are used inside other contexts (function, item key, another
+31263:• use specific API methods
+31395:Users cannot be created without a user role (except with Zabbix User API). Previously created users which do not have a
+31404:• Access rights to sections and elements of Zabbix frontend, modules, and API methods.
+31692:API tokens
+31737:Furthermore, a user role determines access not only to menu sections, but also to services, modules, API methods and various
+32048:VaultPrefix=/AIMWebService/api/Accounts?
+32049:2. Zabbix will send the following API request to the vault:
+32055:https://127.0.0.1:1858/AIMWebService/api/Accounts?AppID=zabbix_server&Query=Safe=passwordSafe;Object=zabbi
+32081:Vault API endpoint
+32093:/AIMWebService/api/Accounts?
+32163:2. Zabbix will send the following API request to the vault:
+32169:https://127.0.0.1:1858/AIMWebService/api/Accounts?AppID=zabbix_server&Query=Safe=passwordSafe;Object=zabbi
+32281:Vault API endpoint
+32793:Communication between the server and the receiver is done over HTTP using REST API, NDJSON, ”Content-Type: application/xndjson”.
+34734:This item works with vSphere API 6.7 and newer.
+34740:This item works with vSphere API 6.7 and newer.
+34746:This item works with vSphere API 6.7 and newer.
+36353:See also examples for correct escaping in various contexts.
+36401:A checkbox to specify whether a regular expression is sensitive to capitalization of letters.
+37000:• Host groups (through Zabbix API only)
+37001:• Template groups (through Zabbix API only)
+37008:Data can be exported using the Zabbix web frontend or Zabbix API. Supported export formats are YAML, XML and JSON.
+37078:API allows exporting template groups independently of templates.
+37111:API allows exporting host groups independently of hosts.
+38491:expression. Can only contain capital-case letters. The ID must be defined by the user
+39330:API integer values in brackets, for example, ENABLED (0), are mentioned only for reference. For more information,
+39332:see the linked API object page in the table entry or at the end of each section.
+40850:expression. Can only contain capital-case letters. The ID must be defined by the user
+41599:API integer values in brackets, for example, ENABLED (0), are mentioned only for reference. For more information,
+41601:see the linked API object page in the table entry or at the end of each section.
+42628:value: 'https://api.pushover.net/1/messages.json'
+43191:API integer values in brackets, for example, ENABLED (0), are mentioned only for reference. For more information, see the linked
+43193:API object page in the table entry or at the end of each section.
+43211:• use Zabbix in rapidly changing environments without excessive administration
+43908:escaped as ”\\n”. Escaping of line breaks, carriage return, tabs is automatically done during
+44489:Context-specific escaping of low-level discovery macros is performed for safe use in regular expression and XPath preprocessing parameters.
+47095:– LibreSSL is supported as a compatible replacement of OpenSSL; the new tls_*() LibreSSL-specific API functions are
+47996:• The following RFC 4514 requirements are implemented - characters that require escaping (with a ’\’ backslash, U+005C):
+48650:– API tokens
+50132:changes rapidly or covers a large range.
+54394:Network maps can be referenced by both sysmapid and mapname GET parameters. For example,
+54398:If both sysmapid (map ID) and mapname (map name) are specified, mapname has higher priority.
+55114:Type of the affected resource (API token, Action, Authentication, Autoregistration, etc.).
+55150:be added only if the data was sent using the history.push API method, and not the Zabbix sender utility.
+56198:Template API.
+58476:API
+58479:Enable/disable access to API.
+58481:API methods
+58484:the API methods specified in the search field. Note
+58485:that it is not possible to allow some API methods and
+58492:block is unchecked, users will not be able to use API
+58495:(all methods of ’dashboard.’ API service) * (any
+58497:from all API services).
+58510:use .create, .update and .delete API methods
+58530:event.acknowledge API method.
+58540:use the script.execute API method.
+58542:Manage API
+58548:use all token. API methods.
+58556:use all report. API methods.
+58665:API access
+58667:API access status is displayed - Enabled or Disabled, depending on the one set for the user role.
+58710:4 API tokens
+58713:This section allows to create and manage API tokens.<br> API tokens are used for authentication in the Zabbix API.<br> Each API
+58714:token is assigned to a single user and inherits that user’s permissions. Requests authenticated with an API token are authorized
+58717:You may filter API tokens by name, users to whom the tokens are assigned, expiry date, users that created tokens, or status
+58720:To create a new token, click the Create API token button at the upper-right corner, then fill out the required fields in the token
+58770:→ API tokens section only if Manage API tokens is allowed in their user role permissions.
+59151:an interactive login (for example, the Provision now button or the user.provision API method) will ignore users that
+59230:requires a Zabbix API token (with Super admin permissions) for authentication into Zabbix.
+59397:For SCIM provisioning specify the path to the Zabbix frontend and append api_scim.php to it, on the identity provider side, i.e.:
+59401:https://<path-to-zabbix-ui>/api_scim.php
+59537:API hostname
+59539:Enter the API hostname provided by the Duo authentication service.
+59587:3. Note the credentials (Client ID, Client secret, API hostname) required for configuring the MFA method in Zabbix.
+59592:• API hostname: (use API hostname from Duo)
+60542:• API tokens - for managing API tokens assigned to the current user.
+60668:API tokens
+60672:The API tokens section allows you to view tokens assigned to the user, edit token details and create new tokens. This section is
+60673:available to a user only if the Manage API tokens action is allowed in the user role settings.
+60675:You can filter API tokens by name, expiry date, or status (Enabled/Disabled). Click the token status in the list to quickly enable/disable a token. You can also enable/disable multiple tokens at once by selecting them in the list and then clicking the
+61293:a list of API calls and individual SQL statements:
+61637:Super Admin users, scripts can also be retrieved through Zabbix API. In this case, limiting script permissions and excluding
+61696:• zbx_web - role for running Zabbix frontend and API:
+61794:• zbx_web - role for running Zabbix frontend and API:
+62071:20 API
+62073:Overview The Zabbix API allows you to programmatically retrieve and modify configuration of Zabbix and provides access to
+62078:The Zabbix API is an HTTP-based API, and it is shipped as a part of the web frontend. It uses the JSON-RPC 2.0 protocol, which
+62080:• The API consists of a set of separate methods.
+62081:• Requests and responses between the clients and the API are encoded using the JSON format.
+62082:For more information about the protocol and JSON, see the JSON-RPC 2.0 specification and the JSON format homepage.
+62083:For more information about integrating Zabbix functionality into your Python applications, see Python library for Zabbix.
+62090:The API consists of a number of methods that are nominally grouped into separate APIs. Each of the methods performs
+62092:one specific task. For example, the host.create method belongs to the host API and is used to create new hosts. Historically,
+62093:APIs are sometimes referred to as ”classes”.
+62094:Most APIs contain at least four methods: get, create, update and delete for retrieving, creating, updating and deleting data
+62095:respectively, but some APIs may provide a totally different set of methods.
+62098:Once you have set up the frontend, you can use remote HTTP requests to call the API. To do that, you
+62100:need to send HTTP POST requests to the api_jsonrpc.php file located in the frontend directory.<br> For example, if your Zabbix
+62101:frontend is installed under https://example.com/zabbix, an HTTP request to call the apiinfo.version method may look
+62105:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62106:--header 'Content-Type: application/json-rpc' \
+62107:--data '{"jsonrpc":"2.0","method":"apiinfo.version","params":{},"id":1}'
+62108:The request must have the Content-Type header set to one of these values: application/json-rpc, application/json
+62111:• jsonrpc - the version of the JSON-RPC protocol used by the API (Zabbix API implements JSON-RPC version 2.0);
+62112:• method - the API method being called;
+62113:• params - the parameters that will be passed to the API method;
+62114:• id - an arbitrary identifier of the request (if omitted, the API treats the request as a notification).
+62115:If the request is correct, the response returned by the API should look like this:
+62120:"jsonrpc": "2.0",
+62125:• jsonrpc - the version of the JSON-RPC protocol;
+62129:• Use an existing API token created in the Zabbix frontend, Users > API tokens section, or created using the Token API.
+62135:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62136:--header 'Content-Type: application/json-rpc' \
+62137:--data '{"jsonrpc":"2.0","method":"user.login","params":{"username":"Admin","password":"zabbix"},"id":1}
+62138:If you provided the credentials correctly, the response returned by the API should contain the user authentication token:
+62141:"jsonrpc": "2.0",
+62146:All API requests require an authentication or an API token. You can provide the credentials by using the Authorization header in the
+62150:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62154:Zabbix API accepts headers in a case-insensitive way (e.g., authorization, Authorization, and AUTHORIZATION are treated
+62158:A ”zbx_session” cookie is used to authorize an API request from Zabbix UI performed using JavaScript (from a module or a custom
+62170:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62172:--header 'Content-Type: application/json-rpc' \
+62183:"jsonrpc": "2.0",
+62200:"jsonrpc": "2.0",
+62224:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62226:--header 'Content-Type: application/json-rpc' \
+62227:--data '{"jsonrpc":"2.0","method":"item.create","params":{"name":"Free disk space on /home/joe/","key_":
+62232:"jsonrpc": "2.0",
+62245:with one API call.
+62250:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62252:--header 'Content-Type: application/json-rpc' \
+62253:--data '{"jsonrpc":"2.0","method":"trigger.create","params":[{"description":"Processor load is too high
+62257:"jsonrpc": "2.0",
+62269:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62271:--header 'Content-Type: application/json-rpc' \
+62272:--data '{"jsonrpc":"2.0","method":"item.update","params":{"itemid":"10092","status":0},"id":5}'
+62276:"jsonrpc": "2.0",
+62286:with one API call.
+62291:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62293:--header 'Content-Type: application/json-rpc' \
+62294:--data '{"jsonrpc":"2.0","method":"trigger.update","params":[{"triggerid":"13938","status":0},{"triggeri
+62298:"jsonrpc": "2.0",
+62311:This is the preferred method of updating. Some API methods, such as the host.massupdate allow to write a simpler
+62318:an incorrect call to the API? Try to create another host by calling host.create but omitting the mandatory groups parameter:
+62321:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62323:--header 'Content-Type: application/json-rpc' \
+62324:--data '{"jsonrpc":"2.0","method":"host.create","params":{"host":"Linux server","interfaces":[{"type":1,
+62328:"jsonrpc": "2.0",
+62343:API versions
+62345:To simplify API versioning, since Zabbix 2.0.4, the version of the API matches the version of Zabbix itself. You can
+62347:use the apiinfo.version method to find out the version of the API you are working with. This can be useful for adjusting your
+62354:You can follow all the changes made to the API in the API changelog.
+62358:Now, you have enough knowledge to start working with the Zabbix API, however, do not stop here. For further
+62360:reading you are advised to have a look at the list of available APIs.
+62363:This section provides an overview of the functions provided by the Zabbix API and will help you find your way around the available
+62368:Monitoring The Zabbix API allows you to access history and other data gathered during monitoring.
+62371:Dashboard API | Template dashboard API | Report API
+62374:High availability cluster API
+62377:History API
+62380:Trend API
+62384:Event API
+62387:Problem API
+62390:Map API
+62393:Task API
+62396:The Zabbix API allows you to access data gathered during service monitoring.
+62400:SLA API
+62403:Service API
+62404:Data collection The Zabbix API allows you to manage the configuration of your monitoring system.
+62407:Host API | Host group API | Host interface API | User macro API | Value map API | Maintenance API
+62410:Item API
+62416:Trigger API
+62419:Graph API | Graph item API
+62422:Template API | Template group API | Value map API
+62425:LLD rule API | Item prototype API | Trigger prototype API | Graph prototype API | Host prototype API
+62428:Correlation API
+62432:Discovery rule API | Discovery check API | Discovered host API | Discovered service API
+62435:Configuration API
+62438:Web scenario API
+62441:The Zabbix API allows you to manage the actions and alerts of your monitoring system.
+62446:Action API | Alert API
+62449:Media type API
+62452:Script API
+62455:The Zabbix API allows you to manage users of your monitoring system.
+62460:User API | User group API | User directory API | User role API
+62461:API Tokens
+62463:Token API
+62469:Authentication API
+62470:Administration With the Zabbix API you can change administration settings of your monitoring system.
+62473:Autoregistration API | Icon map API | Image API | Settings API | Regular expression API | Module API | Connector API
+62476:Audit log API
+62479:Housekeeping API
+62482:Proxy API | Proxy group API
+62485:User macro API
+62486:API information Retrieve the version of the Zabbix API so that your application could use version-specific features.
+62487:API info API
+62507:The following objects are directly related to the action API.
+63251:custom expression. Can only contain capital-case letters. The ID must
+63671:"jsonrpc": "2.0",
+63758:"jsonrpc": "2.0",
+63771:"jsonrpc": "2.0",
+63807:"jsonrpc": "2.0",
+63825:"jsonrpc": "2.0",
+63879:"jsonrpc": "2.0",
+63893:"jsonrpc": "2.0",
+63929:"jsonrpc": "2.0",
+63945:"jsonrpc": "2.0",
+63979:"jsonrpc": "2.0",
+63992:CAction::create() in ui/include/classes/api/services/CAction.php.
+64018:"jsonrpc": "2.0",
+64029:"jsonrpc": "2.0",
+64039:CAction::delete() in ui/include/classes/api/services/CAction.php.
+64203:"jsonrpc": "2.0",
+64220:"jsonrpc": "2.0",
+64336:"jsonrpc": "2.0",
+64351:"jsonrpc": "2.0",
+64434:CAction::get() in ui/include/classes/api/services/CAction.php.
+64499:"jsonrpc": "2.0",
+64510:"jsonrpc": "2.0",
+64522:CAction::update() in ui/include/classes/api/services/CAction.php.
+64532:The following objects are directly related to the alert API.
+64535:Alerts are created by Zabbix server and cannot be modified via the API.
+64861:"jsonrpc": "2.0",
+64876:"jsonrpc": "2.0",
+64904:CAlert::get() in ui/include/classes/api/services/CAlert.php.
+64905:API info
+64907:This class is designed to retrieve meta information about the API.
+64909:• apiinfo.version - retrieve the version of Zabbix API
+64910:apiinfo.version
+64914:string apiinfo.version(array)
+64915:This method allows to retrieve the version of the Zabbix API.
+64924:(string) Returns the version of the Zabbix API.
+64926:Starting from Zabbix 2.0.4 the version of the API matches the version of Zabbix.
+64931:Retrieving the version of the API
+64932:Retrieve the version of the Zabbix API.
+64936:"jsonrpc": "2.0",
+64937:"method": "apiinfo.version",
+64944:"jsonrpc": "2.0",
+64949:CAPIInfo::version() in ui/include/classes/api/services/CAPIInfo.php.
+64959:The following objects are directly related to the auditlog API.
+65064:45 - API token;
+65240:"jsonrpc": "2.0",
+65254:"jsonrpc": "2.0",
+65290:CAuditLog::get() in ui/include/classes/api/services/CAuditLog.php.
+65304:The following objects are directly related to the authentication API.
+65541:"jsonrpc": "2.0",
+65551:"jsonrpc": "2.0",
+65578:CAuthentication::get() in ui/include/classes/api/services/CAuthentication.php.
+65598:"jsonrpc": "2.0",
+65610:"jsonrpc": "2.0",
+65619:CAuthentication::update() in ui/include/classes/api/services/CAuthentication.php.
+65633:The following objects are directly related to the autoregistration API.
+65705:"jsonrpc": "2.0",
+65715:"jsonrpc": "2.0",
+65722:CAutoregistration::get() in ui/include/classes/api/services/CAutoregistration.php.
+65742:"jsonrpc": "2.0",
+65754:"jsonrpc": "2.0",
+65762:CAutoregistration::update() in ui/include/classes/api/services/CAutoregistration.php.
+65848:"jsonrpc": "2.0",
+65864:"jsonrpc": "2.0",
+65869:CConfiguration::export() in ui/include/classes/api/services/CConfiguration.php.
+66149:"jsonrpc": "2.0",
+66183:"jsonrpc": "2.0",
+66188:CConfiguration::import() in ui/include/classes/api/services/CConfiguration.php.
+66483:"jsonrpc": "2.0",
+66550:"jsonrpc": "2.0",
+66650:CConfiguration::importcompare() in ui/include/classes/api/services/CConfiguration.php.
+66664:The following objects are directly related to the connector API.
+66989:"jsonrpc": "2.0",
+67012:"jsonrpc": "2.0",
+67021:CConnector::create() in ui/include/classes/api/services/CConnector.php.
+67043:"jsonrpc": "2.0",
+67057:"jsonrpc": "2.0",
+67067:CConnector::delete() in ui/include/classes/api/services/CConnector.php.
+67165:"jsonrpc": "2.0",
+67177:"jsonrpc": "2.0",
+67252:CConnector:get() in ui/include/classes/api/services/CConnector.php.
+67292:"jsonrpc": "2.0",
+67304:"jsonrpc": "2.0",
+67317:"jsonrpc": "2.0",
+67342:"jsonrpc": "2.0",
+67354:CConnector::update() in ui/include/classes/api/services/CConnector.php.
+67370:The following objects are directly related to the correlation API.
+67560:custom expression. Can only contain capital-case letters. The ID must
+67656:"jsonrpc": "2.0",
+67680:"jsonrpc": "2.0",
+67697:"jsonrpc": "2.0",
+67730:"jsonrpc": "2.0",
+67742:CCorrelation::create() in ui/include/classes/api/services/CCorrelation.php.
+67767:"jsonrpc": "2.0",
+67778:"jsonrpc": "2.0",
+67788:CCorrelation::delete() in ui/include/classes/api/services/CCorrelation.php.
+67896:"jsonrpc": "2.0",
+67908:"jsonrpc": "2.0",
+67944:CCorrelation::get() in ui/include/classes/api/services/CCorrelation.php.
+67986:"jsonrpc": "2.0",
+68000:"jsonrpc": "2.0",
+68012:"jsonrpc": "2.0",
+68031:"jsonrpc": "2.0",
+68043:CCorrelation::update() in ui/include/classes/api/services/CCorrelation.php.
+68064:The following objects are directly related to the dashboard API.
+68444:"jsonrpc": "2.0",
+68502:"jsonrpc": "2.0",
+68517:CDashboard::create() in ui/include/classes/api/services/CDashboard.php.
+68539:"jsonrpc": "2.0",
+68550:"jsonrpc": "2.0",
+68563:CDashboard::delete() in ui/include/classes/api/services/CDashboard.php.
+68676:"jsonrpc": "2.0",
+68693:"jsonrpc": "2.0",
+68879:CDashboard::get() in ui/include/classes/api/services/CDashboard.php.
+68934:"jsonrpc": "2.0",
+68948:"jsonrpc": "2.0",
+68962:"jsonrpc": "2.0",
+68993:"jsonrpc": "2.0",
+69009:"jsonrpc": "2.0",
+69020:"jsonrpc": "2.0",
+69035:CDashboard::update() in ui/include/classes/api/services/CDashboard.php.
+69273:"jsonrpc": "2.0",
+69342:"jsonrpc": "2.0",
+69602:"jsonrpc": "2.0",
+69691:"jsonrpc": "2.0",
+69741:"jsonrpc": "2.0",
+69787:"jsonrpc": "2.0",
+69838:"jsonrpc": "2.0",
+69887:"jsonrpc": "2.0",
+69937:"jsonrpc": "2.0",
+69983:"jsonrpc": "2.0",
+70473:"jsonrpc": "2.0",
+70648:"jsonrpc": "2.0",
+70867:"jsonrpc": "2.0",
+70964:"jsonrpc": "2.0",
+71937:"jsonrpc": "2.0",
+72122:"jsonrpc": "2.0",
+72330:"jsonrpc": "2.0",
+72389:"jsonrpc": "2.0",
+72602:"jsonrpc": "2.0",
+72666:"jsonrpc": "2.0",
+73261:"jsonrpc": "2.0",
+73363:"jsonrpc": "2.0",
+73512:"jsonrpc": "2.0",
+73576:"jsonrpc": "2.0",
+73734:"jsonrpc": "2.0",
+73822:"jsonrpc": "2.0",
+74122:"jsonrpc": "2.0",
+74196:"jsonrpc": "2.0",
+74425:"jsonrpc": "2.0",
+74494:"jsonrpc": "2.0",
+74894:"jsonrpc": "2.0",
+74986:"jsonrpc": "2.0",
+75331:"jsonrpc": "2.0",
+75400:"jsonrpc": "2.0",
+76070:"jsonrpc": "2.0",
+76229:"jsonrpc": "2.0",
+76280:sysmapid.0
+76290:sysmapid._reference ABCDE._mapid - set a Map navigation tree widget (with its
+76320:"jsonrpc": "2.0",
+76340:"name": "sysmapid.0",
+76366:"jsonrpc": "2.0",
+76382:"jsonrpc": "2.0",
+76402:"name": "sysmapid._reference",
+76403:"value": "ABCDE._mapid"
+76514:"name": "navtree.6.sysmapid",
+76545:"jsonrpc": "2.0",
+76636:navtree.1.sysmapid
+76684:"jsonrpc": "2.0",
+76797:"name": "navtree.6.sysmapid",
+76831:"jsonrpc": "2.0",
+77474:"jsonrpc": "2.0",
+77639:"jsonrpc": "2.0",
+77928:"jsonrpc": "2.0",
+78010:"jsonrpc": "2.0",
+78448:"jsonrpc": "2.0",
+78575:"jsonrpc": "2.0",
+78918:"jsonrpc": "2.0",
+78967:"jsonrpc": "2.0",
+79070:"jsonrpc": "2.0",
+79134:"jsonrpc": "2.0",
+79215:"jsonrpc": "2.0",
+79269:"jsonrpc": "2.0",
+79934:"jsonrpc": "2.0",
+80159:"jsonrpc": "2.0",
+80860:"jsonrpc": "2.0",
+80939:"jsonrpc": "2.0",
+81176:"jsonrpc": "2.0",
+81295:"jsonrpc": "2.0",
+81515:"jsonrpc": "2.0",
+81574:"jsonrpc": "2.0",
+81653:"jsonrpc": "2.0",
+81702:"jsonrpc": "2.0",
+81928:"jsonrpc": "2.0",
+81977:"jsonrpc": "2.0",
+82000:The following objects are directly related to the dhost API.
+82003:Discovered host are created by the Zabbix server and cannot be modified via the API.
+82181:"jsonrpc": "2.0",
+82193:"jsonrpc": "2.0",
+82300:CDHost::get() in ui/include/classes/api/services/CDHost.php.
+82310:The following objects are directly related to the dservice API.
+82313:Discovered services are created by the Zabbix server and cannot be modified via the API.
+82527:"jsonrpc": "2.0",
+82541:"jsonrpc": "2.0",
+82575:CDService::get() in ui/include/classes/api/services/CDService.php.
+82585:The following objects are directly related to the dcheck API.
+82924:"jsonrpc": "2.0",
+82935:"jsonrpc": "2.0",
+82960:CDCheck::get() in ui/include/classes/api/services/CDCheck.php.
+82968:This API is meant to work with network discovery rules. For low-level discovery rules, see LLD rule API.
+82979:The following objects are directly related to the drule API.
+83099:"jsonrpc": "2.0",
+83119:"jsonrpc": "2.0",
+83133:CDRule::create() in ui/include/classes/api/services/CDRule.php.
+83156:"jsonrpc": "2.0",
+83167:"jsonrpc": "2.0",
+83177:CDRule::delete() in ui/include/classes/api/services/CDRule.php.
+83308:"jsonrpc": "2.0",
+83322:"jsonrpc": "2.0",
+83415:CDRule::get() in ui/include/classes/api/services/CDRule.php.
+83455:"jsonrpc": "2.0",
+83466:"jsonrpc": "2.0",
+83477:CDRule::update() in ui/include/classes/api/services/CDRule.php.
+83490:The following objects are directly related to the event API.
+83493:Events are created by the Zabbix server and cannot be modified via the API.
+83836:"jsonrpc": "2.0",
+83848:"jsonrpc": "2.0",
+83861:"jsonrpc": "2.0",
+83874:"jsonrpc": "2.0",
+83891:"jsonrpc": "2.0",
+83903:"jsonrpc": "2.0",
+83916:"jsonrpc": "2.0",
+83927:"jsonrpc": "2.0",
+83942:"jsonrpc": "2.0",
+83958:"jsonrpc": "2.0",
+83968:CEvent::acknowledge() in ui/include/classes/api/services/CEvent.php.
+84316:"jsonrpc": "2.0",
+84332:"jsonrpc": "2.0",
+84457:"jsonrpc": "2.0",
+84471:"jsonrpc": "2.0",
+84544:"jsonrpc": "2.0",
+84561:"jsonrpc": "2.0",
+84598:"jsonrpc": "2.0",
+84618:"jsonrpc": "2.0",
+84654:CEvent::get() in ui/include/classes/api/services/CEvent.php.
+84667:The following objects are directly related to the graph API.
+84907:"jsonrpc": "2.0",
+84929:"jsonrpc": "2.0",
+84940:CGraph::create() in ui/include/classes/api/services/CGraph.php.
+84966:"jsonrpc": "2.0",
+84977:"jsonrpc": "2.0",
+84987:CGraph::delete() in ui/include/classes/api/services/CGraph.php.
+85214:"jsonrpc": "2.0",
+85226:"jsonrpc": "2.0",
+85327:CGraph::get() in ui/include/classes/api/services/CGraph.php.
+85371:"jsonrpc": "2.0",
+85383:"jsonrpc": "2.0",
+85392:CGraph::update() in ui/include/classes/api/services/CGraph.php.
+85405:The following objects are directly related to the graphitem API.
+85408:Graph items can only be modified via the graph API.
+85591:"jsonrpc": "2.0",
+85602:"jsonrpc": "2.0",
+85646:CGraphItem::get() in ui/include/classes/api/services/CGraphItem.php.
+85659:The following objects are directly related to the graphprototype API.
+85894:"jsonrpc": "2.0",
+85916:"jsonrpc": "2.0",
+85927:CGraphPrototype::create() in ui/include/classes/api/services/CGraphPrototype.php.
+85952:"jsonrpc": "2.0",
+85963:"jsonrpc": "2.0",
+85973:CGraphPrototype::delete() in ui/include/classes/api/services/CGraphPrototype.php.
+86197:"jsonrpc": "2.0",
+86208:"jsonrpc": "2.0",
+86244:CGraphPrototype::get() in ui/include/classes/api/services/CGraphPrototype.php.
+86288:"jsonrpc": "2.0",
+86300:"jsonrpc": "2.0",
+86309:CGraphPrototype::update() in ui/include/classes/api/services/CGraphPrototype.php.
+86325:Nodes are created by the Zabbix server and cannot be modified via the API.
+86454:"jsonrpc": "2.0",
+86466:"jsonrpc": "2.0",
+86509:"jsonrpc": "2.0",
+86519:"jsonrpc": "2.0",
+86544:"jsonrpc": "2.0",
+86557:"jsonrpc": "2.0",
+86584:"jsonrpc": "2.0",
+86597:"jsonrpc": "2.0",
+86605:"jsonrpc": "2.0",
+86618:"jsonrpc": "2.0",
+86635:CHaNode::get() in ui/include/classes/api/services/CHaNode.php.
+86651:The following objects are directly related to the history API.
+86654:modified via the API.
+86907:"jsonrpc": "2.0",
+86921:"jsonrpc": "2.0",
+86931:CHistory::clear() in ui/include/classes/api/services/CHistory.php.
+87070:"jsonrpc": "2.0",
+87085:"jsonrpc": "2.0",
+87154:CHistory::get() in ui/include/classes/api/services/CHistory.php.
+87233:"jsonrpc": "2.0",
+87265:"jsonrpc": "2.0",
+87292:CHistory::push() in ui/include/classes/api/services/CHistory.php.
+87312:The following objects are directly related to the host API.
+88400:"jsonrpc": "2.0",
+88455:"jsonrpc": "2.0",
+88468:"jsonrpc": "2.0",
+88503:"jsonrpc": "2.0",
+88516:"jsonrpc": "2.0",
+88545:"jsonrpc": "2.0",
+88561:"jsonrpc": "2.0",
+88578:"jsonrpc": "2.0",
+88591:"jsonrpc": "2.0",
+88608:"jsonrpc": "2.0",
+88629:CHost::create() in ui/include/classes/api/services/CHost.php.
+88652:"jsonrpc": "2.0",
+88663:"jsonrpc": "2.0",
+88676:CHost::delete() in ui/include/classes/api/services/CHost.php.
+89166:"jsonrpc": "2.0",
+89181:"jsonrpc": "2.0",
+89248:"jsonrpc": "2.0",
+89264:"jsonrpc": "2.0",
+89291:"jsonrpc": "2.0",
+89306:"jsonrpc": "2.0",
+89332:"jsonrpc": "2.0",
+89343:"jsonrpc": "2.0",
+89370:"jsonrpc": "2.0",
+89391:"jsonrpc": "2.0",
+89415:"jsonrpc": "2.0",
+89434:"jsonrpc": "2.0",
+89461:"jsonrpc": "2.0",
+89479:"jsonrpc": "2.0",
+89496:"jsonrpc": "2.0",
+89518:"jsonrpc": "2.0",
+89558:"jsonrpc": "2.0",
+89574:"jsonrpc": "2.0",
+89612:"jsonrpc": "2.0",
+89623:"jsonrpc": "2.0",
+89639:"jsonrpc": "2.0",
+89650:"jsonrpc": "2.0",
+89669:"jsonrpc": "2.0",
+89685:"jsonrpc": "2.0",
+89779:CHost::get() in ui/include/classes/api/services/CHost.php.
+89848:"jsonrpc": "2.0",
+89876:"jsonrpc": "2.0",
+89892:CHost::massAdd() in ui/include/classes/api/services/CHost.php.
+89964:"jsonrpc": "2.0",
+89975:"jsonrpc": "2.0",
+89989:CHost::massRemove() in ui/include/classes/api/services/CHost.php.
+90071:"jsonrpc": "2.0",
+90092:"jsonrpc": "2.0",
+90110:CHost::massUpdate() in ui/include/classes/api/services/CHost.php.
+90200:"jsonrpc": "2.0",
+90211:"jsonrpc": "2.0",
+90224:"jsonrpc": "2.0",
+90245:"jsonrpc": "2.0",
+90258:"jsonrpc": "2.0",
+90279:"jsonrpc": "2.0",
+90292:"jsonrpc": "2.0",
+90309:"jsonrpc": "2.0",
+90322:"jsonrpc": "2.0",
+90336:"jsonrpc": "2.0",
+90349:"jsonrpc": "2.0",
+90364:"jsonrpc": "2.0",
+90381:"jsonrpc": "2.0",
+90395:"jsonrpc": "2.0",
+90416:CHost::update() in ui/include/classes/api/services/CHost.php.
+90436:The following objects are directly related to the hostgroup API.
+90505:"jsonrpc": "2.0",
+90515:"jsonrpc": "2.0",
+90524:CHostGroup::create() in ui/include/classes/api/services/CHostGroup.php.
+90553:"jsonrpc": "2.0",
+90567:"jsonrpc": "2.0",
+90577:CHostGroup::delete() in ui/include/classes/api/services/CHostGroup.php.
+90842:"jsonrpc": "2.0",
+90858:"jsonrpc": "2.0",
+90878:CHostGroup::get() in ui/include/classes/api/services/CHostGroup.php.
+90927:"jsonrpc": "2.0",
+90952:"jsonrpc": "2.0",
+90964:CHostGroup::massAdd() in ui/include/classes/api/services/CHostGroup.php.
+91010:"jsonrpc": "2.0",
+91027:"jsonrpc": "2.0",
+91037:CHostGroup::massRemove() in ui/include/classes/api/services/CHostGroup.php.
+91090:"jsonrpc": "2.0",
+91111:"jsonrpc": "2.0",
+91124:CHostGroup::massUpdate() in ui/include/classes/api/services/CHostGroup.php.
+91181:"jsonrpc": "2.0",
+91197:"jsonrpc": "2.0",
+91210:CHostGroup::propagate() in ui/include/classes/api/services/CHostGroup.php.
+91237:"jsonrpc": "2.0",
+91248:"jsonrpc": "2.0",
+91257:CHostGroup::update() in ui/include/classes/api/services/CHostGroup.php.
+91274:The following objects are directly related to the hostinterface API.
+91566:"jsonrpc": "2.0",
+91582:"jsonrpc": "2.0",
+91597:"jsonrpc": "2.0",
+91618:"jsonrpc": "2.0",
+91630:CHostInterface::create() in ui/include/classes/api/services/CHostInterface.php.
+91656:"jsonrpc": "2.0",
+91666:"jsonrpc": "2.0",
+91678:CHostInterface::delete() in ui/include/classes/api/services/CHostInterface.php.
+91820:"jsonrpc": "2.0",
+91831:"jsonrpc": "2.0",
+91878:CHostInterface::get() in ui/include/classes/api/services/CHostInterface.php.
+91928:"jsonrpc": "2.0",
+91953:"jsonrpc": "2.0",
+91967:CHostInterface::massAdd() in ui/include/classes/api/services/CHostInterface.php.
+92017:"jsonrpc": "2.0",
+92035:"jsonrpc": "2.0",
+92048:CHostInterface::massRemove() in ui/include/classes/api/services/CHostInterface.php.
+92095:"jsonrpc": "2.0",
+92113:"jsonrpc": "2.0",
+92128:CHostInterface::replaceHostInterfaces() in ui/include/classes/api/services/CHostInterface.php.
+92153:"jsonrpc": "2.0",
+92164:"jsonrpc": "2.0",
+92173:CHostInterface::update() in ui/include/classes/api/services/CHostInterface.php.
+92194:The following objects are directly related to the hostprototype API.
+92667:"jsonrpc": "2.0",
+92710:"jsonrpc": "2.0",
+92728:CHostPrototype::create() in ui/include/classes/api/services/CHostPrototype.php.
+92751:"jsonrpc": "2.0",
+92762:"jsonrpc": "2.0",
+92772:CHostPrototype::delete() in ui/include/classes/api/services/CHostPrototype.php.
+92971:"jsonrpc": "2.0",
+92986:"jsonrpc": "2.0",
+93052:CHostPrototype::get() in ui/include/classes/api/services/CHostPrototype.php.
+93140:"jsonrpc": "2.0",
+93151:"jsonrpc": "2.0",
+93167:"jsonrpc": "2.0",
+93187:"jsonrpc": "2.0",
+93200:"jsonrpc": "2.0",
+93228:"jsonrpc": "2.0",
+93243:CHostPrototype::update() in ui/include/classes/api/services/CHostPrototype.php.
+93254:The following objects are directly related to the housekeeping API.
+93487:"jsonrpc": "2.0",
+93497:"jsonrpc": "2.0",
+93527:CHousekeeping ::get() in ui/include/classes/api/services/CHousekeeping.php.
+93547:"jsonrpc": "2.0",
+93562:"jsonrpc": "2.0",
+93572:CHousekeeping::update() in ui/include/classes/api/services/CHousekeeping.php.
+93586:The following objects are directly related to the iconmap API.
+93595:iconmapid
+93695:(object) Returns an object containing the IDs of the created icon maps under the iconmapids property. The order of the
+93703:"jsonrpc": "2.0",
+93729:"jsonrpc": "2.0",
+93731:"iconmapids": [
+93740:CIconMap::create() in ui/include/classes/api/services/CIconMap.php.
+93745:object iconmap.delete(array iconMapIds)
+93755:(object) Returns an object containing the IDs of the deleted icon maps under the iconmapids property.
+93762:"jsonrpc": "2.0",
+93776:"jsonrpc": "2.0",
+93778:"iconmapids": [
+93786:CIconMap::delete() in ui/include/classes/api/services/CIconMap.php.
+93806:iconmapids
+93812:sysmapids
+93868:Possible values: iconmapid, name.
+93893:"jsonrpc": "2.0",
+93896:"iconmapids": "3",
+93905:"jsonrpc": "2.0",
+93911:"iconmapid": "3",
+93919:"iconmapid": "3",
+93926:"iconmapid": "3",
+93936:CIconMap::get() in ui/include/classes/api/services/CIconMap.php.
+93952:The iconmapid property must be defined for each icon map, all other properties are optional. Only the passed properties will be
+93969:(object) Returns an object containing the IDs of the updated icon maps under the iconmapids property.
+93976:"jsonrpc": "2.0",
+93979:"iconmapid": "1",
+93987:"jsonrpc": "2.0",
+93989:"iconmapids": [
+93998:CIconMap::update() in ui/include/classes/api/services/CIconMap.php.
+94014:The following objects are directly related to the image API.
+94090:"jsonrpc": "2.0",
+94102:"jsonrpc": "2.0",
+94116:"jsonrpc": "2.0",
+94128:"jsonrpc": "2.0",
+94137:CImage::create() in ui/include/classes/api/services/CImage.php.
+94162:"jsonrpc": "2.0",
+94173:"jsonrpc": "2.0",
+94183:CImage::delete() in ui/include/classes/api/services/CImage.php.
+94209:sysmapids
+94295:"jsonrpc": "2.0",
+94308:"jsonrpc": "2.0",
+94320:CImage::get() in ui/include/classes/api/services/CImage.php.
+94347:"jsonrpc": "2.0",
+94358:"jsonrpc": "2.0",
+94367:CImage::update() in ui/include/classes/api/services/CImage.php.
+94387:The following objects are directly related to the item API.
+94390:Web items cannot be directly created, updated or deleted via the Zabbix API.
+95069:valuemapid
+95754:Web items cannot be created via the Zabbix API.
+95794:"jsonrpc": "2.0",
+95820:"jsonrpc": "2.0",
+95833:"jsonrpc": "2.0",
+95853:"jsonrpc": "2.0",
+95866:"jsonrpc": "2.0",
+95891:"jsonrpc": "2.0",
+95908:"jsonrpc": "2.0",
+95923:"jsonrpc": "2.0",
+95936:"jsonrpc": "2.0",
+95979:"jsonrpc": "2.0",
+95993:"jsonrpc": "2.0",
+96016:"jsonrpc": "2.0",
+96025:CItem::create() in ui/include/classes/api/services/CItem.php.
+96035:Web items cannot be deleted via the Zabbix API.
+96053:"jsonrpc": "2.0",
+96064:"jsonrpc": "2.0",
+96074:CItem::delete() in ui/include/classes/api/services/CItem.php.
+96392:"jsonrpc": "2.0",
+96408:"jsonrpc": "2.0",
+96426:"valuemapid": "0",
+96488:"valuemapid": "0",
+96550:"valuemapid": "0",
+96612:"valuemapid": "0",
+96674:"valuemapid": "0",
+96728:"jsonrpc": "2.0",
+96745:"jsonrpc": "2.0",
+96763:"valuemapid": "0",
+96825:"valuemapid": "0",
+96879:"jsonrpc": "2.0",
+96893:"jsonrpc": "2.0",
+96914:"valuemapid": "0",
+96973:"jsonrpc": "2.0",
+96985:"jsonrpc": "2.0",
+97008:CItem::get() in ui/include/classes/api/services/CItem.php.
+97016:Web items cannot be updated via the Zabbix API.
+97062:"jsonrpc": "2.0",
+97073:"jsonrpc": "2.0",
+97087:"jsonrpc": "2.0",
+97102:"jsonrpc": "2.0",
+97115:"jsonrpc": "2.0",
+97126:"jsonrpc": "2.0",
+97139:"jsonrpc": "2.0",
+97160:"jsonrpc": "2.0",
+97173:"jsonrpc": "2.0",
+97185:"jsonrpc": "2.0",
+97194:CItem::update() in ui/include/classes/api/services/CItem.php.
+97214:The following objects are directly related to the itemprototype API.
+97784:valuemapid
+98511:"jsonrpc": "2.0",
+98530:"jsonrpc": "2.0",
+98543:"jsonrpc": "2.0",
+98575:"jsonrpc": "2.0",
+98591:"jsonrpc": "2.0",
+98607:"jsonrpc": "2.0",
+98620:"jsonrpc": "2.0",
+98627:"name": "api item prototype example",
+98628:"key_": "api_http_item",
+98644:"value": "api"
+98657:"jsonrpc": "2.0",
+98671:"jsonrpc": "2.0",
+98694:"jsonrpc": "2.0",
+98703:CItemPrototype::create() in ui/include/classes/api/services/CItemPrototype.php.
+98728:"jsonrpc": "2.0",
+98739:"jsonrpc": "2.0",
+98749:CItemPrototype::delete() in ui/include/classes/api/services/CItemPrototype.php.
+99010:"jsonrpc": "2.0",
+99021:"jsonrpc": "2.0",
+99039:"valuemapid": "0",
+99095:"valuemapid": "0",
+99142:"jsonrpc": "2.0",
+99157:"jsonrpc": "2.0",
+99175:"valuemapid": "0",
+99222:"jsonrpc": "2.0",
+99236:"jsonrpc": "2.0",
+99257:"valuemapid": "0",
+99301:CItemPrototype::get() in ui/include/classes/api/services/CItemPrototype.php.
+99351:"jsonrpc": "2.0",
+99362:"jsonrpc": "2.0",
+99378:"jsonrpc": "2.0",
+99389:"jsonrpc": "2.0",
+99402:"jsonrpc": "2.0",
+99419:"jsonrpc": "2.0",
+99432:"jsonrpc": "2.0",
+99453:"jsonrpc": "2.0",
+99466:"jsonrpc": "2.0",
+99478:"jsonrpc": "2.0",
+99487:CItemPrototype::update() in ui/include/classes/api/services/CItemPrototype.php.
+99522:The following objects are directly related to the discoveryrule API.
+100265:custom expression. Can only contain capital-case letters. The ID must
+100809:custom expression. Can only contain capital-case letters. The ID must
+101177:"jsonrpc": "2.0",
+101192:"jsonrpc": "2.0",
+101206:"jsonrpc": "2.0",
+101248:"jsonrpc": "2.0",
+101260:"jsonrpc": "2.0",
+101288:"jsonrpc": "2.0",
+101303:"jsonrpc": "2.0",
+101347:"jsonrpc": "2.0",
+101360:"jsonrpc": "2.0",
+101366:"name": "API HTTP agent",
+101367:"key_": "api_discovery_rule",
+101383:"value": "api"
+101398:"jsonrpc": "2.0",
+101413:"jsonrpc": "2.0",
+101437:"jsonrpc": "2.0",
+101449:"jsonrpc": "2.0",
+101549:"jsonrpc": "2.0",
+101563:"jsonrpc": "2.0",
+101583:"jsonrpc": "2.0",
+101599:"jsonrpc": "2.0",
+101615:"jsonrpc": "2.0",
+101628:CDiscoveryRule::create() in ui/include/classes/api/services/CDiscoveryRule.php.
+101651:"jsonrpc": "2.0",
+101665:"jsonrpc": "2.0",
+101675:CDiscoveryRule::delete() in ui/include/classes/api/services/CDiscoveryRule.php.
+101914:"jsonrpc": "2.0",
+101926:"jsonrpc": "2.0",
+101939:"valuemapid": "0",
+101993:"valuemapid": "0",
+102043:"jsonrpc": "2.0",
+102055:"jsonrpc": "2.0",
+102100:"jsonrpc": "2.0",
+102117:"jsonrpc": "2.0",
+102124:"name": "API HTTP agent",
+102125:"key_": "api_discovery_rule",
+102130:"valuemapid": "0",
+102164:"value": "api"
+102198:"jsonrpc": "2.0",
+102210:"jsonrpc": "2.0",
+102317:CDiscoveryRule::get() in ui/include/classes/api/services/CDiscoveryRule.php.
+102384:"jsonrpc": "2.0",
+102403:"jsonrpc": "2.0",
+102415:"jsonrpc": "2.0",
+102431:"jsonrpc": "2.0",
+102447:"jsonrpc": "2.0",
+102458:"jsonrpc": "2.0",
+102471:"jsonrpc": "2.0",
+102489:"jsonrpc": "2.0",
+102502:"jsonrpc": "2.0",
+102517:"jsonrpc": "2.0",
+102530:"jsonrpc": "2.0",
+102544:"jsonrpc": "2.0",
+102553:CDiscoveryRule::update() in ui/include/classes/api/services/CDiscoveryRule.php.
+102588:The following objects are directly related to the discoveryruleprototype API.
+103339:custom expression. Can only contain capital-case letters. The ID must
+103883:custom expression. Can only contain capital-case letters. The ID must
+104249:"jsonrpc": "2.0",
+104263:"jsonrpc": "2.0",
+104276:CDiscoveryRulePrototype::create() in ui/include/classes/api/services/CDiscoveryRulePrototype.php.
+104301:"jsonrpc": "2.0",
+104312:"jsonrpc": "2.0",
+104322:CDiscoveryRulePrototype::delete() in ui/include/classes/api/services/CDiscoveryRulePrototype.php.
+104574:"jsonrpc": "2.0",
+104584:"jsonrpc": "2.0",
+104602:"valuemapid": "0",
+104654:CDiscoveryRulePrototype::get() in ui/include/classes/api/services/CDiscoveryRulePrototype.php.
+104721:"jsonrpc": "2.0",
+104738:"jsonrpc": "2.0",
+104747:CDiscoveryRulePrototype::update() in ui/include/classes/api/services/CDiscoveryRulePrototype.php.
+104765:The following objects are directly related to the maintenance API.
+105073:"jsonrpc": "2.0",
+105113:"jsonrpc": "2.0",
+105124:CMaintenance::create() in ui/include/classes/api/services/CMaintenance.php.
+105149:"jsonrpc": "2.0",
+105160:"jsonrpc": "2.0",
+105170:CMaintenance::delete() in ui/include/classes/api/services/CMaintenance.php.
+105308:"jsonrpc": "2.0",
+105321:"jsonrpc": "2.0",
+105375:CMaintenance::get() in ui/include/classes/api/services/CMaintenance.php.
+105448:"jsonrpc": "2.0",
+105462:"jsonrpc": "2.0",
+105473:CMaintenance::update() in ui/include/classes/api/services/CMaintenance.php.
+105504:The following objects are directly related to the map API.
+105513:sysmapid
+105623:iconmapid
+106001:sysmapid
+106110:sysmapid
+106227:sysmapid
+106469:sysmapid
+106883:(object) Returns an object containing the IDs of the created maps under the sysmapids property. The order of the returned IDs
+106891:"jsonrpc": "2.0",
+106903:"jsonrpc": "2.0",
+106905:"sysmapids": [
+106917:"jsonrpc": "2.0",
+106956:"jsonrpc": "2.0",
+106958:"sysmapids": [
+106969:"jsonrpc": "2.0",
+106994:"jsonrpc": "2.0",
+106996:"sysmapids": [
+107007:"jsonrpc": "2.0",
+107031:"jsonrpc": "2.0",
+107033:"sysmapids": [
+107044:"jsonrpc": "2.0",
+107069:"jsonrpc": "2.0",
+107071:"sysmapids": [
+107082:"jsonrpc": "2.0",
+107085:"name": "Map API lines",
+107105:"jsonrpc": "2.0",
+107107:"sysmapids": [
+107125:CMap::create() in ui/include/classes/api/services/CMap.php.
+107130:object map.delete(array mapIds)
+107140:(object) Returns an object containing the IDs of the deleted maps under the sysmapids property.
+107147:"jsonrpc": "2.0",
+107158:"jsonrpc": "2.0",
+107160:"sysmapids": [
+107168:CMap::delete() in ui/include/classes/api/services/CMap.php.
+107190:sysmapids
+107324:"jsonrpc": "2.0",
+107337:"sysmapids": "3"
+107344:"jsonrpc": "2.0",
+107350:"sysmapid": "3",
+107381:"sysmapid": "3",
+107409:"sysmapid": "3",
+107440:"sysmapid": "3",
+107505:"sysmapid": "3",
+107536:"iconmapid": "0",
+107556:CMap::get() in ui/include/classes/api/services/CMap.php.
+107569:The mapid property must be defined for each map, all other properties are optional. Only the passed properties will be updated,
+107629:(object) Returns an object containing the IDs of the updated maps under the sysmapids property.
+107636:"jsonrpc": "2.0",
+107639:"sysmapid": "8",
+107648:"jsonrpc": "2.0",
+107650:"sysmapids": [
+107661:"jsonrpc": "2.0",
+107664:"sysmapid": "9",
+107672:"jsonrpc": "2.0",
+107674:"sysmapids": [
+107692:CMap::update() in ui/include/classes/api/services/CMap.php.
+107708:The following objects are directly related to the mediatype API.
+107887:Value of API settings property url with part
+107953:when refreshing with refresh_token or API on token changes.
+107971:Is set by Zabbix server on access_token refresh or by API on token
+108265:"jsonrpc": "2.0",
+108301:"jsonrpc": "2.0",
+108314:"jsonrpc": "2.0",
+108345:"jsonrpc": "2.0",
+108358:"jsonrpc": "2.0",
+108397:"jsonrpc": "2.0",
+108406:CMediaType::create() in ui/include/classes/api/services/CMediaType.php.
+108428:"jsonrpc": "2.0",
+108439:"jsonrpc": "2.0",
+108449:CMediaType::delete() in ui/include/classes/api/services/CMediaType.php.
+108609:"jsonrpc": "2.0",
+108620:"jsonrpc": "2.0",
+108768:"jsonrpc": "2.0",
+108782:"jsonrpc": "2.0",
+108836:"jsonrpc": "2.0",
+108849:"jsonrpc": "2.0",
+108917:CMediaType::get() in ui/include/classes/api/services/CMediaType.php.
+108954:"jsonrpc": "2.0",
+108968:"jsonrpc": "2.0",
+108977:CMediaType::update() in ui/include/classes/api/services/CMediaType.php.
+108990:The following objects are directly related to the mfa API.
+109056:api_hostname
+109060:API hostname provided by the Duo authentication service.
+109105:"jsonrpc": "2.0",
+109121:"jsonrpc": "2.0",
+109130:CMfa::create() in ui/include/classes/api/services/CMfa.php.
+109152:"jsonrpc": "2.0",
+109162:"jsonrpc": "2.0",
+109174:CMfa::delete() in ui/include/classes/api/services/CMfa.php.
+109285:"jsonrpc": "2.0",
+109298:"jsonrpc": "2.0",
+109306:"api_hostname": "",
+109315:"api_hostname": "",
+109322:CMfa::get() in ui/include/classes/api/services/CMfa.php.
+109351:"jsonrpc": "2.0",
+109363:"jsonrpc": "2.0",
+109372:CMfa::update() in ui/include/classes/api/services/CMfa.php.
+109385:The following objects are directly related to the module API.
+109469:"jsonrpc": "2.0",
+109484:"jsonrpc": "2.0",
+109496:CModule::create() in ui/include/classes/api/services/CModule.php.
+109522:"jsonrpc": "2.0",
+109536:"jsonrpc": "2.0",
+109546:CModule::delete() in ui/include/classes/api/services/CModule.php.
+109636:"jsonrpc": "2.0",
+109651:"jsonrpc": "2.0",
+109682:CModule::get() in ui/include/classes/api/services/CModule.php.
+109710:"jsonrpc": "2.0",
+109721:"jsonrpc": "2.0",
+109733:CModule::update() in ui/include/classes/api/services/CModule.php.
+109745:The following objects are directly related to the problem API.
+109751:Problems are created by the Zabbix server and cannot be modified via the API.
+110239:"jsonrpc": "2.0",
+110256:"jsonrpc": "2.0",
+110315:"jsonrpc": "2.0",
+110332:"jsonrpc": "2.0",
+110369:CEvent::get() in ui/include/classes/api/services/CProblem.php.
+110382:The following objects are directly related to the proxy API.
+110670:"jsonrpc": "2.0",
+110686:"jsonrpc": "2.0",
+110699:"jsonrpc": "2.0",
+110720:"jsonrpc": "2.0",
+110736:"jsonrpc": "2.0",
+110748:"jsonrpc": "2.0",
+110761:"jsonrpc": "2.0",
+110780:"jsonrpc": "2.0",
+110795:CProxy::create() in ui/include/classes/api/services/CProxy.php.
+110817:"jsonrpc": "2.0",
+110828:"jsonrpc": "2.0",
+110838:CProxy::delete() in ui/include/classes/api/services/CProxy.php.
+110960:"jsonrpc": "2.0",
+110970:"jsonrpc": "2.0",
+111045:CProxy::get() in ui/include/classes/api/services/CProxy.php.
+111085:"jsonrpc": "2.0",
+111103:"jsonrpc": "2.0",
+111118:"jsonrpc": "2.0",
+111130:"jsonrpc": "2.0",
+111143:"jsonrpc": "2.0",
+111155:"jsonrpc": "2.0",
+111170:CProxy::update() in ui/include/classes/api/services/CProxy.php.
+111183:The following objects are directly related to the proxygroup API.
+111275:"jsonrpc": "2.0",
+111287:"jsonrpc": "2.0",
+111296:CProxyGroup::create() in ui/include/classes/api/services/CProxyGroup.php.
+111321:"jsonrpc": "2.0",
+111332:"jsonrpc": "2.0",
+111342:CProxyGroup::delete() in ui/include/classes/api/services/CProxyGroup.php.
+111456:"jsonrpc": "2.0",
+111467:"jsonrpc": "2.0",
+111518:CProxyGroup::get() in ui/include/classes/api/services/CProxyGroup.php.
+111543:"jsonrpc": "2.0",
+111557:"jsonrpc": "2.0",
+111566:CProxyGroup::update() in ui/include/classes/api/services/CProxyGroup.php.
+111580:The following objects are directly related to the regexp API.
+111705:"jsonrpc": "2.0",
+111723:"jsonrpc": "2.0",
+111732:CRegexp::create() in ui/include/classes/api/services/CRegexp.php.
+111754:"jsonrpc": "2.0",
+111768:"jsonrpc": "2.0",
+111778:CRegexp::delete() in ui/include/classes/api/services/CRegexp.php.
+111878:"jsonrpc": "2.0",
+111892:"jsonrpc": "2.0",
+111941:CRegexp::get() in ui/include/classes/api/services/CRegexp.php.
+111978:"jsonrpc": "2.0",
+112006:"jsonrpc": "2.0",
+112015:CRegexp::update() in ui/include/classes/api/services/CRegexp.php.
+112030:The following objects are directly related to the report API.
+112319:"jsonrpc": "2.0",
+112361:"jsonrpc": "2.0",
+112373:CReport::create() in ui/include/classes/api/services/CReport.php.
+112396:"jsonrpc": "2.0",
+112407:"jsonrpc": "2.0",
+112420:CReport::delete() in ui/include/classes/api/services/CReport.php.
+112527:"jsonrpc": "2.0",
+112543:"jsonrpc": "2.0",
+112619:CReport::get() in ui/include/classes/api/services/CReport.php.
+112667:"jsonrpc": "2.0",
+112681:"jsonrpc": "2.0",
+112693:CReport::update() in ui/include/classes/api/services/CReport.php.
+112712:The following objects are directly related to the role API.
+112881:api.access
+112885:Whether access to API is enabled.
+112890:api.mode
+112894:Mode for treating API methods listed in the api property.
+112899:api
+112907:Array of API methods.
+112991:administration.api_tokens - Users > API tokens;
+113110:manage_api_tokens - Manage API tokens;
+113176:"jsonrpc": "2.0",
+113199:"jsonrpc": "2.0",
+113213:CRole::create() in ui/include/classes/api/services/CRole.php.
+113237:"jsonrpc": "2.0",
+113248:"jsonrpc": "2.0",
+113258:CRole::delete() in ui/include/classes/api/services/CRole.php.
+113372:"jsonrpc": "2.0",
+113384:"jsonrpc": "2.0",
+113543:"name": "administration.api_tokens",
+113729:"api.access": "1",
+113730:"api.mode": "0",
+113731:"api": [],
+113769:"name": "manage_api_tokens",
+113814:CRole::get() in ui/include/classes/api/services/CRole.php.
+113851:"jsonrpc": "2.0",
+113874:"jsonrpc": "2.0",
+113882:Limiting access to API
+113887:"jsonrpc": "2.0",
+113893:"api.access": "1",
+113894:"api.mode": "0",
+113895:"api": ["*.create", "*.update", "*.delete"]
+113904:"jsonrpc": "2.0",
+113913:CRole::update() in ui/include/classes/api/services/CRole.php.
+113935:The following objects are directly related to the script API.
+114331:"jsonrpc": "2.0",
+114359:"jsonrpc": "2.0",
+114372:"jsonrpc": "2.0",
+114397:"jsonrpc": "2.0",
+114411:"jsonrpc": "2.0",
+114430:"jsonrpc": "2.0",
+114445:"jsonrpc": "2.0",
+114460:"jsonrpc": "2.0",
+114473:"jsonrpc": "2.0",
+114491:"jsonrpc": "2.0",
+114500:CScript::create() in ui/include/classes/api/services/CScript.php.
+114524:"jsonrpc": "2.0",
+114535:"jsonrpc": "2.0",
+114545:CScript::delete() in ui/include/classes/api/services/CScript.php.
+114632:"jsonrpc": "2.0",
+114643:"jsonrpc": "2.0",
+114668:"jsonrpc": "2.0",
+114680:"jsonrpc": "2.0",
+114693:"jsonrpc": "2.0",
+114706:"jsonrpc": "2.0",
+114715:CScript::execute() in ui/include/classes/api/services/CScript.php.
+114846:"jsonrpc": "2.0",
+114858:"jsonrpc": "2.0",
+115063:CScript::get() in ui/include/classes/api/services/CScript.php.
+115118:"jsonrpc": "2.0",
+115139:"jsonrpc": "2.0",
+115397:"jsonrpc": "2.0",
+115411:"jsonrpc": "2.0",
+115448:CScript::getScriptsByEvents() in ui/include/classes/api/services/CScript.php.
+115506:"jsonrpc": "2.0",
+115521:"jsonrpc": "2.0",
+115779:"jsonrpc": "2.0",
+115796:"jsonrpc": "2.0",
+115833:CScript::getScriptsByHosts() in ui/include/classes/api/services/CScript.php.
+115861:"jsonrpc": "2.0",
+115872:"jsonrpc": "2.0",
+115885:"jsonrpc": "2.0",
+115901:"jsonrpc": "2.0",
+115913:CScript::update() in ui/include/classes/api/services/CScript.php.
+115930:The following objects are directly related to the service API.
+116183:Service alarms cannot be directly created, updated or deleted via the Zabbix API.
+116305:"jsonrpc": "2.0",
+116317:"jsonrpc": "2.0",
+116326:CService::create() in ui/include/classes/api/services/CService.php.
+116351:"jsonrpc": "2.0",
+116362:"jsonrpc": "2.0",
+116372:CService::delete() in ui/include/classes/api/services/CService.php.
+116611:"jsonrpc": "2.0",
+116623:"jsonrpc": "2.0",
+116722:CService::get() in ui/include/classes/api/services/CService.php.
+116785:"jsonrpc": "2.0",
+116803:"jsonrpc": "2.0",
+116816:"jsonrpc": "2.0",
+116833:"jsonrpc": "2.0",
+116842:CService::update() in ui/include/classes/api/services/CService.php.
+116856:The following objects are directly related to the settings API.
+117456:"jsonrpc": "2.0",
+117466:"jsonrpc": "2.0",
+117548:CSettings::get() in ui/include/classes/api/services/CSettings.php.
+117568:"jsonrpc": "2.0",
+117579:"jsonrpc": "2.0",
+117587:CSettings::update() in ui/include/classes/api/services/CSettings.php.
+117608:The following objects are directly related to the sla (Service Level Agreement) API.
+117843:"jsonrpc": "2.0",
+117889:"jsonrpc": "2.0",
+117898:CSla::create() in ui/include/classes/api/services/CSla.php.
+117921:"jsonrpc": "2.0",
+117934:"jsonrpc": "2.0",
+117944:CSla::delete() in ui/include/classes/api/services/CSla.php.
+118063:"jsonrpc": "2.0",
+118077:"jsonrpc": "2.0",
+118121:CSla:get() in ui/include/classes/api/services/CSla.php.
+118353:"jsonrpc": "2.0",
+118372:"jsonrpc": "2.0",
+118421:"jsonrpc": "2.0",
+118441:"jsonrpc": "2.0",
+118579:CSla::getSli() in ui/include/classes/api/services/CSla.php
+118634:"jsonrpc": "2.0",
+118661:"jsonrpc": "2.0",
+118674:"jsonrpc": "2.0",
+118685:"jsonrpc": "2.0",
+118702:"jsonrpc": "2.0",
+118724:"jsonrpc": "2.0",
+118733:CSla::update() in ui/include/classes/api/services/CSla.php.
+118749:The following objects are directly related to the task API.
+119144:"jsonrpc": "2.0",
+119165:"jsonrpc": "2.0",
+119178:"jsonrpc": "2.0",
+119196:"jsonrpc": "2.0",
+119208:"jsonrpc": "2.0",
+119237:"jsonrpc": "2.0",
+119254:CTask::create() in ui/include/classes/api/services/CTask.php.
+119299:"jsonrpc": "2.0",
+119310:"jsonrpc": "2.0",
+119368:CTask::get() in ui/include/classes/api/services/CTask.php.
+119388:The following objects are directly related to the template API.
+119552:"jsonrpc": "2.0",
+119582:"jsonrpc": "2.0",
+119591:CTemplate::create() in ui/include/classes/api/services/CTemplate.php.
+119617:"jsonrpc": "2.0",
+119628:"jsonrpc": "2.0",
+119641:CTemplate::delete() in ui/include/classes/api/services/CTemplate.php.
+119945:"jsonrpc": "2.0",
+119962:"jsonrpc": "2.0",
+120037:"jsonrpc": "2.0",
+120053:"jsonrpc": "2.0",
+120076:"jsonrpc": "2.0",
+120088:"jsonrpc": "2.0",
+120115:"jsonrpc": "2.0",
+120137:"jsonrpc": "2.0",
+120157:CTemplate::get() in ui/include/classes/api/services/CTemplate.php.
+120219:"jsonrpc": "2.0",
+120241:"jsonrpc": "2.0",
+120255:"jsonrpc": "2.0",
+120280:"jsonrpc": "2.0",
+120294:CTemplate::massAdd() in ui/include/classes/api/services/CTemplate.php.
+120358:"jsonrpc": "2.0",
+120372:"jsonrpc": "2.0",
+120386:"jsonrpc": "2.0",
+120400:"jsonrpc": "2.0",
+120412:CTemplate::massRemove() in ui/include/classes/api/services/CTemplate.php.
+120480:"jsonrpc": "2.0",
+120505:"jsonrpc": "2.0",
+120520:"jsonrpc": "2.0",
+120550:"jsonrpc": "2.0",
+120570:CTemplate::massUpdate() in ui/include/classes/api/services/CTemplate.php.
+120638:"jsonrpc": "2.0",
+120654:"jsonrpc": "2.0",
+120667:"jsonrpc": "2.0",
+120682:"jsonrpc": "2.0",
+120695:"jsonrpc": "2.0",
+120714:"jsonrpc": "2.0",
+120727:"jsonrpc": "2.0",
+120743:"jsonrpc": "2.0",
+120756:"jsonrpc": "2.0",
+120774:"jsonrpc": "2.0",
+120787:"jsonrpc": "2.0",
+120802:"jsonrpc": "2.0",
+120811:CTemplate::update() in ui/include/classes/api/services/CTemplate.php.
+120829:The following objects are directly related to the templatedashboard API.
+121137:"jsonrpc": "2.0",
+121169:"jsonrpc": "2.0",
+121185:CTemplateDashboard::create() in ui/include/classes/api/services/CTemplateDashboard.php.
+121208:"jsonrpc": "2.0",
+121219:"jsonrpc": "2.0",
+121229:CTemplateDashboard::delete() in ui/include/classes/api/services/CTemplateDashboard.php.
+121337:"jsonrpc": "2.0",
+121349:"jsonrpc": "2.0",
+121467:CTemplateDashboard::get() in ui/include/classes/api/services/CTemplateDashboard.php.
+121516:"jsonrpc": "2.0",
+121527:"jsonrpc": "2.0",
+121541:"jsonrpc": "2.0",
+121575:"jsonrpc": "2.0",
+121587:CTemplateDashboard::update() in ui/include/classes/api/services/CTemplateDashboard.php.
+121604:The following objects are directly related to the templategroup API.
+121662:"jsonrpc": "2.0",
+121672:"jsonrpc": "2.0",
+121681:CTemplateGroup::create() in ui/include/classes/api/services/CTemplateGroup.php.
+121708:"jsonrpc": "2.0",
+121719:"jsonrpc": "2.0",
+121729:CTemplateGroup::delete() in ui/include/classes/api/services/CTemplateGroup.php.
+121923:"jsonrpc": "2.0",
+121939:"jsonrpc": "2.0",
+121957:CTemplateGroup::get() in ui/include/classes/api/services/CTemplateGroup.php.
+122008:"jsonrpc": "2.0",
+122033:"jsonrpc": "2.0",
+122048:CTemplateGroup::massAdd() in ui/include/classes/api/services/CTemplateGroup.php.
+122093:"jsonrpc": "2.0",
+122110:"jsonrpc": "2.0",
+122123:CTemplateGroup::massRemove() in ui/include/classes/api/services/CTemplateGroup.php.
+122173:"jsonrpc": "2.0",
+122195:"jsonrpc": "2.0",
+122208:CTemplateGroup::massUpdate() in ui/include/classes/api/services/CTemplateGroup.php.
+122258:"jsonrpc": "2.0",
+122273:"jsonrpc": "2.0",
+122286:CTemplateGroup::propagate() in ui/include/classes/api/services/CTemplateGroup.php.
+122313:"jsonrpc": "2.0",
+122324:"jsonrpc": "2.0",
+122333:CTemplateGroup::update() in ui/include/classes/api/services/CTemplateGroup.php.
+122347:The following objects are directly related to the token API.
+122445:The Manage API tokens permission is required for the user role to manage tokens for other users.
+122464:"jsonrpc": "2.0",
+122478:"jsonrpc": "2.0",
+122490:"jsonrpc": "2.0",
+122502:"jsonrpc": "2.0",
+122511:CToken::create() in ui/include/classes/api/services/CToken.php.
+122519:The Manage API tokens permission is required for the user role to manage tokens for other users.
+122536:"jsonrpc": "2.0",
+122547:"jsonrpc": "2.0",
+122557:CToken::delete() in ui/include/classes/api/services/CToken.php.
+122565:The Manage API tokens permission is required for the user role to manage tokens for other users.
+122603:"jsonrpc": "2.0",
+122614:"jsonrpc": "2.0",
+122628:CToken::generate() in ui/include/classes/api/services/CToken.php.
+122749:"jsonrpc": "2.0",
+122760:"jsonrpc": "2.0",
+122777:CToken::get() in ui/include/classes/api/services/CToken.php.
+122788:The Manage API tokens permission is required for the user role to manage tokens for other users.
+122805:"jsonrpc": "2.0",
+122816:"jsonrpc": "2.0",
+122825:CToken::update() in ui/include/classes/api/services/CToken.php.
+122836:The following objects are directly related to the trend API.
+122842:modified via the API.
+123004:"jsonrpc": "2.0",
+123025:"jsonrpc": "2.0",
+123039:CTrend::get() in ui/include/classes/api/services/CTrend.php.
+123055:The following objects are directly related to the trigger API.
+123334:"jsonrpc": "2.0",
+123374:"jsonrpc": "2.0",
+123384:CTrigger::create() in ui/include/classes/api/services/CTrigger.php.
+123407:"jsonrpc": "2.0",
+123418:"jsonrpc": "2.0",
+123431:CTrigger::delete() in ui/include/classes/api/services/CTrigger.php.
+123836:"jsonrpc": "2.0",
+123850:"jsonrpc": "2.0",
+123893:"jsonrpc": "2.0",
+123914:"jsonrpc": "2.0",
+123934:"jsonrpc": "2.0",
+123951:"jsonrpc": "2.0",
+123980:CTrigger::get() in ui/include/classes/api/services/CTrigger.php.
+124025:"jsonrpc": "2.0",
+124036:"jsonrpc": "2.0",
+124052:"jsonrpc": "2.0",
+124072:"jsonrpc": "2.0",
+124085:"jsonrpc": "2.0",
+124103:"jsonrpc": "2.0",
+124115:CTrigger::update() in ui/include/classes/api/services/CTrigger.php.
+124129:The following objects are directly related to the triggerprototype API.
+124384:"jsonrpc": "2.0",
+124408:"jsonrpc": "2.0",
+124417:CTriggerPrototype::create() in ui/include/classes/api/services/CTriggerPrototype.php.
+124440:"jsonrpc": "2.0",
+124451:"jsonrpc": "2.0",
+124461:CTriggerPrototype::delete() in ui/include/classes/api/services/CTriggerPrototype.php.
+124765:"jsonrpc": "2.0",
+124777:"jsonrpc": "2.0",
+124857:"jsonrpc": "2.0",
+124874:"jsonrpc": "2.0",
+124903:CTriggerPrototype::get() in ui/include/classes/api/services/CTriggerPrototype.php.
+124949:"jsonrpc": "2.0",
+124962:"jsonrpc": "2.0",
+124975:"jsonrpc": "2.0",
+124995:"jsonrpc": "2.0",
+125004:CTriggerPrototype::update() in ui/include/classes/api/services/CTriggerPrototype.php.
+125016:• user.login - log in to the API
+125020:• user.logout - log out of the API
+125027:The following objects are directly related to the user API.
+125357:User API token.
+125407:API token.
+125413:Authentication token, which must be used in the following API requests.
+125415:using an API token.
+125439:"jsonrpc": "2.0",
+125449:"jsonrpc": "2.0",
+125480:Check authentication using API token
+125481:Check a user session using the user API token, and return additional information about the user.
+125485:"jsonrpc": "2.0",
+125495:"jsonrpc": "2.0",
+125529:CUser::checkAuthentication() in ui/include/classes/api/services/CUser.php.
+125541:The strength of user password is validated according the password policy rules defined by Authentication API. See Authentication API for more information.
+125578:"jsonrpc": "2.0",
+125606:"jsonrpc": "2.0",
+125620:CUser::create() in ui/include/classes/api/services/CUser.php.
+125645:"jsonrpc": "2.0",
+125656:"jsonrpc": "2.0",
+125666:CUser::delete() in ui/include/classes/api/services/CUser.php.
+125859:"jsonrpc": "2.0",
+125869:"jsonrpc": "2.0",
+125942:"jsonrpc": "2.0",
+125957:"jsonrpc": "2.0",
+126050:"jsonrpc": "2.0",
+126062:"jsonrpc": "2.0",
+126083:CUser::get() in ui/include/classes/api/services/CUser.php.
+126089:This method allows to log in to the API and generate an authentication token.
+126189:Authentication token, which must be used in the following API requests.
+126218:"jsonrpc": "2.0",
+126229:"jsonrpc": "2.0",
+126238:"jsonrpc": "2.0",
+126250:"jsonrpc": "2.0",
+126287:CUser::login() in ui/include/classes/api/services/CUser.php.
+126293:This method allows to log out of the API and invalidates the current authentication token.
+126305:Log out from the API.
+126309:"jsonrpc": "2.0",
+126317:"jsonrpc": "2.0",
+126324:CUser::login() in ui/include/classes/api/services/CUser.php.
+126349:"jsonrpc": "2.0",
+126360:"jsonrpc": "2.0",
+126370:CUser::provision() in ui/include/classes/api/services/CUser.php.
+126398:"jsonrpc": "2.0",
+126409:"jsonrpc": "2.0",
+126421:CUser::resettotp() in ui/include/classes/api/services/CUser.php.
+126446:"jsonrpc": "2.0",
+126457:"jsonrpc": "2.0",
+126467:CUser::unblock() in ui/include/classes/api/services/CUser.php.
+126479:The strength of user password is validated according the password policy rules defined by Authentication API. See Authentication API for more information.
+126535:"jsonrpc": "2.0",
+126547:"jsonrpc": "2.0",
+126560:"jsonrpc": "2.0",
+126571:"jsonrpc": "2.0",
+126585:CUser::update() in ui/include/classes/api/services/CUser.php.
+126601:The following objects are directly related to the userdirectory API.
+127243:"jsonrpc": "2.0",
+127247:"name": "LDAP API server #1",
+127261:"jsonrpc": "2.0",
+127275:"jsonrpc": "2.0",
+127336:"jsonrpc": "2.0",
+127345:CUserDirectory::create() in ui/include/classes/api/services/CUserDirectory.php.
+127372:"jsonrpc": "2.0",
+127383:"jsonrpc": "2.0",
+127393:CUserDirectory::delete() in ui/include/classes/api/services/CUserDirectory.php.
+127524:"jsonrpc": "2.0",
+127536:"jsonrpc": "2.0",
+127649:"name": "LDAP API server #1",
+127679:CUserDirectory::get() in ui/include/classes/api/services/CUserDirectory.php.
+127688:user role, user groups, user medias will be assigned to the user). For this type of test the API request should be made for
+127697:Since userdirectory.get API does not return bind_password field, userdirectoryid and/or bind_password should be
+127726:"jsonrpc": "2.0",
+127746:"jsonrpc": "2.0",
+127755:"jsonrpc": "2.0",
+127772:"jsonrpc": "2.0",
+127786:"jsonrpc": "2.0",
+127803:"jsonrpc": "2.0",
+127826:CUserDirectory::test() in ui/include/classes/api/services/CUserDirectory.php.
+127850:"jsonrpc": "2.0",
+127861:"jsonrpc": "2.0",
+127877:"jsonrpc": "2.0",
+127909:"jsonrpc": "2.0",
+127918:CUserDirectory::update() in ui/include/classes/api/services/CUserDirectory.php.
+127936:The following objects are directly related to the usergroup API.
+128136:"jsonrpc": "2.0",
+128155:"jsonrpc": "2.0",
+128166:CUserGroup::create() in ui/include/classes/api/services/CUserGroup.php.
+128194:"jsonrpc": "2.0",
+128205:"jsonrpc": "2.0",
+128215:CUserGroup::delete() in ui/include/classes/api/services/CUserGroup.php.
+128384:"jsonrpc": "2.0",
+128395:"jsonrpc": "2.0",
+128469:CUserGroup::get() in ui/include/classes/api/services/CUserGroup.php.
+128525:"jsonrpc": "2.0",
+128549:"jsonrpc": "2.0",
+128560:CUserGroup::update() in ui/include/classes/api/services/CUserGroup.php.
+128578:The following objects are directly related to the usermacro API.
+128829:"jsonrpc": "2.0",
+128841:"jsonrpc": "2.0",
+128850:CUserMacro::create() in ui/include/classes/api/services/CUserMacro.php.
+128877:"jsonrpc": "2.0",
+128888:"jsonrpc": "2.0",
+128897:CUserMacro::createGlobal() in ui/include/classes/api/services/CUserMacro.php.
+128920:"jsonrpc": "2.0",
+128933:"jsonrpc": "2.0",
+128943:CUserMacro::delete() in ui/include/classes/api/services/CUserMacro.php.
+128965:"jsonrpc": "2.0",
+128976:"jsonrpc": "2.0",
+128986:CUserMacro::deleteGlobal() in ui/include/classes/api/services/CUserMacro.php.
+129146:"jsonrpc": "2.0",
+129157:"jsonrpc": "2.0",
+129185:"jsonrpc": "2.0",
+129199:"jsonrpc": "2.0",
+129300:"jsonrpc": "2.0",
+129311:"jsonrpc": "2.0",
+129324:CUserMacro::get() in ui/include/classes/api/services/CUserMacro.php.
+129351:"jsonrpc": "2.0",
+129362:"jsonrpc": "2.0",
+129375:"jsonrpc": "2.0",
+129389:"jsonrpc": "2.0",
+129398:CUserMacro::update() in ui/include/classes/api/services/CUserMacro.php.
+129422:"jsonrpc": "2.0",
+129433:"jsonrpc": "2.0",
+129442:CUserMacro::updateGlobal() in ui/include/classes/api/services/CUserMacro.php.
+129459:The following objects are directly related to the valuemap API.
+129468:valuemapid
+129588:(object) Returns an object containing the IDs of the created value maps the valuemapids property. The order of the returned
+129596:"jsonrpc": "2.0",
+129621:"jsonrpc": "2.0",
+129623:"valuemapids": [
+129630:CValueMap::create() in ui/include/classes/api/services/CValueMap.php.
+129635:object valuemap.delete(array valuemapids)
+129645:(object) Returns an object containing the IDs of the deleted value maps under the valuemapids property.
+129652:"jsonrpc": "2.0",
+129666:"jsonrpc": "2.0",
+129668:"valuemapids": [
+129676:CValueMap::delete() in ui/include/classes/api/services/CValueMap.php.
+129696:valuemapids
+129754:Possible values: valuemapid, name.
+129779:"jsonrpc": "2.0",
+129789:"jsonrpc": "2.0",
+129792:"valuemapid": "4",
+129796:"valuemapid": "5",
+129800:"valuemapid": "7",
+129810:"jsonrpc": "2.0",
+129815:"valuemapids": ["4"]
+129822:"jsonrpc": "2.0",
+129825:"valuemapid": "4",
+129872:CValueMap::get() in ui/include/classes/api/services/CValueMap.php.
+129885:The valuemapid property must be defined for each value map, all other properties are optional. Only the passed properties will
+129889:(object) Returns an object containing the IDs of the updated value maps under the valuemapids property.
+129899:"jsonrpc": "2.0",
+129902:"valuemapid": "2",
+129910:"jsonrpc": "2.0",
+129912:"valuemapids": [
+129922:"jsonrpc": "2.0",
+129925:"valuemapid": "2",
+129944:"jsonrpc": "2.0",
+129946:"valuemapids": [
+129953:CValueMap::update() in ui/include/classes/api/services/CValueMap.php.
+129971:The following objects are directly related to the webcheck API.
+130349:"jsonrpc": "2.0",
+130374:"jsonrpc": "2.0",
+130385:CHttpTest::create() in ui/include/classes/api/services/CHttpTest.php.
+130411:"jsonrpc": "2.0",
+130422:"jsonrpc": "2.0",
+130432:CHttpTest::delete() in ui/include/classes/api/services/CHttpTest.php.
+130624:"jsonrpc": "2.0",
+130636:"jsonrpc": "2.0",
+130708:CHttpTest::get() in ui/include/classes/api/services/CHttpTest.php.
+130752:"jsonrpc": "2.0",
+130766:"jsonrpc": "2.0",
+130777:CHttpTest::update() in ui/include/classes/api/services/CHttpTest.php.
+130781:The Zabbix API supports the following data types as input:
+130838:Zabbix API always returns values as strings or arrays only.
+130969:Sort the result by the given properties. Refer to a specific API get method description for a list
+131076:"jsonrpc": "2.0",
+131092:"jsonrpc": "2.0",
+131104:"jsonrpc": "2.0",
+131118:"jsonrpc": "2.0",
+131128:"jsonrpc": "2.0",
+131153:"jsonrpc": "2.0",
+131212:"jsonrpc": "2.0",
+131235:"jsonrpc": "2.0",
+131305:ZBXNEXT-1527 Added new LLD rule prototype API with methods discoveryruleprototype.create, discoveryruleprototype.update
+131333:edit_user_media to the role API action object.<br> ZBXNEXT-8784 Added properties background_scale, show_element_label,
+131377:is also possible using the history.push API method.
+131399:HTTP endpoints to retrieve data from services such as Elasticsearch and OpenWeatherMap, for checking the status of Zabbix API
+131464:Zabbix API Zabbix API is an HTTP-based API that is part of Zabbix frontend. With Zabbix API, you can do any of the following
+131472:Zabbix API consists of a multiplicity of methods that are nominally grouped into separate APIs. Each method performs a specific
+131473:task. For the available methods, as well as an overview of the functions provided by Zabbix API, see Zabbix API Method reference.
+131492:Module API stability is guaranteed during one Zabbix LTS (Long Term Support) release cycle. Stability of Zabbix API is not guaranteed
+131494:Module API
+131496:six functions in the Zabbix module API, only one of which is mandatory and the other five are optional.
+131498:The only mandatory function is zbx_module_api_version():
+131500:int zbx_module_api_version(void);
+131501:This function should return the API version implemented by this module and in order for the module to be loaded this version must
+131502:match module API version supported by Zabbix. Version of module API supported by Zabbix is ZBX_MODULE_API_VERSION. So this
+131503:function should return this constant. Old constant ZBX_MODULE_API_VERSION_ONE used for this purpose is now defined to equal
+131504:ZBX_MODULE_API_VERSION to preserve source compatibility, but it’s usage is not recommended.
+131679:Modules are currently meant to be built inside Zabbix source tree, because the module API depends on some data structures that
+131751:/* symbols (zbx_*) and loadable module API functions (zbx_module_*) to avoid conflicts
+131774:* Function: zbx_module_api_version
+131782:* Return value: ZBX_MODULE_API_VERSION - version of module.h module is
+131793:int zbx_module_api_version(void)
+131795:return ZBX_MODULE_API_VERSION;
+132172:• It is recommended to capitalize the names of your plugins.
+132173:• The parameter should be capitalized.
+135303:• In Tenant URL, set the following value: https://<path-to-zabbix-ui>/api_scim.php
+135304:• In Secret token, enter a Zabbix API token with Super admin permissions.
+135466:• In SCIM connector base URL specify the path to the Zabbix frontend and append api_scim.php to it, i.e.:<br>
+135468:https://<your-zabbix-url>/zabbix/api_scim.php
+135471:• In Authorization enter a valid API token with Super admin rights
+135531:2. In Configuration -> API connection, set the following values:
+135532:• SCIM Base URL: https://<zabbix-instance-url>/zabbix/api_scim.php
+135554:• SCIM Bearer Token: enter a Zabbix API token with Super admin permissions.
+136965:/AIMWebService/api/Accounts?
+138020:/AIMWebService/api/Accounts?
+140361:Plugins.Ceph.Default.ApiKey
+140364:Default API key for connecting to Ceph; used if no value is
+140423:Plugins.Ceph.Sessions.<SessionName>.ApiKey
+140426:Named session API key.
+145294:Python
+148754:6. Install and enable Apache GSSAPI module:
+148756:sudo apt install libapache2-mod-auth-gssapi
+148757:sudo a2enmod auth_gssapi
+148762:Gssapi* directive. If Apache fails with Invalid command
+148763:'GssapiCredStore' remove the unsupported directive or upgrade the module.
+148765:Not all mod_auth_gssapi versions support every
+148782:AuthType GSSAPI
+148784:GssapiCredStore keytab:/etc/apache2/http.keytab
+148785:GssapiLocalName On
+148829:• sudo tail -f /var/log/apache2/error.log — watch for GSSAPI errors (gss_acquire_cred[_from]() failed
+149653:bucket_percentile(/*/apiserver_request_duration_seconds_bucket[*],10m,99) #calculate the 99th percentile A
+155301:15 Escaping examples
+155307:This page provides examples of using correct escaping when using regular expressions in various contexts.
+155309:When using the trigger expression constructor, correct escaping in regular expressions is added automatically.
+155335:• backslash escaping for LLD does not change;
+155344:• String parameters require escaping both for backslashes and quotation marks.
+155349:• String parameters require escaping both for backslashes and quotation marks;
+155350:• Another layer of escaping is added, because the macro will be resolved only after string is unquoted;
+155355:• Same as in the previous example an additional layer of escaping is needed;
+155356:• Backslashes and quotation marks are escaped only for the top-level escaping (by virtue of it being a string parameter).
+155369:Notice the three layers of escaping:
+155370:1. For LLD macro function, without escaping of backslashes;
+155371:2. For User macro with context, without escaping of backslashes;
+155372:3. For the string parameter of a function, with escaping of backslashes.
+155377:• Strings also require backslash escaping;
+155378:• Strings also require quotation mark escaping;
+155379:• Again a case with 2 levels of escaping:
+155380:1. Escaping for user macro context without backslash escaping;
+155381:2. Escaping for it being a string with backslash escaping.
+155885:source ODBC API implementations - unixODBC - and a unixODBC driver, as well as editing the ODBC driver configuration file.
+156918:• Type - use the dropdown to choose which Zabbix component to limit: frontend/API only, server only, or both.
+157188:History/Trends/Audit only via UI (no API or
+157194:or via API
+157221:Supported via UI or API
+157258:configured through zabbix_server.conf or the API.
+157285:to port 3306). All configuration, monitoring, and troubleshooting activities must be carried out via the cloud UI or API, ensuring
+157434:Python library for Zabbix Resources for using the official zabbix_utils library to interact with the Zabbix API and build
+157457:• Registering a new API method or modifying an existing one.
+157838:'hosts_count' => API::Host()->get([
+158469:The promiseUpdate() method initiates the data update process by retrieving data, typically using web requests or API calls. This
+158589:advanced frontend module that makes an HTTP request to https://api.seeip.org and displays the response - the IP address of your
+158735:$data = ['my-ip' => file_get_contents("https://api.seeip.org")];
+159004:Retrieve an item value via API
+159008:configuration view. Then, the widget controller will be able to retrieve item data and its value via an API request. Once received,
+159066:method collects the item data (name, value type, units) using the API method item.get and the item last value using the API
+159072:use API,
+159077:$db_items = API::Item()->get([
+159091:$history = API::History()->get([
+159092:'output' => API_OUTPUT_EXTEND,
+159374:use API,
+159379:$db_items = API::Item()->get([
+159390:$history = API::History()->get([
+159391:'output' => API_OUTPUT_EXTEND,
+159909:resp, err := http.Get("https://api.ipify.org")
+160008:resp, err := http.Get("https://api.ipify.org")
+160034:Python library for Zabbix
+160036:zabbix_utils is the official Python library for Zabbix.
+160038:• Use Zabbix API to manage Zabbix objects (create hosts, update items, get events, etc.).
+160042:The library is compatible with supported Zabbix server versions and modern Python releases.
+160049:• Python 3.8 or later (tested on 3.8–3.13)
+160051:Python Package Index (PyPI)
+160064:dnf install python3-zabbix-utils
+160066:dnf install python3-aiohttp # Only for async support
+160069:apt install python3-zabbix-utils
+160070:apt install python3-aiohttp # Only for async support
+160074:git clone https://github.com/zabbix/python-zabbix-utils
+160075:cd python-zabbix-utils/
+160077:python3 setup.py install
+160084:• Create a host and a trapper item using Zabbix API.
+160088:The guide also assumes your Zabbix server, agent, and API are running locally.
+160091:Zabbix API.
+160102:Connect and log in to Zabbix API
+160103:Next, connect to the Zabbix API. This lets your script manage Zabbix objects such as hosts and items.
+160104:1. Import the ZabbixAPI class from zabbix_utils.
+160105:2. Create a ZabbixAPI instance and provide the URL of your Zabbix web interface.
+160106:3. Call the login() method on the ZabbixAPI instance and provide your username and password. The account must have
+160107:permission to access Zabbix API.
+160111:4. Call the logout() method to close the session after API operations.
+160113:from zabbix_utils import ZabbixAPI
+160114:api = ZabbixAPI(url='127.0.0.1/zabbix')
+160115:api.login(user='Admin', password='zabbix')
+160116:### API operations go here
+160117:api.logout()
+160119:Now that you have the hostname from Zabbix agent and you’re connected to Zabbix API, you can create a new host in Zabbix.
+160120:1. Call the host.create() API method on the ZabbixAPI instance and provide the host details:
+160124:2. Since Zabbix API returns the ID of the newly created host, save this ID in the host_id variable for later use.
+160127:api.host.create(
+160144:2. Call the item.create() method on the ZabbixAPI instance and provide the item details:
+160150:3. Since Zabbix API returns the ID of the newly created item, save this ID in the item_id variable for later use.
+160154:item = api.item.create(
+160189:Below is the complete script that combines all the steps: retrieving the hostname, creating the host and item using Zabbix API,
+160193:from zabbix_utils import Getter, ZabbixAPI, Sender
+160197:### Connect and log in to Zabbix API
+160198:api = ZabbixAPI(url='127.0.0.1/zabbix')
+160199:api.login(user='Admin', password='zabbix')
+160201:host = api.host.create(
+160220:item = api.item.create(
+160229:### Log out from API
+160230:api.logout()
+160237:Use Zabbix API
+160239:zabbix_utils lets you use Zabbix API to manage Zabbix objects, including creating hosts, updating items, retrieving events, and
+160241:API requests can be made in synchronous or asynchronous mode:
+160242:• In synchronous mode, your Python script sends a request and waits for a response before continuing, which is suitable for
+160249:To use zabbix_utils for working with Zabbix API, import the ZabbixAPI class in your script:
+160251:from zabbix_utils import ZabbixAPI
+160253:If you already use a community Python library, you can usually replace that import with ZabbixAPI from zabbix_utils.
+160256:Before making API requests, you must create a ZabbixAPI instance and log in to Zabbix API.
+160257:Choose the method that best fits how you manage credentials. You can use your username and password or API tokens.
+160259:When creating a ZabbixAPI instance, you can provide the Zabbix web interface URL and your credentials all at once:
+160264:api = ZabbixAPI(url="127.0.0.1/zabbix", user="Admin", password="zabbix")
+160265:### API token:
+160266:api = ZabbixAPI(url="127.0.0.1/zabbix", token="your_api_token")
+160267:If you prefer to group connection parameters, you can pass them as a Python dictionary and unpack it using Python’s keyword
+160275:api = ZabbixAPI(**ZABBIX_AUTH)
+160277:You can first create a ZabbixAPI instance with just the Zabbix web interface URL, and later use the login() method with your
+160281:api = ZabbixAPI(url="127.0.0.1/zabbix")
+160282:api.login(user="Admin", password="zabbix")
+160283:### API token:
+160284:api = ZabbixAPI(url="127.0.0.1/zabbix")
+160285:api.login(token="your_api_token")
+160293:export ZABBIX_TOKEN="your_api_token"
+160294:Then, if you start your script from the same terminal session, the ZabbixAPI instance in the script requires only the Zabbix web
+160297:api = ZabbixAPI(url="127.0.0.1/zabbix")
+160305:export ZABBIX_TOKEN="your_api_token"
+160307:When the URL and credentials are all set as environment variables, the ZabbixAPI instance in the script does not require any
+160310:api = ZabbixAPI()
+160312:If you logged in using a username and password, call the logout() method after completing your API operations:
+160314:from zabbix_utils import ZabbixAPI
+160315:api = ZabbixAPI(url="127.0.0.1/zabbix")
+160319:api.login(user="Admin", password="zabbix")
+160320:### API actions go here
+160321:api.logout()
+160323:Calling the logout() method is not required when using API tokens.
+160325:API requests
+160326:After you’ve logged in, you can make any API requests by calling methods described in the Zabbix API method reference.
+160327:API methods are called using the following format:
+160329:api_instance.zabbix_object.method(parameters)
+160331:Some Zabbix API method or object names use words that are reserved keywords in Python (e.g., import). To avoid Python
+160332:errors, add an underscore to the method or object name when using it in Python (e.g., api.configuration.import_).
+160335:### 1. Import ZabbixAPI from zabbix_utils:
+160336:from zabbix_utils import ZabbixAPI
+160337:### 2. Create the ZabbixAPI instance and log in:
+160338:api = ZabbixAPI(url="127.0.0.1/zabbix")
+160339:api.login(user="Admin", password="zabbix")
+160341:hosts = api.host.get(
+160352:### 5. Log out from the API to close the session:
+160353:api.logout()
+160355:Asynchronous mode lets your script send API requests without waiting for each one to finish. This can make your script more
+160356:efficient when it needs to perform many API requests or when some requests take a long time.
+160358:• Import Python’s asyncio module (you must first install the required dependencies).
+160359:• Import AsyncZabbixAPI instead of ZabbixAPI.
+160361:• Use await when calling API methods, including login() and logout().
+160363:When creating an AsyncZabbixAPI instance, you cannot log in during initialization.
+160368:### 1. Import asyncio for asynchronous mode, and AsyncZabbixAPI from zabbix_utils:
+160370:from zabbix_utils import AsyncZabbixAPI
+160371:### 2. Define the main async function where all API operations will run:
+160373:# 3. Create an AsyncZabbixAPI instance and log in (must await):
+160374:api = AsyncZabbixAPI(url="127.0.0.1")
+160375:await api.login(user="User", password="zabbix")
+160377:hosts = await api.host.get(
+160388:# 6. Log out from the API to close the session (must await):
+160389:await api.logout()
+160393:The following examples show common Zabbix API tasks using the zabbix_utils library.
+160400:• In synchronous mode, your Python script requests and waits for data before continuing, which is suitable for simple, sequential, and predictable operations.
+160406:To use zabbix_utils for collecting item values, import the Getter class in your Python script:
+160469:• Import Python’s asyncio module (you must first install the required dependencies).
+160494:• In synchronous mode, your Python script sends values and waits for a response before continuing; this is suitable for simple,
+160574:Asynchronous mode lets your Python script send values without waiting for a response from Zabbix server or proxy. This can make
+160577:• Import Python’s asyncio module (you must first install the required dependencies).
+160703:To troubleshoot issues when working with Zabbix API, collecting data from Zabbix agent, or sending data to Zabbix server or proxy,
+160705:The zabbix_utils library uses Python’s standard logging module.
+160707:1. Import Python’s logging module in your script.
+161514:• Escaping is not supported in non-quoted entries.

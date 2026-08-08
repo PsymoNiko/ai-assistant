@@ -1,0 +1,21 @@
+[
+  {
+    "id": "zabbix_api_endpoint",
+    "question": "What is the Zabbix JSON-RPC endpoint and required headers?",
+    "answer": "Send HTTP POST to https://<zabbix-host>/zabbix/api_jsonrpc.php with Content-Type: application/json or application/json-rpc. Use JSON-RPC 2.0 format.",
+    "source": "docs/zabbix/zabbix_doc.txt:62104-62107"
+  },
+  {
+    "id": "zabbix_auth",
+    "question": "How to authenticate to Zabbix API?",
+    "answer": "Call method user.login with params {username, password}. The response.result contains an auth token to include in subsequent calls (auth field) or use Authorization header when configured to forward it.",
+    "example_curl": "curl --request POST --url 'https://example.com/zabbix/api_jsonrpc.php' --header 'Content-Type: application/json-rpc' --data '{\"jsonrpc\":\"2.0\",\"method\":\"user.login\",\"params\":{\"username\":\"Admin\",\"password\":\"zabbix\"},\"id\":1}'",
+    "source": "docs/zabbix/zabbix_doc.txt:62133-62137"
+  },
+  {
+    "id": "api_examples",
+    "question": "Where are example API calls (host.get, item.create, trigger.create)?",
+    "answer": "The manual contains multiple curl examples for host.get, item.create, trigger.create, item.update, trigger.update and batch create operations. See api_jsonrpc_context.txt for exact call templates.",
+    "source": "docs/zabbix/api_jsonrpc_context.txt"
+  }
+]

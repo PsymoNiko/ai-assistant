@@ -1,0 +1,6800 @@
+19987-For sending data to Zabbix server using the history.push API method, you could make the following HTTP POST request containing some test values:
+19988-
+19989-curl --request POST \
+19990:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+19991---header 'Authorization: Bearer 0424bd59b807674191e7d77572075f33' \
+19992---header 'Content-Type: application/json-rpc' \
+19993:--data '{"jsonrpc":"2.0","method":"history.push","params":[{"itemid":10600,"value":"test value 1"},{"ite
+19994-If the request is correct, the response returned by API could look as follows:
+19995-
+19996-{
+19997:"jsonrpc": "2.0",
+19998-"result": {
+19999-"response": "success",
+20000-"data": [
+--
+26021-
+26022-Example:
+26023-
+26024:./import_templates.sh /tmp/templates_2M_7.4 https://example.com/zabbix/api_jsonrpc.php d8d6b5c78ee2a8333db
+26025-Template compatibility with Host Wizard
+26026-For a full list of out-of-the-box templates that are currently compatible with the Host Wizard, see hw_compatible_templates.txt.
+26027-You can also make your custom templates compatible with the Host Wizard:
+--
+62097-
+62098-Once you have set up the frontend, you can use remote HTTP requests to call the API. To do that, you
+62099-
+62100:need to send HTTP POST requests to the api_jsonrpc.php file located in the frontend directory.<br> For example, if your Zabbix
+62101-frontend is installed under https://example.com/zabbix, an HTTP request to call the apiinfo.version method may look
+62102-like this:
+62103-
+62104-curl --request POST \
+62105:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62106---header 'Content-Type: application/json-rpc' \
+62107:--data '{"jsonrpc":"2.0","method":"apiinfo.version","params":{},"id":1}'
+62108-The request must have the Content-Type header set to one of these values: application/json-rpc, application/json
+62109-or application/jsonrequest.
+62110-The request object must contain the following properties:
+62111:• jsonrpc - the version of the JSON-RPC protocol used by the API (Zabbix API implements JSON-RPC version 2.0);
+62112-• method - the API method being called;
+62113-• params - the parameters that will be passed to the API method;
+62114-• id - an arbitrary identifier of the request (if omitted, the API treats the request as a notification).
+--
+62117-1010
+62118-
+62119-{
+62120:"jsonrpc": "2.0",
+62121-"result": "7.4.0",
+62122-"id": 1
+62123-}
+62124-The response object, in turn, contains the following properties:
+62125:• jsonrpc - the version of the JSON-RPC protocol;
+62126-• result - the data returned by the method;
+62127-• id - an identifier of the corresponding request.
+62128-Authentication To access any data in Zabbix, you need to either:
+--
+62132-would look like this:
+62133-
+62134-curl --request POST \
+62135:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62136---header 'Content-Type: application/json-rpc' \
+62137:--data '{"jsonrpc":"2.0","method":"user.login","params":{"username":"Admin","password":"zabbix"},"id":1}
+62138-If you provided the credentials correctly, the response returned by the API should contain the user authentication token:
+62139-
+62140-{
+62141:"jsonrpc": "2.0",
+62142-"result": "0424bd59b807674191e7d77572075f33",
+62143-"id": 1
+62144-}
+--
+62147-request:
+62148-
+62149-curl --request POST \
+62150:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62151---header 'Authorization: Bearer 0424bd59b807674191e7d77572075f33'
+62152-Attention:
+62153-If you are experiencing authentication issues, see Authorization header forwarding.
+--
+62167-Request:
+62168-
+62169-curl --request POST \
+62170:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62171---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62172---header 'Content-Type: application/json-rpc' \
+62173---data @data.json
+--
+62180-data.json
+62181-
+62182-{
+62183:"jsonrpc": "2.0",
+62184-"method": "host.get",
+62185-"params": {
+62186-"output": [
+--
+62197-The response object will contain the requested data about the hosts:
+62198-
+62199-{
+62200:"jsonrpc": "2.0",
+62201-"result": [
+62202-{
+62203-"hostid": "10084",
+--
+62221-host.get request. This can be done using the item.create method:
+62222-
+62223-curl --request POST \
+62224:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62225---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62226---header 'Content-Type: application/json-rpc' \
+62227:--data '{"jsonrpc":"2.0","method":"item.create","params":{"name":"Free disk space on /home/joe/","key_":
+62228-A successful response will contain the ID of the newly created item, which can be used to reference the item in the following
+62229-requests:
+62230-
+62231-{
+62232:"jsonrpc": "2.0",
+62233-"result": {
+62234-"itemids": [
+62235-"24759"
+--
+62247-Creating multiple triggers Thus, if create methods accept arrays, you can add multiple triggers, for example, this one:
+62248-
+62249-curl --request POST \
+62250:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62251---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62252---header 'Content-Type: application/json-rpc' \
+62253:--data '{"jsonrpc":"2.0","method":"trigger.create","params":[{"description":"Processor load is too high
+62254-The successful response will contain the IDs of the newly created triggers:
+62255-
+62256-{
+62257:"jsonrpc": "2.0",
+62258-"result": {
+62259-"triggerids": [
+62260-"17369",
+--
+62266-Updating an item Enable an item by setting its status to 0:
+62267-
+62268-curl --request POST \
+62269:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62270---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62271---header 'Content-Type: application/json-rpc' \
+62272:--data '{"jsonrpc":"2.0","method":"item.update","params":{"itemid":"10092","status":0},"id":5}'
+62273-The successful response will contain the ID of the updated item:
+62274-
+62275-{
+62276:"jsonrpc": "2.0",
+62277-"result": {
+62278-"itemids": [
+62279-"10092"
+--
+62288-Updating multiple triggers Enable multiple triggers by setting their status to 0:
+62289-
+62290-curl --request POST \
+62291:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62292---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62293---header 'Content-Type: application/json-rpc' \
+62294:--data '{"jsonrpc":"2.0","method":"trigger.update","params":[{"triggerid":"13938","status":0},{"triggeri
+62295-The successful response will contain the IDs of the updated triggers:
+62296-
+62297-{
+62298:"jsonrpc": "2.0",
+62299-"result": {
+62300-
+62301-1013
+--
+62318-an incorrect call to the API? Try to create another host by calling host.create but omitting the mandatory groups parameter:
+62319-
+62320-curl --request POST \
+62321:--url 'https://example.com/zabbix/api_jsonrpc.php' \
+62322---header 'Authorization: Bearer ${AUTHORIZATION_TOKEN}' \
+62323---header 'Content-Type: application/json-rpc' \
+62324:--data '{"jsonrpc":"2.0","method":"host.create","params":{"host":"Linux server","interfaces":[{"type":1,
+62325-The response will then contain an error message:
+62326-
+62327-{
+62328:"jsonrpc": "2.0",
+62329-"error": {
+62330-"code": -32602,
+62331-"message": "Invalid params.",
+--
+63668-Request:
+63669-
+63670-{
+63671:"jsonrpc": "2.0",
+63672-"method": "action.create",
+63673-"params": {
+63674-"name": "Trigger action",
+--
+63755-Response:
+63756-
+63757-{
+63758:"jsonrpc": "2.0",
+63759-"result": {
+63760-"actionids": [
+63761-"17"
+--
+63768-Request:
+63769-
+63770-{
+63771:"jsonrpc": "2.0",
+63772-"method": "action.create",
+63773-"params": {
+63774-"name": "Discovery action",
+--
+63804-Response:
+63805-
+63806-{
+63807:"jsonrpc": "2.0",
+63808-"result": {
+63809-"actionids": [
+63810-"18"
+--
+63822-Request:
+63823-
+63824-{
+63825:"jsonrpc": "2.0",
+63826-"method": "action.create",
+63827-"params": {
+63828-"name": "Trigger action",
+--
+63876-1031
+63877-
+63878-{
+63879:"jsonrpc": "2.0",
+63880-"result": {
+63881-"actionids": [
+63882-"18"
+--
+63890-Request:
+63891-
+63892-{
+63893:"jsonrpc": "2.0",
+63894-"method": "action.create",
+63895-"params": {
+63896-"name": "Register Linux servers",
+--
+63926-Response:
+63927-
+63928-{
+63929:"jsonrpc": "2.0",
+63930-"result": {
+63931-"actionids": [
+63932-19
+--
+63942-Request:
+63943-
+63944-{
+63945:"jsonrpc": "2.0",
+63946-"method": "action.create",
+63947-"params": {
+63948-"name": "Register Linux servers with tags",
+--
+63976-Response:
+63977-
+63978-{
+63979:"jsonrpc": "2.0",
+63980-"result": {
+63981-"actionids": [
+63982-20
+--
+64015-Request:
+64016-
+64017-{
+64018:"jsonrpc": "2.0",
+64019-"method": "action.delete",
+64020-"params": [
+64021-"17",
+--
+64026-Response:
+64027-
+64028-{
+64029:"jsonrpc": "2.0",
+64030-"result": {
+64031-"actionids": [
+64032-"17",
+--
+64200-Request:
+64201-
+64202-{
+64203:"jsonrpc": "2.0",
+64204-"method": "action.get",
+64205-"params": {
+64206-"output": "extend",
+--
+64217-Response:
+64218-
+64219-{
+64220:"jsonrpc": "2.0",
+64221-"result": [
+64222-{
+64223-
+--
+64333-Request:
+64334-
+64335-{
+64336:"jsonrpc": "2.0",
+64337-"method": "action.get",
+64338-"params": {
+64339-"output": "extend",
+--
+64348-Response:
+64349-
+64350-{
+64351:"jsonrpc": "2.0",
+64352-"result": [
+64353-
+64354-1037
+--
+64496-1039
+64497-
+64498-{
+64499:"jsonrpc": "2.0",
+64500-"method": "action.update",
+64501-"params": {
+64502-"actionid": "2",
+--
+64507-Response:
+64508-
+64509-{
+64510:"jsonrpc": "2.0",
+64511-"result": {
+64512-"actionids": [
+64513-"2"
+--
+64858-Request:
+64859-
+64860-{
+64861:"jsonrpc": "2.0",
+64862-"method": "alert.get",
+64863-"params": {
+64864-"output": "extend",
+--
+64873-
+64874-{
+64875-
+64876:"jsonrpc": "2.0",
+64877-"result": [
+64878-{
+64879-"alertid": "1",
+--
+64933-Request:
+64934-
+64935-{
+64936:"jsonrpc": "2.0",
+64937-"method": "apiinfo.version",
+64938-"params": [],
+64939-"id": 1
+--
+64941-Response:
+64942-
+64943-{
+64944:"jsonrpc": "2.0",
+64945-"result": "7.4.0",
+64946-"id": 1
+64947-}
+--
+65237-Request:
+65238-
+65239-{
+65240:"jsonrpc": "2.0",
+65241-"method": "auditlog.get",
+65242-"params": {
+65243-"output": "extend",
+--
+65251-
+65252-{
+65253-
+65254:"jsonrpc": "2.0",
+65255-"result": [
+65256-{
+65257-"auditid": "cksstgfam0001yhdcc41y20q2",
+--
+65538-Request:
+65539-
+65540-{
+65541:"jsonrpc": "2.0",
+65542-"method": "authentication.get",
+65543-"params": {
+65544-"output": "extend"
+--
+65548-Response:
+65549-
+65550-{
+65551:"jsonrpc": "2.0",
+65552-"result": {
+65553-"authentication_type": "0",
+65554-"http_auth_enabled": "0",
+--
+65595-Request:
+65596-
+65597-{
+65598:"jsonrpc": "2.0",
+65599-"method": "authentication.update",
+65600-"params": {
+65601-"http_auth_enabled": 1,
+--
+65607-Response:
+65608-
+65609-{
+65610:"jsonrpc": "2.0",
+65611-"result": [
+65612-"http_auth_enabled",
+65613-"http_case_sensitive",
+--
+65702-Request:
+65703-
+65704-{
+65705:"jsonrpc": "2.0",
+65706-"method": "autoregistration.get",
+65707-"params": {
+65708-"output": "extend"
+--
+65712-Response:
+65713-
+65714-{
+65715:"jsonrpc": "2.0",
+65716-"result": {
+65717-"tls_accept": "3"
+65718-},
+--
+65739-Request:
+65740-
+65741-{
+65742:"jsonrpc": "2.0",
+65743-"method": "autoregistration.update",
+65744-"params": {
+65745-"tls_accept": "3",
+--
+65751-Response:
+65752-
+65753-{
+65754:"jsonrpc": "2.0",
+65755-"result": true,
+65756-
+65757-1053
+--
+65845-Request:
+65846-
+65847-{
+65848:"jsonrpc": "2.0",
+65849-"method": "configuration.export",
+65850-"params": {
+65851-"options": {
+--
+65861-
+65862-{
+65863-
+65864:"jsonrpc": "2.0",
+65865-"result": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<zabbix_export><version>7.4</version><template_
+65866-"id": 1
+65867-}
+--
+66146-Request:
+66147-
+66148-{
+66149:"jsonrpc": "2.0",
+66150-"method": "configuration.import",
+66151-"params": {
+66152-"format": "xml",
+--
+66180-Response:
+66181-
+66182-{
+66183:"jsonrpc": "2.0",
+66184-"result": true,
+66185-"id": 1
+66186-}
+--
+66480-Request:
+66481-
+66482-{
+66483:"jsonrpc": "2.0",
+66484-"method": "configuration.importcompare",
+66485-"params": {
+66486-"format": "xml",
+--
+66547-Response:
+66548-
+66549-{
+66550:"jsonrpc": "2.0",
+66551-"result": {
+66552-
+66553-1063
+--
+66986-1068
+66987-
+66988-{
+66989:"jsonrpc": "2.0",
+66990-"method": "connector.create",
+66991-"params": [
+66992-{
+--
+67009-Response:
+67010-
+67011-{
+67012:"jsonrpc": "2.0",
+67013-"result": {
+67014-"connectorid": [
+67015-"3"
+--
+67040-Request:
+67041-
+67042-{
+67043:"jsonrpc": "2.0",
+67044-
+67045-1069
+67046-
+--
+67054-Response:
+67055-
+67056-{
+67057:"jsonrpc": "2.0",
+67058-"result": {
+67059-"connectorids": [
+67060-"3",
+--
+67162-Request:
+67163-
+67164-{
+67165:"jsonrpc": "2.0",
+67166-"method": "connector.get",
+67167-"params": {
+67168-"output": "extend",
+--
+67174-Response:
+67175-
+67176-{
+67177:"jsonrpc": "2.0",
+67178-"result": [
+67179-{
+67180-"connectorid": "1",
+--
+67289-Request:
+67290-
+67291-{
+67292:"jsonrpc": "2.0",
+67293-"method": "connector.update",
+67294-"params": {
+67295-"connectorid": 3,
+--
+67301-Response:
+67302-
+67303-{
+67304:"jsonrpc": "2.0",
+67305-"result": {
+67306-"connectorids": [
+67307-"3"
+--
+67314-Request:
+67315-
+67316-{
+67317:"jsonrpc": "2.0",
+67318-"method": "connector.update",
+67319-"params": [
+67320-{
+--
+67339-Response:
+67340-
+67341-{
+67342:"jsonrpc": "2.0",
+67343-"result": {
+67344-"connectorids": [
+67345-"5"
+--
+67653-Request:
+67654-
+67655-{
+67656:"jsonrpc": "2.0",
+67657-"method": "correlation.create",
+67658-"params": {
+67659-"name": "new event tag correlation",
+--
+67677-Response:
+67678-
+67679-{
+67680:"jsonrpc": "2.0",
+67681-"result": {
+67682-"correlationids": [
+67683-
+--
+67694-Request:
+67695-
+67696-{
+67697:"jsonrpc": "2.0",
+67698-"method": "correlation.create",
+67699-"params": {
+67700-"name": "new host group correlation",
+--
+67727-Response:
+67728-
+67729-{
+67730:"jsonrpc": "2.0",
+67731-"result": {
+67732-"correlationids": [
+67733-"2"
+--
+67764-Request:
+67765-
+67766-{
+67767:"jsonrpc": "2.0",
+67768-"method": "correlation.delete",
+67769-"params": [
+67770-"1",
+--
+67775-Response:
+67776-
+67777-{
+67778:"jsonrpc": "2.0",
+67779-"result": {
+67780-"correlationids": [
+67781-"1",
+--
+67893-Request:
+67894-
+67895-{
+67896:"jsonrpc": "2.0",
+67897-"method": "correlation.get",
+67898-"params": {
+67899-"output": "extend",
+--
+67905-Response:
+67906-
+67907-{
+67908:"jsonrpc": "2.0",
+67909-"result": [
+67910-{
+67911-"correlationid": "1",
+--
+67983-Request:
+67984-
+67985-{
+67986:"jsonrpc": "2.0",
+67987-"method": "correlation.update",
+67988-"params": {
+67989-"correlationid": "1",
+--
+67997-Response:
+67998-
+67999-{
+68000:"jsonrpc": "2.0",
+68001-"result": {
+68002-"correlationids": [
+68003-"1"
+--
+68009-Request:
+68010-
+68011-{
+68012:"jsonrpc": "2.0",
+68013-"method": "correlation.update",
+68014-"params": {
+68015-"correlationid": "1",
+--
+68028-Response:
+68029-
+68030-{
+68031:"jsonrpc": "2.0",
+68032-"result": {
+68033-"correlationids": [
+68034-"1"
+--
+68441-Request:
+68442-
+68443-{
+68444:"jsonrpc": "2.0",
+68445-"method": "dashboard.create",
+68446-"params": {
+68447-"name": "My dashboard",
+--
+68499-Response:
+68500-
+68501-{
+68502:"jsonrpc": "2.0",
+68503-"result": {
+68504-"dashboardids": [
+68505-"2"
+--
+68536-Request:
+68537-
+68538-{
+68539:"jsonrpc": "2.0",
+68540-"method": "dashboard.delete",
+68541-"params": [
+68542-"2",
+--
+68547-Response:
+68548-
+68549-{
+68550:"jsonrpc": "2.0",
+68551-"result": {
+68552-"dashboardids": [
+68553-"2",
+--
+68673-1089
+68674-
+68675-{
+68676:"jsonrpc": "2.0",
+68677-"method": "dashboard.get",
+68678-"params": {
+68679-"output": "extend",
+--
+68690-Response:
+68691-
+68692-{
+68693:"jsonrpc": "2.0",
+68694-"result": [
+68695-{
+68696-"dashboardid": "1",
+--
+68931-Request:
+68932-
+68933-{
+68934:"jsonrpc": "2.0",
+68935-"method": "dashboard.update",
+68936-"params": {
+68937-"dashboardid": "2",
+--
+68945-Response:
+68946-
+68947-{
+68948:"jsonrpc": "2.0",
+68949-"result": {
+68950-"dashboardids": [
+68951-"2"
+--
+68959-Request:
+68960-
+68961-{
+68962:"jsonrpc": "2.0",
+68963-"method": "dashboard.update",
+68964-"params": {
+68965-"dashboardid": "2",
+--
+68990-Response:
+68991-
+68992-{
+68993:"jsonrpc": "2.0",
+68994-"result": {
+68995-"dashboardids": [
+68996-"2"
+--
+69006-Request:
+69007-
+69008-{
+69009:"jsonrpc": "2.0",
+69010-"method": "dashboard.update",
+69011-"params": {
+69012-"dashboardid": "2",
+--
+69017-Response:
+69018-
+69019-{
+69020:"jsonrpc": "2.0",
+69021-"result": {
+69022-"dashboardids": [
+69023-"2"
+--
+69270-Request:
+69271-
+69272-{
+69273:"jsonrpc": "2.0",
+69274-"method": "dashboard.create",
+69275-"params": {
+69276-"name": "My dashboard",
+--
+69339-Response:
+69340-
+69341-{
+69342:"jsonrpc": "2.0",
+69343-"result": {
+69344-"dashboardids": [
+69345-"3"
+--
+69599-1100
+69600-
+69601-{
+69602:"jsonrpc": "2.0",
+69603-"method": "dashboard.create",
+69604-"params": {
+69605-"name": "My dashboard",
+--
+69688-Response:
+69689-
+69690-{
+69691:"jsonrpc": "2.0",
+69692-"result": {
+69693-"dashboardids": [
+69694-"3"
+--
+69738-Request:
+69739-
+69740-{
+69741:"jsonrpc": "2.0",
+69742-"method": "dashboard.create",
+69743-"params": {
+69744-"name": "My dashboard",
+--
+69784-Response:
+69785-
+69786-{
+69787:"jsonrpc": "2.0",
+69788-"result": {
+69789-"dashboardids": [
+69790-"3"
+--
+69835-Request:
+69836-
+69837-{
+69838:"jsonrpc": "2.0",
+69839-"method": "dashboard.create",
+69840-"params": {
+69841-"name": "My dashboard",
+--
+69884-Response:
+69885-
+69886-{
+69887:"jsonrpc": "2.0",
+69888-"result": {
+69889-"dashboardids": [
+69890-"3"
+--
+69934-1105
+69935-
+69936-{
+69937:"jsonrpc": "2.0",
+69938-"method": "dashboard.create",
+69939-"params": {
+69940-"name": "My dashboard",
+--
+69980-Response:
+69981-
+69982-{
+69983:"jsonrpc": "2.0",
+69984-"result": {
+69985-"dashboardids": [
+69986-"3"
+--
+70470-Request:
+70471-
+70472-{
+70473:"jsonrpc": "2.0",
+70474-"method": "dashboard.create",
+70475-"params": {
+70476-"name": "My dashboard",
+--
+70645-Response:
+70646-
+70647-{
+70648:"jsonrpc": "2.0",
+70649-"result": {
+70650-"dashboardids": [
+70651-"3"
+--
+70864-Request:
+70865-
+70866-{
+70867:"jsonrpc": "2.0",
+70868-"method": "dashboard.create",
+70869-"params": {
+70870-"name": "My dashboard",
+--
+70961-Response:
+70962-
+70963-{
+70964:"jsonrpc": "2.0",
+70965-"result": {
+70966-"dashboardids": [
+70967-"3"
+--
+71934-Request:
+71935-
+71936-{
+71937:"jsonrpc": "2.0",
+71938-"method": "dashboard.create",
+71939-
+71940-1124
+--
+72119-Response:
+72120-
+72121-{
+72122:"jsonrpc": "2.0",
+72123-"result": {
+72124-"dashboardids": [
+72125-"3"
+--
+72327-Request:
+72328-
+72329-{
+72330:"jsonrpc": "2.0",
+72331-"method": "dashboard.create",
+72332-"params": {
+72333-"name": "My dashboard",
+--
+72386-Response:
+72387-
+72388-{
+72389:"jsonrpc": "2.0",
+72390-"result": {
+72391-"dashboardids": [
+72392-"3"
+--
+72599-Request:
+72600-
+72601-{
+72602:"jsonrpc": "2.0",
+72603-"method": "dashboard.create",
+72604-"params": {
+72605-"name": "My dashboard",
+--
+72663-Response:
+72664-
+72665-{
+72666:"jsonrpc": "2.0",
+72667-"result": {
+72668-"dashboardids": [
+72669-"3"
+--
+73258-Request:
+73259-
+73260-{
+73261:"jsonrpc": "2.0",
+73262-"method": "dashboard.create",
+73263-"params": {
+73264-"name": "My dashboard",
+--
+73360-Response:
+73361-
+73362-{
+73363:"jsonrpc": "2.0",
+73364-"result": {
+73365-"dashboardids": [
+73366-"3"
+--
+73509-Request:
+73510-
+73511-{
+73512:"jsonrpc": "2.0",
+73513-"method": "dashboard.create",
+73514-"params": {
+73515-"name": "My dashboard",
+--
+73573-Response:
+73574-
+73575-{
+73576:"jsonrpc": "2.0",
+73577-"result": {
+73578-"dashboardids": [
+73579-"3"
+--
+73731-Request:
+73732-
+73733-{
+73734:"jsonrpc": "2.0",
+73735-"method": "dashboard.create",
+73736-"params": {
+73737-"name": "My dashboard",
+--
+73819-Response:
+73820-
+73821-{
+73822:"jsonrpc": "2.0",
+73823-"result": {
+73824-"dashboardids": [
+73825-
+--
+74119-1148
+74120-
+74121-{
+74122:"jsonrpc": "2.0",
+74123-"method": "dashboard.create",
+74124-"params": {
+74125-"name": "My dashboard",
+--
+74193-Response:
+74194-
+74195-{
+74196:"jsonrpc": "2.0",
+74197-"result": {
+74198-"dashboardids": [
+74199-"3"
+--
+74422-Request:
+74423-
+74424-{
+74425:"jsonrpc": "2.0",
+74426-"method": "dashboard.create",
+74427-"params": {
+74428-"name": "My dashboard",
+--
+74491-Response:
+74492-
+74493-{
+74494:"jsonrpc": "2.0",
+74495-"result": {
+74496-"dashboardids": [
+74497-"3"
+--
+74891-Request:
+74892-
+74893-{
+74894:"jsonrpc": "2.0",
+74895-"method": "dashboard.create",
+74896-"params": {
+74897-"name": "My dashboard",
+--
+74983-Response:
+74984-
+74985-{
+74986:"jsonrpc": "2.0",
+74987-"result": {
+74988-"dashboardids": [
+74989-"3"
+--
+75328-Request:
+75329-
+75330-{
+75331:"jsonrpc": "2.0",
+75332-"method": "dashboard.create",
+75333-"params": {
+75334-"name": "My dashboard",
+--
+75397-Response:
+75398-
+75399-{
+75400:"jsonrpc": "2.0",
+75401-"result": {
+75402-"dashboardids": [
+75403-"3"
+--
+76067-Request:
+76068-
+76069-{
+76070:"jsonrpc": "2.0",
+76071-"method": "dashboard.create",
+76072-"params": {
+76073-"name": "My dashboard",
+--
+76226-1169
+76227-
+76228-{
+76229:"jsonrpc": "2.0",
+76230-"result": {
+76231-"dashboardids": [
+76232-"3"
+--
+76317-Request:
+76318-
+76319-{
+76320:"jsonrpc": "2.0",
+76321-"method": "dashboard.create",
+76322-"params": {
+76323-"name": "My dashboard",
+--
+76363-Response:
+76364-
+76365-{
+76366:"jsonrpc": "2.0",
+76367-"result": {
+76368-"dashboardids": [
+76369-"3"
+--
+76379-Request:
+76380-
+76381-{
+76382:"jsonrpc": "2.0",
+76383-"method": "dashboard.create",
+76384-"params": {
+76385-"name": "My dashboard",
+--
+76542-Response:
+76543-
+76544-{
+76545:"jsonrpc": "2.0",
+76546-"result": {
+76547-"dashboardids": [
+76548-"3"
+--
+76681-Request:
+76682-
+76683-{
+76684:"jsonrpc": "2.0",
+76685-"method": "dashboard.create",
+76686-"params": {
+76687-"name": "My dashboard",
+--
+76828-Response:
+76829-
+76830-{
+76831:"jsonrpc": "2.0",
+76832-"result": {
+76833-"dashboardids": [
+76834-"3"
+--
+77471-Request:
+77472-
+77473-{
+77474:"jsonrpc": "2.0",
+77475-"method": "dashboard.create",
+77476-"params": {
+77477-"name": "My dashboard",
+--
+77636-Response:
+77637-
+77638-{
+77639:"jsonrpc": "2.0",
+77640-"result": {
+77641-"dashboardids": [
+77642-"3"
+--
+77925-Request:
+77926-
+77927-{
+77928:"jsonrpc": "2.0",
+77929-"method": "dashboard.create",
+77930-"params": {
+77931-
+--
+78007-Response:
+78008-
+78009-{
+78010:"jsonrpc": "2.0",
+78011-"result": {
+78012-"dashboardids": [
+78013-"3"
+--
+78445-Request:
+78446-
+78447-{
+78448:"jsonrpc": "2.0",
+78449-"method": "dashboard.create",
+78450-"params": {
+78451-"name": "My dashboard",
+--
+78572-Response:
+78573-
+78574-{
+78575:"jsonrpc": "2.0",
+78576-"result": {
+78577-"dashboardids": [
+78578-"3"
+--
+78915-Request:
+78916-
+78917-{
+78918:"jsonrpc": "2.0",
+78919-"method": "dashboard.create",
+78920-"params": {
+78921-"name": "My dashboard",
+--
+78964-Response:
+78965-
+78966-{
+78967:"jsonrpc": "2.0",
+78968-"result": {
+78969-"dashboardids": [
+78970-"3"
+--
+79067-Request:
+79068-
+79069-{
+79070:"jsonrpc": "2.0",
+79071-"method": "dashboard.create",
+79072-"params": {
+79073-"name": "My dashboard",
+--
+79131-Response:
+79132-
+79133-{
+79134:"jsonrpc": "2.0",
+79135-"result": {
+79136-"dashboardids": [
+79137-"3"
+--
+79212-Request:
+79213-
+79214-{
+79215:"jsonrpc": "2.0",
+79216-"method": "dashboard.create",
+79217-"params": {
+79218-"name": "My dashboard",
+--
+79266-Response:
+79267-
+79268-{
+79269:"jsonrpc": "2.0",
+79270-"result": {
+79271-"dashboardids": [
+79272-"3"
+--
+79931-Request:
+79932-
+79933-{
+79934:"jsonrpc": "2.0",
+79935-"method": "dashboard.create",
+79936-"params": {
+79937-"name": "My dashboard",
+--
+80156-Response:
+80157-
+80158-{
+80159:"jsonrpc": "2.0",
+80160-
+80161-1212
+80162-
+--
+80857-Request:
+80858-
+80859-{
+80860:"jsonrpc": "2.0",
+80861-"method": "dashboard.create",
+80862-"params": {
+80863-"name": "My dashboard",
+--
+80936-Response:
+80937-
+80938-{
+80939:"jsonrpc": "2.0",
+80940-"result": {
+80941-"dashboardids": [
+80942-"3"
+--
+81173-1222
+81174-
+81175-{
+81176:"jsonrpc": "2.0",
+81177-"method": "dashboard.create",
+81178-"params": {
+81179-"name": "My dashboard",
+--
+81292-Response:
+81293-
+81294-{
+81295:"jsonrpc": "2.0",
+81296-"result": {
+81297-"dashboardids": [
+81298-"3"
+--
+81512-Request:
+81513-
+81514-{
+81515:"jsonrpc": "2.0",
+81516-"method": "dashboard.create",
+81517-"params": {
+81518-"name": "My dashboard",
+--
+81571-Response:
+81572-
+81573-{
+81574:"jsonrpc": "2.0",
+81575-"result": {
+81576-"dashboardids": [
+81577-"3"
+--
+81650-Request:
+81651-
+81652-{
+81653:"jsonrpc": "2.0",
+81654-"method": "dashboard.create",
+81655-"params": {
+81656-"name": "My dashboard",
+--
+81699-Response:
+81700-
+81701-{
+81702:"jsonrpc": "2.0",
+81703-"result": {
+81704-"dashboardids": [
+81705-"3"
+--
+81925-Request:
+81926-
+81927-{
+81928:"jsonrpc": "2.0",
+81929-"method": "dashboard.create",
+81930-"params": {
+81931-"name": "My dashboard",
+--
+81974-Response:
+81975-
+81976-{
+81977:"jsonrpc": "2.0",
+81978-"result": {
+81979-"dashboardids": [
+81980-"3"
+--
+82178-Request:
+82179-
+82180-{
+82181:"jsonrpc": "2.0",
+82182-"method": "dhost.get",
+82183-"params": {
+82184-"output": "extend",
+--
+82190-Response:
+82191-
+82192-{
+82193:"jsonrpc": "2.0",
+82194-"result": [
+82195-{
+82196-"dservices": [
+--
+82524-Request:
+82525-
+82526-{
+82527:"jsonrpc": "2.0",
+82528-"method": "dservice.get",
+82529-"params": {
+82530-
+--
+82538-Response:
+82539-
+82540-{
+82541:"jsonrpc": "2.0",
+82542-"result": [
+82543-{
+82544-"dserviceid": "12",
+--
+82921-Request:
+82922-
+82923-{
+82924:"jsonrpc": "2.0",
+82925-"method": "dcheck.get",
+82926-"params": {
+82927-"output": "extend",
+--
+82932-Response:
+82933-
+82934-{
+82935:"jsonrpc": "2.0",
+82936-"result": [
+82937-{
+82938-"dcheckid": "6",
+--
+83096-Request:
+83097-
+83098-{
+83099:"jsonrpc": "2.0",
+83100-"method": "drule.create",
+83101-"params": {
+83102-"name": "Zabbix agent discovery",
+--
+83116-Response:
+83117-
+83118-{
+83119:"jsonrpc": "2.0",
+83120-"result": {
+83121-"druleids": [
+83122-"6"
+--
+83153-Request:
+83154-
+83155-{
+83156:"jsonrpc": "2.0",
+83157-"method": "drule.delete",
+83158-"params": [
+83159-"4",
+--
+83164-Response:
+83165-
+83166-{
+83167:"jsonrpc": "2.0",
+83168-"result": {
+83169-"druleids": [
+83170-"4",
+--
+83305-Request:
+83306-
+83307-{
+83308:"jsonrpc": "2.0",
+83309-"method": "drule.get",
+83310-"params": {
+83311-
+--
+83319-Response:
+83320-
+83321-{
+83322:"jsonrpc": "2.0",
+83323-"result": [
+83324-{
+83325-"druleid": "2",
+--
+83452-Request:
+83453-
+83454-{
+83455:"jsonrpc": "2.0",
+83456-"method": "drule.update",
+83457-"params": {
+83458-"druleid": "6",
+--
+83463-Response:
+83464-
+83465-{
+83466:"jsonrpc": "2.0",
+83467-"result": {
+83468-"druleids": [
+83469-"6"
+--
+83833-Request:
+83834-
+83835-{
+83836:"jsonrpc": "2.0",
+83837-"method": "event.acknowledge",
+83838-"params": {
+83839-"eventids": "20427",
+--
+83845-Response:
+83846-
+83847-{
+83848:"jsonrpc": "2.0",
+83849-"result": {
+83850-"eventids": [
+83851-"20427"
+--
+83858-Request:
+83859-
+83860-{
+83861:"jsonrpc": "2.0",
+83862-"method": "event.acknowledge",
+83863-"params": {
+83864-"eventids": ["20427", "20428"],
+--
+83871-Response:
+83872-
+83873-{
+83874:"jsonrpc": "2.0",
+83875-"result": {
+83876-"eventids": [
+83877-"20427",
+--
+83888-Request:
+83889-
+83890-{
+83891:"jsonrpc": "2.0",
+83892-"method": "event.acknowledge",
+83893-"params": {
+83894-"eventids": "20427",
+--
+83900-Response:
+83901-
+83902-{
+83903:"jsonrpc": "2.0",
+83904-"result": {
+83905-"eventids": [
+83906-20427
+--
+83913-Request:
+83914-
+83915-{
+83916:"jsonrpc": "2.0",
+83917-"method": "event.acknowledge",
+83918-"params": {
+83919-"eventids": "20427",
+--
+83924-Response:
+83925-
+83926-{
+83927:"jsonrpc": "2.0",
+83928-"result": {
+83929-"eventids": [
+83930-20427
+--
+83939-1254
+83940-
+83941-{
+83942:"jsonrpc": "2.0",
+83943-"method": "event.acknowledge",
+83944-"params": {
+83945-"eventids": [
+--
+83955-Response:
+83956-
+83957-{
+83958:"jsonrpc": "2.0",
+83959-"result": {
+83960-"eventids": [
+83961-20427,
+--
+84313-Request:
+84314-
+84315-{
+84316:"jsonrpc": "2.0",
+84317-"method": "event.get",
+84318-"params": {
+84319-"output": "extend",
+--
+84329-Response:
+84330-
+84331-{
+84332:"jsonrpc": "2.0",
+84333-"result": [
+84334-{
+84335-"eventid": "20",
+--
+84454-Request:
+84455-
+84456-{
+84457:"jsonrpc": "2.0",
+84458-"method": "event.get",
+84459-"params": {
+84460-"output": "extend",
+--
+84468-Response:
+84469-
+84470-{
+84471:"jsonrpc": "2.0",
+84472-"result": [
+84473-{
+84474-"eventid": "20617",
+--
+84541-Request:
+84542-
+84543-{
+84544:"jsonrpc": "2.0",
+84545-"method": "event.get",
+84546-"params": {
+84547-"output": "extend",
+--
+84558-1261
+84559-
+84560-{
+84561:"jsonrpc": "2.0",
+84562-"result": [
+84563-{
+84564-"eventid": "503",
+--
+84595-Request:
+84596-
+84597-{
+84598:"jsonrpc": "2.0",
+84599-"method": "event.get",
+84600-"params": {
+84601-"countOutput": true,
+--
+84615-Response:
+84616-
+84617-{
+84618:"jsonrpc": "2.0",
+84619-"result": [
+84620-{
+84621-
+--
+84904-Request:
+84905-
+84906-{
+84907:"jsonrpc": "2.0",
+84908-"method": "graph.create",
+84909-"params": {
+84910-"name": "MySQL bandwidth",
+--
+84926-Response:
+84927-
+84928-{
+84929:"jsonrpc": "2.0",
+84930-"result": {
+84931-"graphids": [
+84932-"652"
+--
+84963-Request:
+84964-
+84965-{
+84966:"jsonrpc": "2.0",
+84967-"method": "graph.delete",
+84968-"params": [
+84969-"652",
+--
+84974-Response:
+84975-
+84976-{
+84977:"jsonrpc": "2.0",
+84978-"result": {
+84979-"graphids": [
+84980-"652",
+--
+85211-Request:
+85212-
+85213-{
+85214:"jsonrpc": "2.0",
+85215-"method": "graph.get",
+85216-"params": {
+85217-"output": "extend",
+--
+85223-Response:
+85224-
+85225-{
+85226:"jsonrpc": "2.0",
+85227-"result": [
+85228-{
+85229-"graphid": "612",
+--
+85368-Request:
+85369-
+85370-{
+85371:"jsonrpc": "2.0",
+85372-"method": "graph.update",
+85373-"params": {
+85374-"graphid": "439",
+--
+85380-Response:
+85381-
+85382-{
+85383:"jsonrpc": "2.0",
+85384-"result": {
+85385-"graphids": [
+85386-"439"
+--
+85588-Request:
+85589-
+85590-{
+85591:"jsonrpc": "2.0",
+85592-"method": "graphitem.get",
+85593-"params": {
+85594-"output": "extend",
+--
+85599-Response:
+85600-
+85601-{
+85602:"jsonrpc": "2.0",
+85603-"result": [
+85604-{
+85605-"gitemid": "1242",
+--
+85891-Request:
+85892-
+85893-{
+85894:"jsonrpc": "2.0",
+85895-"method": "graphprototype.create",
+85896-"params": {
+85897-"name": "Disk space usage {#FSNAME}",
+--
+85913-Response:
+85914-
+85915-{
+85916:"jsonrpc": "2.0",
+85917-"result": {
+85918-"graphids": [
+85919-"652"
+--
+85949-Request:
+85950-
+85951-{
+85952:"jsonrpc": "2.0",
+85953-"method": "graphprototype.delete",
+85954-"params": [
+85955-"652",
+--
+85960-Response:
+85961-
+85962-{
+85963:"jsonrpc": "2.0",
+85964-"result": {
+85965-"graphids": [
+85966-"652",
+--
+86194-Request:
+86195-
+86196-{
+86197:"jsonrpc": "2.0",
+86198-"method": "graphprototype.get",
+86199-"params": {
+86200-"output": "extend",
+--
+86205-Response:
+86206-
+86207-{
+86208:"jsonrpc": "2.0",
+86209-"result": [
+86210-{
+86211-"graphid": "1017",
+--
+86285-Request:
+86286-
+86287-{
+86288:"jsonrpc": "2.0",
+86289-"method": "graphprototype.update",
+86290-"params": {
+86291-"graphid": "439",
+--
+86297-Response:
+86298-
+86299-{
+86300:"jsonrpc": "2.0",
+86301-"result": {
+86302-"graphids": [
+86303-"439"
+--
+86451-Request:
+86452-
+86453-{
+86454:"jsonrpc": "2.0",
+86455-"method": "hanode.get",
+86456-"params": {
+86457-"preservekeys": true,
+--
+86463-Response:
+86464-
+86465-{
+86466:"jsonrpc": "2.0",
+86467-"result": {
+86468-"ckuo7i1nw000h0sajj3l3hh8u": {
+86469-"ha_nodeid": "ckuo7i1nw000h0sajj3l3hh8u",
+--
+86506-1283
+86507-
+86508-{
+86509:"jsonrpc": "2.0",
+86510-"method": "hanode.get",
+86511-"params": {
+86512-"ha_nodeids": ["ckuo7i1nw000e0sajwfttc1mp", "ckuo7i1nv000c0sajz85xcrtt"]
+--
+86516-Response:
+86517-
+86518-{
+86519:"jsonrpc": "2.0",
+86520-"result": [
+86521-{
+86522-"ha_nodeid": "ckuo7i1nv000c0sajz85xcrtt",
+--
+86541-Request:
+86542-
+86543-{
+86544:"jsonrpc": "2.0",
+86545-"method": "hanode.get",
+86546-"params": {
+86547-"output": ["ha_nodeid", "address", "port"],
+--
+86554-Response:
+86555-
+86556-{
+86557:"jsonrpc": "2.0",
+86558-"result": [
+86559-{
+86560-"ha_nodeid": "ckuo7i1nw000g0sajjsjre7e3",
+--
+86581-Request:
+86582-
+86583-{
+86584:"jsonrpc": "2.0",
+86585-"method": "hanode.get",
+86586-"params": {
+86587-"countOutput": true,
+--
+86594-Response:
+86595-
+86596-{
+86597:"jsonrpc": "2.0",
+86598-"result": "3",
+86599-"id": 1
+86600-}
+--
+86602-Request:
+86603-
+86604-{
+86605:"jsonrpc": "2.0",
+86606-"method": "hanode.get",
+86607-"params": {
+86608-"output": ["name", "status"],
+--
+86615-Response:
+86616-
+86617-{
+86618:"jsonrpc": "2.0",
+86619-"result": [
+86620-{
+86621-"name": "node3",
+--
+86904-Request:
+86905-
+86906-{
+86907:"jsonrpc": "2.0",
+86908-"method": "history.clear",
+86909-"params": [
+86910-"10325",
+--
+86918-Response:
+86919-
+86920-{
+86921:"jsonrpc": "2.0",
+86922-"result": {
+86923-"itemids": [
+86924-"10325",
+--
+87067-Request:
+87068-
+87069-{
+87070:"jsonrpc": "2.0",
+87071-"method": "history.get",
+87072-"params": {
+87073-"output": "extend",
+--
+87082-Response:
+87083-
+87084-{
+87085:"jsonrpc": "2.0",
+87086-"result": [
+87087-{
+87088-"itemid": "23296",
+--
+87230-
+87231-{
+87232-
+87233:"jsonrpc": "2.0",
+87234-"method": "history.push",
+87235-"params": [
+87236-{
+--
+87262-Response:
+87263-
+87264-{
+87265:"jsonrpc": "2.0",
+87266-"result": {
+87267-"response": "success",
+87268-"data": [
+--
+88397-Request:
+88398-
+88399-{
+88400:"jsonrpc": "2.0",
+88401-"method": "host.create",
+88402-"params": {
+88403-"host": "Linux server",
+--
+88452-Response:
+88453-
+88454-{
+88455:"jsonrpc": "2.0",
+88456-"result": {
+88457-"hostids": [
+88458-"107819"
+--
+88465-Request:
+88466-
+88467-{
+88468:"jsonrpc": "2.0",
+88469-"method": "host.create",
+88470-"params": {
+88471-"host": "SNMP host",
+--
+88500-Response:
+88501-
+88502-{
+88503:"jsonrpc": "2.0",
+88504-"result": {
+88505-"hostids": [
+88506-"10658"
+--
+88513-Request:
+88514-
+88515-{
+88516:"jsonrpc": "2.0",
+88517-"method": "host.create",
+88518-"params": {
+88519-"host": "PSK host",
+--
+88542-Response:
+88543-
+88544-{
+88545:"jsonrpc": "2.0",
+88546-
+88547-1299
+88548-
+--
+88558-Request:
+88559-
+88560-{
+88561:"jsonrpc": "2.0",
+88562-"method": "host.create",
+88563-"params": {
+88564-"host": "Host monitored by proxy",
+--
+88575-Response:
+88576-
+88577-{
+88578:"jsonrpc": "2.0",
+88579-"result": {
+88580-"hostids": [
+88581-"10591"
+--
+88588-Request:
+88589-
+88590-{
+88591:"jsonrpc": "2.0",
+88592-"method": "host.create",
+88593-"params": {
+88594-"host": "Host monitored by proxy group",
+--
+88605-Response:
+88606-
+88607-{
+88608:"jsonrpc": "2.0",
+88609-
+88610-1300
+88611-
+--
+88649-Request:
+88650-
+88651-{
+88652:"jsonrpc": "2.0",
+88653-"method": "host.delete",
+88654-"params": [
+88655-"13",
+--
+88660-Response:
+88661-
+88662-{
+88663:"jsonrpc": "2.0",
+88664-"result": {
+88665-"hostids": [
+88666-"13",
+--
+89163-Request:
+89164-
+89165-{
+89166:"jsonrpc": "2.0",
+89167-"method": "host.get",
+89168-"params": {
+89169-"filter": {
+--
+89178-Response:
+89179-
+89180-{
+89181:"jsonrpc": "2.0",
+89182-
+89183-1305
+89184-
+--
+89245-1306
+89246-
+89247-{
+89248:"jsonrpc": "2.0",
+89249-"method": "host.get",
+89250-"params": {
+89251-"output": ["hostid"],
+--
+89261-Response:
+89262-
+89263-{
+89264:"jsonrpc": "2.0",
+89265-"result": [
+89266-{
+89267-"hostid": "10085",
+--
+89288-Request:
+89289-
+89290-{
+89291:"jsonrpc": "2.0",
+89292-"method": "host.get",
+89293-"params": {
+89294-"output": ["hostid"],
+--
+89303-Response:
+89304-
+89305-{
+89306:"jsonrpc": "2.0",
+89307-"result": [
+89308-
+89309-1307
+--
+89329-Request:
+89330-
+89331-{
+89332:"jsonrpc": "2.0",
+89333-"method": "host.get",
+89334-"params": {
+89335-"output": ["hostid", "name"],
+--
+89340-Response:
+89341-
+89342-{
+89343:"jsonrpc": "2.0",
+89344-"result": [
+89345-{
+89346-"templateid": "10001",
+--
+89367-Request:
+89368-
+89369-{
+89370:"jsonrpc": "2.0",
+89371-
+89372-1308
+89373-
+--
+89388-Response:
+89389-
+89390-{
+89391:"jsonrpc": "2.0",
+89392-"result": [
+89393-{
+89394-"hostid": "10084",
+--
+89412-Request:
+89413-
+89414-{
+89415:"jsonrpc": "2.0",
+89416-"method": "host.get",
+89417-"params": {
+89418-"output": ["hostid"],
+--
+89431-Response:
+89432-
+89433-{
+89434:"jsonrpc": "2.0",
+89435-
+89436-1309
+89437-
+--
+89458-Request:
+89459-
+89460-{
+89461:"jsonrpc": "2.0",
+89462-"method": "host.get",
+89463-"params": {
+89464-"output": ["name"],
+--
+89476-Response:
+89477-
+89478-{
+89479:"jsonrpc": "2.0",
+89480-"result": [
+89481-{
+89482-"hostid": "10623",
+--
+89493-Request:
+89494-
+89495-{
+89496:"jsonrpc": "2.0",
+89497-"method": "host.get",
+89498-"params": {
+89499-
+--
+89515-Response:
+89516-
+89517-{
+89518:"jsonrpc": "2.0",
+89519-"result": [
+89520-{
+89521-"hostid": "10084",
+--
+89555-Request:
+89556-
+89557-{
+89558:"jsonrpc": "2.0",
+89559-"method": "host.get",
+89560-"params": {
+89561-"output": ["name"],
+--
+89571-Response:
+89572-
+89573-{
+89574:"jsonrpc": "2.0",
+89575-"result": [
+89576-{
+89577-"hostid": "10502",
+--
+89609-Request:
+89610-
+89611-{
+89612:"jsonrpc": "2.0",
+89613-"method": "host.get",
+89614-"params": {
+89615-"output": ["name"],
+--
+89620-Response:
+89621-
+89622-{
+89623:"jsonrpc": "2.0",
+89624-"result": [
+89625-{
+89626-"hostid": "10160",
+--
+89636-Request:
+89637-
+89638-{
+89639:"jsonrpc": "2.0",
+89640-"method": "host.get",
+89641-"params": {
+89642-"output": ["name"],
+--
+89647-Response:
+89648-
+89649-{
+89650:"jsonrpc": "2.0",
+89651-"result": [
+89652-{
+89653-"hostid": "20170",
+--
+89666-Request:
+89667-
+89668-{
+89669:"jsonrpc": "2.0",
+89670-"method": "host.get",
+89671-"params": {
+89672-"output": ["hostid"],
+--
+89682-Response:
+89683-
+89684-{
+89685:"jsonrpc": "2.0",
+89686-"result": [
+89687-{
+89688-"hostid": "10084",
+--
+89845-Request:
+89846-
+89847-{
+89848:"jsonrpc": "2.0",
+89849-"method": "host.massadd",
+89850-"params": {
+89851-"hosts": [
+--
+89873-Response:
+89874-
+89875-{
+89876:"jsonrpc": "2.0",
+89877-"result": {
+89878-"hostids": [
+89879-"10160",
+--
+89961-Request:
+89962-
+89963-{
+89964:"jsonrpc": "2.0",
+89965-"method": "host.massremove",
+89966-"params": {
+89967-"hostids": ["69665", "69666"],
+--
+89972-Response:
+89973-
+89974-{
+89975:"jsonrpc": "2.0",
+89976-"result": {
+89977-"hostids": [
+89978-"69665",
+--
+90068-Request:
+90069-
+90070-{
+90071:"jsonrpc": "2.0",
+90072-"method": "host.massupdate",
+90073-"params": {
+90074-"hosts": [
+--
+90089-Response:
+90090-
+90091-{
+90092:"jsonrpc": "2.0",
+90093-"result": {
+90094-"hostids": [
+90095-"69665",
+--
+90197-Request:
+90198-
+90199-{
+90200:"jsonrpc": "2.0",
+90201-"method": "host.update",
+90202-"params": {
+90203-"hostid": "10126",
+--
+90208-Response:
+90209-
+90210-{
+90211:"jsonrpc": "2.0",
+90212-"result": {
+90213-"hostids": [
+90214-"10126"
+--
+90221-Request:
+90222-
+90223-{
+90224:"jsonrpc": "2.0",
+90225-"method": "host.update",
+90226-"params": {
+90227-"hostid": "10126",
+--
+90242-Response:
+90243-
+90244-{
+90245:"jsonrpc": "2.0",
+90246-"result": {
+90247-"hostids": [
+90248-"10126"
+--
+90255-Request:
+90256-
+90257-{
+90258:"jsonrpc": "2.0",
+90259-"method": "host.update",
+90260-"params": {
+90261-"hostid": "10126",
+--
+90276-Response:
+90277-
+90278-{
+90279:"jsonrpc": "2.0",
+90280-"result": {
+90281-"hostids": [
+90282-"10126"
+--
+90289-Request:
+90290-
+90291-{
+90292:"jsonrpc": "2.0",
+90293-"method": "host.update",
+90294-"params": {
+90295-"hostid": "10387",
+--
+90306-Response:
+90307-
+90308-{
+90309:"jsonrpc": "2.0",
+90310-"result": {
+90311-"hostids": [
+90312-"10387"
+--
+90319-Request:
+90320-
+90321-{
+90322:"jsonrpc": "2.0",
+90323-"method": "host.update",
+90324-"params": {
+90325-"hostid": "10387",
+--
+90333-Response:
+90334-
+90335-{
+90336:"jsonrpc": "2.0",
+90337-"result": {
+90338-"hostids": [
+90339-"10387"
+--
+90346-Request:
+90347-
+90348-{
+90349:"jsonrpc": "2.0",
+90350-"method": "host.update",
+90351-"params": {
+90352-"hostid": "10387",
+--
+90361-Response:
+90362-
+90363-{
+90364:"jsonrpc": "2.0",
+90365-"result": {
+90366-"hostids": [
+90367-
+--
+90378-Request:
+90379-
+90380-{
+90381:"jsonrpc": "2.0",
+90382-"method": "host.update",
+90383-"params": {
+90384-"hostid": "10590",
+--
+90392-Response:
+90393-
+90394-{
+90395:"jsonrpc": "2.0",
+90396-"result": {
+90397-"hostids": [
+90398-"10590"
+--
+90502-1324
+90503-
+90504-{
+90505:"jsonrpc": "2.0",
+90506-"method": "hostgroup.create",
+90507-"params": {
+90508-"name": "Linux servers"
+--
+90512-Response:
+90513-
+90514-{
+90515:"jsonrpc": "2.0",
+90516-"result": {
+90517-"groupids": [
+90518-"107819"
+--
+90550-Request:
+90551-
+90552-{
+90553:"jsonrpc": "2.0",
+90554-"method": "hostgroup.delete",
+90555-"params": [
+90556-"107824",
+--
+90564-Response:
+90565-
+90566-{
+90567:"jsonrpc": "2.0",
+90568-"result": {
+90569-"groupids": [
+90570-"107824",
+--
+90839-Request:
+90840-
+90841-{
+90842:"jsonrpc": "2.0",
+90843-"method": "hostgroup.get",
+90844-"params": {
+90845-"output": "extend",
+--
+90855-Response:
+90856-
+90857-{
+90858:"jsonrpc": "2.0",
+90859-"result": [
+90860-{
+90861-"groupid": "2",
+--
+90924-Request:
+90925-
+90926-{
+90927:"jsonrpc": "2.0",
+90928-"method": "hostgroup.massadd",
+90929-"params": {
+90930-"groups": [
+--
+90949-Response:
+90950-
+90951-{
+90952:"jsonrpc": "2.0",
+90953-"result": {
+90954-"groupids": [
+90955-"5",
+--
+91007-Request:
+91008-
+91009-{
+91010:"jsonrpc": "2.0",
+91011-"method": "hostgroup.massremove",
+91012-"params": {
+91013-"groupids": [
+--
+91024-Response:
+91025-
+91026-{
+91027:"jsonrpc": "2.0",
+91028-"result": {
+91029-"groupids": [
+91030-"5",
+--
+91087-Request:
+91088-
+91089-{
+91090:"jsonrpc": "2.0",
+91091-"method": "hostgroup.massupdate",
+91092-"params": {
+91093-"groups": [
+--
+91108-1331
+91109-
+91110-{
+91111:"jsonrpc": "2.0",
+91112-"result": {
+91113-"groupids": [
+91114-"6",
+--
+91178-1332
+91179-
+91180-{
+91181:"jsonrpc": "2.0",
+91182-"method": "hostgroup.propagate",
+91183-"params": {
+91184-"groups": [
+--
+91194-Response:
+91195-
+91196-{
+91197:"jsonrpc": "2.0",
+91198-"result": {
+91199-"groupids": [
+91200-"6",
+--
+91234-1333
+91235-
+91236-{
+91237:"jsonrpc": "2.0",
+91238-"method": "hostgroup.update",
+91239-"params": {
+91240-"groupid": "7",
+--
+91245-Response:
+91246-
+91247-{
+91248:"jsonrpc": "2.0",
+91249-"result": {
+91250-"groupids": [
+91251-"7"
+--
+91563-Request:
+91564-
+91565-{
+91566:"jsonrpc": "2.0",
+91567-"method": "hostinterface.create",
+91568-"params": {
+91569-"hostid": "30052",
+--
+91579-Response:
+91580-
+91581-{
+91582:"jsonrpc": "2.0",
+91583-"result": {
+91584-"interfaceids": [
+91585-"30062"
+--
+91594-Request:
+91595-
+91596-{
+91597:"jsonrpc": "2.0",
+91598-"method": "hostinterface.create",
+91599-"params": {
+91600-"hostid": "10456",
+--
+91615-Response:
+91616-
+91617-{
+91618:"jsonrpc": "2.0",
+91619-"result": {
+91620-"interfaceids": [
+91621-"30063"
+--
+91653-Request:
+91654-
+91655-{
+91656:"jsonrpc": "2.0",
+91657-"method": "hostinterface.delete",
+91658-"params": [
+91659-"30062"
+--
+91663-Response:
+91664-
+91665-{
+91666:"jsonrpc": "2.0",
+91667-"result": {
+91668-"interfaceids": [
+91669-"30062"
+--
+91817-Request:
+91818-
+91819-{
+91820:"jsonrpc": "2.0",
+91821-"method": "hostinterface.get",
+91822-"params": {
+91823-"output": "extend",
+--
+91828-Response:
+91829-
+91830-{
+91831:"jsonrpc": "2.0",
+91832-"result": [
+91833-{
+91834-"interfaceid": "50039",
+--
+91925-Request:
+91926-
+91927-{
+91928:"jsonrpc": "2.0",
+91929-"method": "hostinterface.massadd",
+91930-"params": {
+91931-"hosts": [
+--
+91950-Response:
+91951-
+91952-{
+91953:"jsonrpc": "2.0",
+91954-"result": {
+91955-"interfaceids": [
+91956-"30069",
+--
+92014-Request:
+92015-
+92016-{
+92017:"jsonrpc": "2.0",
+92018-"method": "hostinterface.massremove",
+92019-"params": {
+92020-"hostids": [
+--
+92032-Response:
+92033-
+92034-{
+92035:"jsonrpc": "2.0",
+92036-"result": {
+92037-"interfaceids": [
+92038-"30069",
+--
+92092-Request:
+92093-
+92094-{
+92095:"jsonrpc": "2.0",
+92096-"method": "hostinterface.replacehostinterfaces",
+92097-"params": {
+92098-"hostid": "30052",
+--
+92110-Response:
+92111-
+92112-{
+92113:"jsonrpc": "2.0",
+92114-"result": {
+92115-"interfaceids": [
+92116-"30081"
+--
+92150-Request:
+92151-
+92152-{
+92153:"jsonrpc": "2.0",
+92154-"method": "hostinterface.update",
+92155-"params": {
+92156-"interfaceid": "30048",
+--
+92161-Response:
+92162-
+92163-{
+92164:"jsonrpc": "2.0",
+92165-"result": {
+92166-"interfaceids": [
+92167-"30048"
+--
+92664-Request:
+92665-
+92666-{
+92667:"jsonrpc": "2.0",
+92668-"method": "hostprototype.create",
+92669-"params": {
+92670-"host": "{#VM.NAME}",
+--
+92707-Response:
+92708-
+92709-{
+92710:"jsonrpc": "2.0",
+92711-"result": {
+92712-"hostids": [
+92713-"10103"
+--
+92748-Request:
+92749-
+92750-{
+92751:"jsonrpc": "2.0",
+92752-"method": "hostprototype.delete",
+92753-"params": [
+92754-"10103",
+--
+92759-Response:
+92760-
+92761-{
+92762:"jsonrpc": "2.0",
+92763-"result": {
+92764-"hostids": [
+92765-"10103",
+--
+92968-Request:
+92969-
+92970-{
+92971:"jsonrpc": "2.0",
+92972-"method": "hostprototype.get",
+92973-"params": {
+92974-"output": "extend",
+--
+92983-Response:
+92984-
+92985-{
+92986:"jsonrpc": "2.0",
+92987-"result": [
+92988-{
+92989-"hostid": "10092",
+--
+93137-Request:
+93138-
+93139-{
+93140:"jsonrpc": "2.0",
+93141-"method": "hostprototype.update",
+93142-"params": {
+93143-"hostid": "10092",
+--
+93148-Response:
+93149-
+93150-{
+93151:"jsonrpc": "2.0",
+93152-"result": {
+93153-"hostids": [
+93154-"10092"
+--
+93164-Request:
+93165-
+93166-{
+93167:"jsonrpc": "2.0",
+93168-"method": "hostprototype.update",
+93169-"params": {
+93170-"hostid": "10092",
+--
+93184-Response:
+93185-
+93186-{
+93187:"jsonrpc": "2.0",
+93188-"result": {
+93189-"hostids": [
+93190-"10092"
+--
+93197-Request:
+93198-
+93199-{
+93200:"jsonrpc": "2.0",
+93201-"method": "hostprototype.update",
+93202-"params": {
+93203-"hostid": "10092",
+--
+93225-1357
+93226-
+93227-{
+93228:"jsonrpc": "2.0",
+93229-"result": {
+93230-"hostids": [
+93231-"10092"
+--
+93484-Request:
+93485-
+93486-{
+93487:"jsonrpc": "2.0",
+93488-"method": "housekeeping.get",
+93489-"params": {
+93490-"output": "extend"
+--
+93494-Response:
+93495-
+93496-{
+93497:"jsonrpc": "2.0",
+93498-"result": {
+93499-"hk_events_mode": "1",
+93500-
+--
+93544-Request:
+93545-
+93546-{
+93547:"jsonrpc": "2.0",
+93548-"method": "housekeeping.update",
+93549-"params": {
+93550-"hk_events_mode": "1",
+--
+93559-1361
+93560-
+93561-{
+93562:"jsonrpc": "2.0",
+93563-"result": [
+93564-"hk_events_mode",
+93565-"hk_events_trigger",
+--
+93700-Request:
+93701-
+93702-{
+93703:"jsonrpc": "2.0",
+93704-"method": "iconmap.create",
+93705-"params": {
+93706-"name": "Type icons",
+--
+93726-Response:
+93727-
+93728-{
+93729:"jsonrpc": "2.0",
+93730-"result": {
+93731-"iconmapids": [
+93732-"2"
+--
+93759-Request:
+93760-
+93761-{
+93762:"jsonrpc": "2.0",
+93763-"method": "iconmap.delete",
+93764-"params": [
+93765-"2",
+--
+93773-Response:
+93774-
+93775-{
+93776:"jsonrpc": "2.0",
+93777-"result": {
+93778-"iconmapids": [
+93779-"2",
+--
+93890-Request:
+93891-
+93892-{
+93893:"jsonrpc": "2.0",
+93894-"method": "iconmap.get",
+93895-"params": {
+93896-"iconmapids": "3",
+--
+93902-Response:
+93903-
+93904-{
+93905:"jsonrpc": "2.0",
+93906-"result": [
+93907-{
+93908-"mappings": [
+--
+93973-Request:
+93974-
+93975-{
+93976:"jsonrpc": "2.0",
+93977-"method": "iconmap.update",
+93978-"params": {
+93979-"iconmapid": "1",
+--
+93984-Response:
+93985-
+93986-{
+93987:"jsonrpc": "2.0",
+93988-"result": {
+93989-"iconmapids": [
+93990-"1"
+--
+94087-
+94088-{
+94089-
+94090:"jsonrpc": "2.0",
+94091-"method": "image.create",
+94092-"params": {
+94093-"imagetype": 1,
+--
+94099-Response:
+94100-
+94101-{
+94102:"jsonrpc": "2.0",
+94103-"result": {
+94104-"imageids": [
+94105-"188"
+--
+94113-
+94114-{
+94115-
+94116:"jsonrpc": "2.0",
+94117-"method": "image.create",
+94118-"params": {
+94119-"imagetype": 2,
+--
+94125-Response:
+94126-
+94127-{
+94128:"jsonrpc": "2.0",
+94129-"result": {
+94130-"imageids": [
+94131-"189"
+--
+94159-Request:
+94160-
+94161-{
+94162:"jsonrpc": "2.0",
+94163-"method": "image.delete",
+94164-"params": [
+94165-"188",
+--
+94170-Response:
+94171-
+94172-{
+94173:"jsonrpc": "2.0",
+94174-"result": {
+94175-"imageids": [
+94176-"188",
+--
+94292-Request:
+94293-
+94294-{
+94295:"jsonrpc": "2.0",
+94296-"method": "image.get",
+94297-"params": {
+94298-"output": "extend",
+--
+94305-
+94306-{
+94307-
+94308:"jsonrpc": "2.0",
+94309-"result": [
+94310-{
+94311-"imageid": "2",
+--
+94344-Request:
+94345-
+94346-{
+94347:"jsonrpc": "2.0",
+94348-"method": "image.update",
+94349-"params": {
+94350-"imageid": "2",
+--
+94355-Response:
+94356-
+94357-{
+94358:"jsonrpc": "2.0",
+94359-"result": {
+94360-"imageids": [
+94361-"2"
+--
+95791-Request:
+95792-
+95793-{
+95794:"jsonrpc": "2.0",
+95795-"method": "item.create",
+95796-"params": {
+95797-"name": "Free disk space on /home/joe/",
+--
+95817-Response:
+95818-
+95819-{
+95820:"jsonrpc": "2.0",
+95821-"result": {
+95822-"itemids": [
+95823-"24758"
+--
+95830-Request:
+95831-
+95832-{
+95833:"jsonrpc": "2.0",
+95834-"method": "item.create",
+95835-"params": {
+95836-"name": "uname",
+--
+95850-Response:
+95851-
+95852-{
+95853:"jsonrpc": "2.0",
+95854-"result": {
+95855-"itemids": [
+95856-"24759"
+--
+95863-Request:
+95864-
+95865-{
+95866:"jsonrpc": "2.0",
+95867-"method": "item.create",
+95868-"params": {
+95869-"name": "Device uptime",
+--
+95888-Response:
+95889-
+95890-{
+95891:"jsonrpc": "2.0",
+95892-"result": {
+95893-"itemids": [
+95894-"44210"
+--
+95905-Request:
+95906-
+95907-{
+95908:"jsonrpc": "2.0",
+95909-"method": "item.create",
+95910-"params": {
+95911-"hostid": "30074",
+--
+95920-Response:
+95921-
+95922-{
+95923:"jsonrpc": "2.0",
+95924-"result": {
+95925-"itemids": [
+95926-"44211"
+--
+95933-Request:
+95934-
+95935-{
+95936:"jsonrpc": "2.0",
+95937-"method": "item.create",
+95938-"params": {
+95939-"url":"http://127.0.0.1/http.php",
+--
+95976-Response:
+95977-
+95978-{
+95979:"jsonrpc": "2.0",
+95980-"result": {
+95981-"itemids": [
+95982-"23865"
+--
+95990-
+95991-{
+95992-
+95993:"jsonrpc": "2.0",
+95994-"method": "item.create",
+95995-"params": {
+95996-"name": "Script example",
+--
+96013-Response:
+96014-
+96015-{
+96016:"jsonrpc": "2.0",
+96017-"result": {
+96018-"itemids": [
+96019-"23865"
+--
+96050-Request:
+96051-
+96052-{
+96053:"jsonrpc": "2.0",
+96054-"method": "item.delete",
+96055-"params": [
+96056-"22982",
+--
+96061-Response:
+96062-
+96063-{
+96064:"jsonrpc": "2.0",
+96065-"result": {
+96066-"itemids": [
+96067-"22982",
+--
+96389-Request:
+96390-
+96391-{
+96392:"jsonrpc": "2.0",
+96393-"method": "item.get",
+96394-"params": {
+96395-"output": "extend",
+--
+96405-Response:
+96406-
+96407-{
+96408:"jsonrpc": "2.0",
+96409-"result": [
+96410-{
+96411-"itemid": "42269",
+--
+96725-Request:
+96726-
+96727-{
+96728:"jsonrpc": "2.0",
+96729-"method": "item.get",
+96730-"params": {
+96731-"output": "extend",
+--
+96742-Response:
+96743-
+96744-{
+96745:"jsonrpc": "2.0",
+96746-"result": [
+96747-{
+96748-"itemid": "25550",
+--
+96876-Request:
+96877-
+96878-{
+96879:"jsonrpc": "2.0",
+96880-"method": "item.get",
+96881-"params": {
+96882-"hostids": "10255",
+--
+96890-Response:
+96891-
+96892-{
+96893:"jsonrpc": "2.0",
+96894-"result": [
+96895-{
+96896-"itemid": "28252",
+--
+96970-Request:
+96971-
+96972-{
+96973:"jsonrpc": "2.0",
+96974-"method": "item.get",
+96975-"params": {
+96976-"output": ["itemid", "name", "key_"],
+--
+96982-Response:
+96983-
+96984-{
+96985:"jsonrpc": "2.0",
+96986-"result": {
+96987-"itemid": "23865",
+96988-"name": "HTTP agent example JSON",
+--
+97059-Request:
+97060-
+97061-{
+97062:"jsonrpc": "2.0",
+97063-"method": "item.update",
+97064-"params": {
+97065-"itemid": "10092",
+--
+97070-Response:
+97071-
+97072-{
+97073:"jsonrpc": "2.0",
+97074-"result": {
+97075-"itemids": [
+97076-"10092"
+--
+97084-Request:
+97085-
+97086-{
+97087:"jsonrpc": "2.0",
+97088-"method": "item.update",
+97089-
+97090-1403
+--
+97099-Response:
+97100-
+97101-{
+97102:"jsonrpc": "2.0",
+97103-"result": {
+97104-"itemids": [
+97105-"189019"
+--
+97112-Request:
+97113-
+97114-{
+97115:"jsonrpc": "2.0",
+97116-"method": "item.update",
+97117-"params": {
+97118-"itemid": "23856",
+--
+97123-Response:
+97124-
+97125-{
+97126:"jsonrpc": "2.0",
+97127-"result": {
+97128-"itemids": [
+97129-"23856"
+--
+97136-Request:
+97137-
+97138-{
+97139:"jsonrpc": "2.0",
+97140-"method": "item.update",
+97141-"params": {
+97142-"itemid": "23856",
+--
+97157-Response:
+97158-
+97159-{
+97160:"jsonrpc": "2.0",
+97161-"result": {
+97162-"itemids": [
+97163-"23856"
+--
+97170-Request:
+97171-
+97172-{
+97173:"jsonrpc": "2.0",
+97174-"method": "item.update",
+97175-"params": {
+97176-"itemid": "23865",
+--
+97182-Response:
+97183-
+97184-{
+97185:"jsonrpc": "2.0",
+97186-"result": {
+97187-"itemids": [
+97188-"23865"
+--
+98508-Request:
+98509-
+98510-{
+98511:"jsonrpc": "2.0",
+98512-"method": "itemprototype.create",
+98513-"params": {
+98514-"name": "Free disk space on {#FSNAME}",
+--
+98527-1417
+98528-
+98529-{
+98530:"jsonrpc": "2.0",
+98531-"result": {
+98532-"itemids": [
+98533-"27666"
+--
+98540-Request:
+98541-
+98542-{
+98543:"jsonrpc": "2.0",
+98544-"method": "itemprototype.create",
+98545-"params": {
+98546-"name": "Incoming network traffic on {#IFNAME}",
+--
+98572-Response:
+98573-
+98574-{
+98575:"jsonrpc": "2.0",
+98576-"result": {
+98577-"itemids": [
+98578-"44211"
+--
+98588-1418
+98589-
+98590-{
+98591:"jsonrpc": "2.0",
+98592-"method": "itemprototype.create",
+98593-"params": {
+98594-"hostid": "10001",
+--
+98604-Response:
+98605-
+98606-{
+98607:"jsonrpc": "2.0",
+98608-"result": {
+98609-"itemids": [
+98610-"44212"
+--
+98617-Request:
+98618-
+98619-{
+98620:"jsonrpc": "2.0",
+98621-"method": "itemprototype.create",
+98622-"params": {
+98623-"type": "19",
+--
+98654-Response:
+98655-
+98656-{
+98657:"jsonrpc": "2.0",
+98658-"result": {
+98659-"itemids": [
+98660-"28305"
+--
+98668-
+98669-{
+98670-
+98671:"jsonrpc": "2.0",
+98672-"method": "itemprototype.create",
+98673-"params": {
+98674-"name": "Script example",
+--
+98691-Response:
+98692-
+98693-{
+98694:"jsonrpc": "2.0",
+98695-"result": {
+98696-"itemids": [
+98697-"23865"
+--
+98725-Request:
+98726-
+98727-{
+98728:"jsonrpc": "2.0",
+98729-"method": "itemprototype.delete",
+98730-"params": [
+98731-"27352",
+--
+98736-Response:
+98737-
+98738-{
+98739:"jsonrpc": "2.0",
+98740-"result": {
+98741-"prototypeids": [
+98742-"27352",
+--
+99007-Request:
+99008-
+99009-{
+99010:"jsonrpc": "2.0",
+99011-"method": "itemprototype.get",
+99012-"params": {
+99013-"output": "extend",
+--
+99018-Response:
+99019-
+99020-{
+99021:"jsonrpc": "2.0",
+99022-"result": [
+99023-{
+99024-"itemid": "23077",
+--
+99139-Request:
+99140-
+99141-{
+99142:"jsonrpc": "2.0",
+99143-"method": "item.get",
+99144-"params": {
+99145-"output": "extend",
+--
+99154-Response:
+99155-
+99156-{
+99157:"jsonrpc": "2.0",
+99158-"result": [
+99159-{
+99160-"itemid": "25547",
+--
+99219-Request:
+99220-
+99221-{
+99222:"jsonrpc": "2.0",
+99223-"method": "itemprototype.get",
+99224-"params": {
+99225-"hostids": "10254",
+--
+99233-Response:
+99234-
+99235-{
+99236:"jsonrpc": "2.0",
+99237-"result": [
+99238-{
+99239-"itemid": "28257",
+--
+99348-Request:
+99349-
+99350-{
+99351:"jsonrpc": "2.0",
+99352-"method": "itemprototype.update",
+99353-"params": {
+99354-"itemid": "27428",
+--
+99359-Response:
+99360-
+99361-{
+99362:"jsonrpc": "2.0",
+99363-"result": {
+99364-"itemids": [
+99365-"27428"
+--
+99375-1428
+99376-
+99377-{
+99378:"jsonrpc": "2.0",
+99379-"method": "itemprototype.update",
+99380-"params": {
+99381-"master_itemid": "25570",
+--
+99386-Response:
+99387-
+99388-{
+99389:"jsonrpc": "2.0",
+99390-"result": {
+99391-"itemids": [
+99392-"189030"
+--
+99399-Request:
+99400-
+99401-{
+99402:"jsonrpc": "2.0",
+99403-"method": "itemprototype.update",
+99404-"params": {
+99405-"itemid":"28305",
+--
+99416-Response:
+99417-
+99418-{
+99419:"jsonrpc": "2.0",
+99420-"result": {
+99421-"itemids": [
+99422-"28305"
+--
+99429-Request:
+99430-
+99431-{
+99432:"jsonrpc": "2.0",
+99433-"method": "itemprototype.update",
+99434-"params": {
+99435-"itemid": "44211",
+--
+99450-Response:
+99451-
+99452-{
+99453:"jsonrpc": "2.0",
+99454-"result": {
+99455-"itemids": [
+99456-"44211"
+--
+99463-Request:
+99464-
+99465-{
+99466:"jsonrpc": "2.0",
+99467-"method": "itemprototype.update",
+99468-"params": {
+99469-"itemid": "23865",
+--
+99475-Response:
+99476-
+99477-{
+99478:"jsonrpc": "2.0",
+99479-"result": {
+99480-"itemids": [
+99481-"23865"
+--
+101174-Request:
+101175-
+101176-{
+101177:"jsonrpc": "2.0",
+101178-"method": "discoveryrule.create",
+101179-"params": {
+101180-"name": "Mounted filesystem discovery",
+--
+101189-Response:
+101190-
+101191-{
+101192:"jsonrpc": "2.0",
+101193-"result": {
+101194-"itemids": [
+101195-"27665"
+--
+101203-Request:
+101204-
+101205-{
+101206:"jsonrpc": "2.0",
+101207-"method": "discoveryrule.create",
+101208-"params": {
+101209-"name": "Filtered LLD rule",
+--
+101245-Response:
+101246-
+101247-{
+101248:"jsonrpc": "2.0",
+101249-"result": {
+101250-"itemids": [
+101251-"27665"
+--
+101257-Request:
+101258-
+101259-{
+101260:"jsonrpc": "2.0",
+101261-"method": "discoveryrule.create",
+101262-"params": {
+101263-"name": "LLD rule with LLD macro paths",
+--
+101285-Response:
+101286-
+101287-{
+101288:"jsonrpc": "2.0",
+101289-"result": {
+101290-"itemids": [
+101291-"27665"
+--
+101300-Request:
+101301-
+101302-{
+101303:"jsonrpc": "2.0",
+101304-"method": "discoveryrule.create",
+101305-"params": {
+101306-"name": "Filtered LLD rule",
+--
+101344-Response:
+101345-
+101346-{
+101347:"jsonrpc": "2.0",
+101348-"result": {
+101349-"itemids": [
+101350-"27665"
+--
+101357-Request:
+101358-
+101359-{
+101360:"jsonrpc": "2.0",
+101361-"method": "discoveryrule.create",
+101362-"params": {
+101363-"hostid": "10257",
+--
+101395-Response:
+101396-
+101397-{
+101398:"jsonrpc": "2.0",
+101399-"result": {
+101400-"itemids": [
+101401-"28336"
+--
+101410-Request:
+101411-
+101412-{
+101413:"jsonrpc": "2.0",
+101414-"method": "discoveryrule.create",
+101415-"params": {
+101416-"name": "Discovery rule with preprocessing",
+--
+101434-Response:
+101435-
+101436-{
+101437:"jsonrpc": "2.0",
+101438-"result": {
+101439-"itemids": [
+101440-"44211"
+--
+101446-Request:
+101447-
+101448-{
+101449:"jsonrpc": "2.0",
+101450-"method": "discoveryrule.create",
+101451-"params": {
+101452-"name": "Discover database host",
+--
+101546-Response:
+101547-
+101548-{
+101549:"jsonrpc": "2.0",
+101550-"result": {
+101551-"itemids": [
+101552-"30980"
+--
+101560-
+101561-{
+101562-
+101563:"jsonrpc": "2.0",
+101564-"method": "discoveryrule.create",
+101565-"params": {
+101566-"name": "Script example",
+--
+101580-Response:
+101581-
+101582-{
+101583:"jsonrpc": "2.0",
+101584-"result": {
+101585-"itemids": [
+101586-"23865"
+--
+101596-1453
+101597-
+101598-{
+101599:"jsonrpc": "2.0",
+101600-"method": "discoveryrule.create",
+101601-"params": {
+101602-"name": "lld disable after 1h",
+--
+101612-Response:
+101613-
+101614-{
+101615:"jsonrpc": "2.0",
+101616-"result": {
+101617-"itemids": [
+101618-"46864"
+--
+101648-Request:
+101649-
+101650-{
+101651:"jsonrpc": "2.0",
+101652-"method": "discoveryrule.delete",
+101653-"params": [
+101654-
+--
+101662-Response:
+101663-
+101664-{
+101665:"jsonrpc": "2.0",
+101666-"result": {
+101667-"ruleids": [
+101668-"27665",
+--
+101911-1456
+101912-
+101913-{
+101914:"jsonrpc": "2.0",
+101915-"method": "discoveryrule.get",
+101916-"params": {
+101917-"output": "extend",
+--
+101923-
+101924-{
+101925-
+101926:"jsonrpc": "2.0",
+101927-"result": [
+101928-{
+101929-"itemid": "27425",
+--
+102040-1458
+102041-
+102042-{
+102043:"jsonrpc": "2.0",
+102044-"method": "discoveryrule.get",
+102045-"params": {
+102046-"output": ["name"],
+--
+102052-Response:
+102053-
+102054-{
+102055:"jsonrpc": "2.0",
+102056-"result": [
+102057-{
+102058-"itemid": "24681",
+--
+102097-Request:
+102098-
+102099-{
+102100:"jsonrpc": "2.0",
+102101-"method": "discoveryrule.get",
+102102-"params": {
+102103-
+--
+102114-Response:
+102115-
+102116-{
+102117:"jsonrpc": "2.0",
+102118-"result": [
+102119-{
+102120-"itemid": "28336",
+--
+102195-Request:
+102196-
+102197-{
+102198:"jsonrpc": "2.0",
+102199-"method": "discoveryrule.get",
+102200-"params": {
+102201-"output": ["name"],
+--
+102207-Response:
+102208-
+102209-{
+102210:"jsonrpc": "2.0",
+102211-"result": [
+102212-{
+102213-"name": "Discover database host",
+--
+102381-Request:
+102382-
+102383-{
+102384:"jsonrpc": "2.0",
+102385-"method": "discoveryrule.update",
+102386-"params": {
+102387-"itemid": "22450",
+--
+102400-Response:
+102401-
+102402-{
+102403:"jsonrpc": "2.0",
+102404-"result": {
+102405-"itemids": [
+102406-"22450"
+--
+102412-Request:
+102413-
+102414-{
+102415:"jsonrpc": "2.0",
+102416-"method": "discoveryrule.update",
+102417-"params": {
+102418-"itemid": "22450",
+--
+102428-Response:
+102429-
+102430-{
+102431:"jsonrpc": "2.0",
+102432-"result": {
+102433-"itemids": [
+102434-"22450"
+--
+102444-Request:
+102445-
+102446-{
+102447:"jsonrpc": "2.0",
+102448-"method": "discoveryrule.update",
+102449-"params": {
+102450-"itemid": "28336",
+--
+102455-Response:
+102456-
+102457-{
+102458:"jsonrpc": "2.0",
+102459-"result": {
+102460-"itemids": [
+102461-"28336"
+--
+102468-Request:
+102469-
+102470-{
+102471:"jsonrpc": "2.0",
+102472-"method": "discoveryrule.update",
+102473-"params": {
+102474-"itemid": "44211",
+--
+102486-Response:
+102487-
+102488-{
+102489:"jsonrpc": "2.0",
+102490-"result": {
+102491-"itemids": [
+102492-"44211"
+--
+102499-Request:
+102500-
+102501-{
+102502:"jsonrpc": "2.0",
+102503-
+102504-1465
+102505-
+--
+102514-Response:
+102515-
+102516-{
+102517:"jsonrpc": "2.0",
+102518-"result": {
+102519-"itemids": [
+102520-"23865"
+--
+102527-Request:
+102528-
+102529-{
+102530:"jsonrpc": "2.0",
+102531-"method": "discoveryrule.update",
+102532-"params": {
+102533-"itemid": "46864",
+--
+102541-Response:
+102542-
+102543-{
+102544:"jsonrpc": "2.0",
+102545-"result": {
+102546-"itemids": [
+102547-"46864"
+--
+104246-Request:
+104247-
+104248-{
+104249:"jsonrpc": "2.0",
+104250-"method": "discoveryruleprototype.create",
+104251-"params": {
+104252-"name": "Discover tablespaces for {#DB}",
+--
+104260-Response:
+104261-
+104262-{
+104263:"jsonrpc": "2.0",
+104264-"result": {
+104265-"itemids": [
+104266-"47252"
+--
+104298-Request:
+104299-
+104300-{
+104301:"jsonrpc": "2.0",
+104302-"method": "discoveryruleprototype.delete",
+104303-"params": [
+104304-"47252",
+--
+104309-Response:
+104310-
+104311-{
+104312:"jsonrpc": "2.0",
+104313-"result": {
+104314-"ruleids": [
+104315-"47252",
+--
+104571-Request:
+104572-
+104573-{
+104574:"jsonrpc": "2.0",
+104575-"method": "discoveryruleprototype.get",
+104576-"params": {
+104577-"hostids": "10084"
+--
+104581-Response:
+104582-
+104583-{
+104584:"jsonrpc": "2.0",
+104585-"result": [
+104586-{
+104587-"itemid": "47253",
+--
+104718-Update an LLD rule prototype with a JSONPath preprocessing rule. Request:
+104719-
+104720-{
+104721:"jsonrpc": "2.0",
+104722-"method": "discoveryruleprototype.update",
+104723-"params": {
+104724-"itemid": "47253",
+--
+104735-Response:
+104736-
+104737-{
+104738:"jsonrpc": "2.0",
+104739-"result": {
+104740-"itemids": [
+104741-"47253"
+--
+105070-Request:
+105071-
+105072-{
+105073:"jsonrpc": "2.0",
+105074-"method": "maintenance.create",
+105075-"params": {
+105076-"name": "Sunday maintenance",
+--
+105110-Response:
+105111-
+105112-{
+105113:"jsonrpc": "2.0",
+105114-"result": {
+105115-"maintenanceids": [
+105116-"3"
+--
+105146-Request:
+105147-
+105148-{
+105149:"jsonrpc": "2.0",
+105150-"method": "maintenance.delete",
+105151-"params": [
+105152-"3",
+--
+105157-Response:
+105158-
+105159-{
+105160:"jsonrpc": "2.0",
+105161-"result": {
+105162-"maintenanceids": [
+105163-"3",
+--
+105305-Request:
+105306-
+105307-{
+105308:"jsonrpc": "2.0",
+105309-"method": "maintenance.get",
+105310-"params": {
+105311-"output": "extend",
+--
+105318-Response:
+105319-
+105320-{
+105321:"jsonrpc": "2.0",
+105322-"result": [
+105323-{
+105324-"maintenanceid": "3",
+--
+105445-Request:
+105446-
+105447-{
+105448:"jsonrpc": "2.0",
+105449-"method": "maintenance.update",
+105450-"params": {
+105451-"maintenanceid": "3",
+--
+105459-Response:
+105460-
+105461-{
+105462:"jsonrpc": "2.0",
+105463-"result": {
+105464-"maintenanceids": [
+105465-"3"
+--
+106888-Request:
+106889-
+106890-{
+106891:"jsonrpc": "2.0",
+106892-"method": "map.create",
+106893-"params": {
+106894-"name": "Map",
+--
+106900-Response:
+106901-
+106902-{
+106903:"jsonrpc": "2.0",
+106904-"result": {
+106905-"sysmapids": [
+106906-"8"
+--
+106914-Request:
+106915-
+106916-{
+106917:"jsonrpc": "2.0",
+106918-"method": "map.create",
+106919-"params": {
+106920-"name": "Host map",
+--
+106953-Response:
+106954-
+106955-{
+106956:"jsonrpc": "2.0",
+106957-"result": {
+106958-"sysmapids": [
+106959-"9"
+--
+106966-Request:
+106967-
+106968-{
+106969:"jsonrpc": "2.0",
+106970-"method": "map.create",
+106971-"params": {
+106972-"name": "Trigger map",
+--
+106991-Response:
+106992-
+106993-{
+106994:"jsonrpc": "2.0",
+106995-"result": {
+106996-"sysmapids": [
+106997-"10"
+--
+107004-Request:
+107005-
+107006-{
+107007:"jsonrpc": "2.0",
+107008-"method": "map.create",
+107009-"params": {
+107010-"name": "Map sharing",
+--
+107028-Response:
+107029-
+107030-{
+107031:"jsonrpc": "2.0",
+107032-"result": {
+107033-"sysmapids": [
+107034-"9"
+--
+107041-Request:
+107042-
+107043-{
+107044:"jsonrpc": "2.0",
+107045-"method": "map.create",
+107046-"params": {
+107047-"name": "Host map",
+--
+107066-Response:
+107067-
+107068-{
+107069:"jsonrpc": "2.0",
+107070-"result": {
+107071-"sysmapids": [
+107072-"10"
+--
+107079-Request:
+107080-
+107081-{
+107082:"jsonrpc": "2.0",
+107083-"method": "map.create",
+107084-"params": {
+107085-"name": "Map API lines",
+--
+107102-Response:
+107103-
+107104-{
+107105:"jsonrpc": "2.0",
+107106-"result": {
+107107-"sysmapids": [
+107108-"11"
+--
+107144-Request:
+107145-
+107146-{
+107147:"jsonrpc": "2.0",
+107148-"method": "map.delete",
+107149-"params": [
+107150-"12",
+--
+107155-Response:
+107156-
+107157-{
+107158:"jsonrpc": "2.0",
+107159-"result": {
+107160-"sysmapids": [
+107161-"12",
+--
+107321-Request:
+107322-
+107323-{
+107324:"jsonrpc": "2.0",
+107325-"method": "map.get",
+107326-"params": {
+107327-"output": "extend",
+--
+107341-Response:
+107342-
+107343-{
+107344:"jsonrpc": "2.0",
+107345-"result": [
+107346-{
+107347-"selements": [
+--
+107633-Request:
+107634-
+107635-{
+107636:"jsonrpc": "2.0",
+107637-"method": "map.update",
+107638-"params": {
+107639-"sysmapid": "8",
+--
+107645-Response:
+107646-
+107647-{
+107648:"jsonrpc": "2.0",
+107649-"result": {
+107650-"sysmapids": [
+107651-"8"
+--
+107658-Request:
+107659-
+107660-{
+107661:"jsonrpc": "2.0",
+107662-"method": "map.update",
+107663-"params": {
+107664-"sysmapid": "9",
+--
+107669-Response:
+107670-
+107671-{
+107672:"jsonrpc": "2.0",
+107673-"result": {
+107674-"sysmapids": [
+107675-"9"
+--
+108262-
+108263-{
+108264-
+108265:"jsonrpc": "2.0",
+108266-"method": "mediatype.create",
+108267-"params": {
+108268-"type": "0",
+--
+108298-Response:
+108299-
+108300-{
+108301:"jsonrpc": "2.0",
+108302-"result": {
+108303-"mediatypeids": [
+108304-"7"
+--
+108311-Request:
+108312-
+108313-{
+108314:"jsonrpc": "2.0",
+108315-"method": "mediatype.create",
+108316-"params": {
+108317-"type": "1",
+--
+108342-Response:
+108343-
+108344-{
+108345:"jsonrpc": "2.0",
+108346-"result": {
+108347-"mediatypeids": [
+108348-"8"
+--
+108355-Request:
+108356-
+108357-{
+108358:"jsonrpc": "2.0",
+108359-"method": "mediatype.create",
+108360-"params": {
+108361-"type": "4",
+--
+108394-messa
+108395-
+108396-{
+108397:"jsonrpc": "2.0",
+108398-"result": {
+108399-"mediatypeids": [
+108400-"9"
+--
+108425-Request:
+108426-
+108427-{
+108428:"jsonrpc": "2.0",
+108429-"method": "mediatype.delete",
+108430-"params": [
+108431-"3",
+--
+108436-Response:
+108437-
+108438-{
+108439:"jsonrpc": "2.0",
+108440-"result": {
+108441-"mediatypeids": [
+108442-"3",
+--
+108606-Request:
+108607-
+108608-{
+108609:"jsonrpc": "2.0",
+108610-"method": "mediatype.get",
+108611-"params": {
+108612-"output": "extend",
+--
+108617-Response:
+108618-
+108619-{
+108620:"jsonrpc": "2.0",
+108621-"result": [
+108622-{
+108623-"mediatypeid": "1",
+--
+108765-Request:
+108766-
+108767-{
+108768:"jsonrpc": "2.0",
+108769-"method": "mediatype.get",
+108770-"params": {
+108771-"output": "extend",
+--
+108779-Response:
+108780-
+108781-{
+108782:"jsonrpc": "2.0",
+108783-"result": [
+108784-{
+108785-"mediatypeid": "1",
+--
+108833-Request:
+108834-
+108835-{
+108836:"jsonrpc": "2.0",
+108837-"method": "mediatype.get",
+108838-"params": {
+108839-"output": ["mediatypeid", "name", "parameters"],
+--
+108846-Response:
+108847-
+108848-{
+108849:"jsonrpc": "2.0",
+108850-"result": [
+108851-{
+108852-"mediatypeid": "10",
+--
+108951-Request:
+108952-
+108953-{
+108954:"jsonrpc": "2.0",
+108955-"method": "mediatype.update",
+108956-"params": {
+108957-"mediatypeid": "6",
+--
+108965-Response:
+108966-
+108967-{
+108968:"jsonrpc": "2.0",
+108969-"result": {
+108970-"mediatypeids": [
+108971-"6"
+--
+109102-Request:
+109103-
+109104-{
+109105:"jsonrpc": "2.0",
+109106-
+109107-1538
+109108-
+--
+109118-Response:
+109119-
+109120-{
+109121:"jsonrpc": "2.0",
+109122-"result": {
+109123-"mfaids": [
+109124-"1"
+--
+109149-Request:
+109150-
+109151-{
+109152:"jsonrpc": "2.0",
+109153-"method": "mfa.delete",
+109154-"params": [
+109155-"2"
+--
+109159-Response:
+109160-
+109161-{
+109162:"jsonrpc": "2.0",
+109163-"result": {
+109164-"mfaids": [
+109165-
+--
+109282-Request:
+109283-
+109284-{
+109285:"jsonrpc": "2.0",
+109286-"method": "mfa.get",
+109287-"params": {
+109288-"output": "extend",
+--
+109295-Response:
+109296-
+109297-{
+109298:"jsonrpc": "2.0",
+109299-"result": [
+109300-{
+109301-"mfaid": "1",
+--
+109348-Request:
+109349-
+109350-{
+109351:"jsonrpc": "2.0",
+109352-"method": "mfa.update",
+109353-"params": {
+109354-"mfaid": "1",
+--
+109360-Response:
+109361-
+109362-{
+109363:"jsonrpc": "2.0",
+109364-"result": {
+109365-"mfaids": [
+109366-"1"
+--
+109466-Request:
+109467-
+109468-{
+109469:"jsonrpc": "2.0",
+109470-"method": "module.create",
+109471-
+109472-1543
+--
+109481-Response:
+109482-
+109483-{
+109484:"jsonrpc": "2.0",
+109485-"result": {
+109486-"moduleids": [
+109487-"25"
+--
+109519-Request:
+109520-
+109521-{
+109522:"jsonrpc": "2.0",
+109523-"method": "module.delete",
+109524-"params": [
+109525-"27",
+--
+109533-Response:
+109534-
+109535-{
+109536:"jsonrpc": "2.0",
+109537-"result": {
+109538-"moduleids": [
+109539-"27",
+--
+109633-1545
+109634-
+109635-{
+109636:"jsonrpc": "2.0",
+109637-"method": "module.get",
+109638-"params": {
+109639-"output": "extend",
+--
+109648-Response:
+109649-
+109650-{
+109651:"jsonrpc": "2.0",
+109652-"result": [
+109653-{
+109654-"moduleid": "1",
+--
+109707-Request:
+109708-
+109709-{
+109710:"jsonrpc": "2.0",
+109711-"method": "module.update",
+109712-"params": {
+109713-"moduleid": "25",
+--
+109718-Response:
+109719-
+109720-{
+109721:"jsonrpc": "2.0",
+109722-"result": {
+109723-"moduleids": [
+109724-"25"
+--
+110236-Request:
+110237-
+110238-{
+110239:"jsonrpc": "2.0",
+110240-"method": "problem.get",
+110241-"params": {
+110242-"output": "extend",
+--
+110253-Response:
+110254-
+110255-{
+110256:"jsonrpc": "2.0",
+110257-"result": [
+110258-{
+110259-"eventid": "1245463",
+--
+110312-Request:
+110313-
+110314-{
+110315:"jsonrpc": "2.0",
+110316-"method": "problem.get",
+110317-"params": {
+110318-"output": "extend",
+--
+110329-1552
+110330-
+110331-{
+110332:"jsonrpc": "2.0",
+110333-"result": [
+110334-{
+110335-"eventid": "1248566",
+--
+110667-1556
+110668-
+110669-{
+110670:"jsonrpc": "2.0",
+110671-"method": "proxy.create",
+110672-"params": {
+110673-"name": "Active proxy",
+--
+110683-Response:
+110684-
+110685-{
+110686:"jsonrpc": "2.0",
+110687-"result": {
+110688-"proxyids": [
+110689-"10280"
+--
+110696-Request:
+110697-
+110698-{
+110699:"jsonrpc": "2.0",
+110700-"method": "proxy.create",
+110701-"params": {
+110702-"name": "Passive proxy",
+--
+110717-Response:
+110718-
+110719-{
+110720:"jsonrpc": "2.0",
+110721-"result": {
+110722-"proxyids": [
+110723-"10284"
+--
+110733-Request:
+110734-
+110735-{
+110736:"jsonrpc": "2.0",
+110737-"method": "proxy.create",
+110738-"params": {
+110739-"name": "Active proxy",
+--
+110745-Response:
+110746-
+110747-{
+110748:"jsonrpc": "2.0",
+110749-"result": {
+110750-"proxyids": [
+110751-"5"
+--
+110758-Request:
+110759-
+110760-{
+110761:"jsonrpc": "2.0",
+110762-"method": "proxy.create",
+110763-"params": {
+110764-"name": "Active proxy",
+--
+110777-Response:
+110778-
+110779-{
+110780:"jsonrpc": "2.0",
+110781-"result": {
+110782-"proxyids": [
+110783-"2"
+--
+110814-Request:
+110815-
+110816-{
+110817:"jsonrpc": "2.0",
+110818-"method": "proxy.delete",
+110819-"params": [
+110820-"10286",
+--
+110825-Response:
+110826-
+110827-{
+110828:"jsonrpc": "2.0",
+110829-"result": {
+110830-"proxyids": [
+110831-"10286",
+--
+110957-Request:
+110958-
+110959-{
+110960:"jsonrpc": "2.0",
+110961-"method": "proxy.get",
+110962-"params": {
+110963-"output": "extend"
+--
+110967-Response:
+110968-
+110969-{
+110970:"jsonrpc": "2.0",
+110971-"result": [
+110972-{
+110973-"proxyid": "11",
+--
+111082-Request:
+111083-
+111084-{
+111085:"jsonrpc": "2.0",
+111086-"method": "proxy.update",
+111087-"params": {
+111088-"proxyid": "10293",
+--
+111100-Response:
+111101-
+111102-{
+111103:"jsonrpc": "2.0",
+111104-"result": {
+111105-"proxyids": [
+111106-"10293"
+--
+111115-Request:
+111116-
+111117-{
+111118:"jsonrpc": "2.0",
+111119-"method": "proxy.update",
+111120-"params": {
+111121-"proxyid": "10293",
+--
+111127-Response:
+111128-
+111129-{
+111130:"jsonrpc": "2.0",
+111131-"result": {
+111132-"proxyids": [
+111133-"10293"
+--
+111140-Request:
+111141-
+111142-{
+111143:"jsonrpc": "2.0",
+111144-"method": "proxy.create",
+111145-"params": {
+111146-"proxyid": "5",
+--
+111152-Response:
+111153-
+111154-{
+111155:"jsonrpc": "2.0",
+111156-"result": {
+111157-"proxyids": [
+111158-"5"
+--
+111272-Request:
+111273-
+111274-{
+111275:"jsonrpc": "2.0",
+111276-"method": "proxygroup.create",
+111277-"params": {
+111278-"name": "Proxy group",
+--
+111284-Response:
+111285-
+111286-{
+111287:"jsonrpc": "2.0",
+111288-"result": {
+111289-"proxy_groupids": [
+111290-"5"
+--
+111318-Request:
+111319-
+111320-{
+111321:"jsonrpc": "2.0",
+111322-"method": "proxygroup.delete",
+111323-"params": [
+111324-"5",
+--
+111329-Response:
+111330-
+111331-{
+111332:"jsonrpc": "2.0",
+111333-"result": {
+111334-"proxy_groupids": [
+111335-"5",
+--
+111453-Request:
+111454-
+111455-{
+111456:"jsonrpc": "2.0",
+111457-"method": "proxygroup.get",
+111458-"params": {
+111459-"output": "extend",
+--
+111464-Response:
+111465-
+111466-{
+111467:"jsonrpc": "2.0",
+111468-"result": [
+111469-{
+111470-"proxy_groupid": "1",
+--
+111540-Request:
+111541-
+111542-{
+111543:"jsonrpc": "2.0",
+111544-"method": "proxygroup.update",
+111545-
+111546-1568
+--
+111554-Response:
+111555-
+111556-{
+111557:"jsonrpc": "2.0",
+111558-"result": {
+111559-"proxy_groupids": [
+111560-"5"
+--
+111702-Request:
+111703-
+111704-{
+111705:"jsonrpc": "2.0",
+111706-"method": "regexp.create",
+111707-"params": {
+111708-"name": "Storage devices for SNMP discovery",
+--
+111720-Response:
+111721-
+111722-{
+111723:"jsonrpc": "2.0",
+111724-"result": {
+111725-"regexpids": [
+111726-"16"
+--
+111751-Request:
+111752-
+111753-{
+111754:"jsonrpc": "2.0",
+111755-"method": "regexp.delete",
+111756-"params": [
+111757-"16",
+--
+111765-Response:
+111766-
+111767-{
+111768:"jsonrpc": "2.0",
+111769-"result": {
+111770-"regexpids": [
+111771-"16",
+--
+111875-Request:
+111876-
+111877-{
+111878:"jsonrpc": "2.0",
+111879-"method": "regexp.get",
+111880-"params": {
+111881-"output": ["regexpid", "name"],
+--
+111889-
+111890-{
+111891-
+111892:"jsonrpc": "2.0",
+111893-"result": {
+111894-"1": {
+111895-"regexpid": "1",
+--
+111975-Request:
+111976-
+111977-{
+111978:"jsonrpc": "2.0",
+111979-"method": "regexp.update",
+111980-"params": {
+111981-"regexpid": "1",
+--
+112003-1574
+112004-
+112005-{
+112006:"jsonrpc": "2.0",
+112007-"result": {
+112008-"regexpids": [
+112009-"1"
+--
+112316-Request:
+112317-
+112318-{
+112319:"jsonrpc": "2.0",
+112320-"method": "report.create",
+112321-"params": {
+112322-"userid": "1",
+--
+112358-1578
+112359-
+112360-{
+112361:"jsonrpc": "2.0",
+112362-"result": {
+112363-"reportids": [
+112364-"1"
+--
+112393-Request:
+112394-
+112395-{
+112396:"jsonrpc": "2.0",
+112397-"method": "report.delete",
+112398-"params": [
+112399-"1",
+--
+112404-Response:
+112405-
+112406-{
+112407:"jsonrpc": "2.0",
+112408-"result": {
+112409-"reportids": [
+112410-"1",
+--
+112524-Request:
+112525-
+112526-{
+112527:"jsonrpc": "2.0",
+112528-"method": "report.get",
+112529-"params": [
+112530-"output": "extend",
+--
+112540-Response:
+112541-
+112542-{
+112543:"jsonrpc": "2.0",
+112544-"result": [
+112545-{
+112546-"reportid": "1",
+--
+112664-Request:
+112665-
+112666-{
+112667:"jsonrpc": "2.0",
+112668-"method": "report.update",
+112669-
+112670-1582
+--
+112678-Response:
+112679-
+112680-{
+112681:"jsonrpc": "2.0",
+112682-"result": {
+112683-"reportids": [
+112684-"1"
+--
+113173-Request:
+113174-
+113175-{
+113176:"jsonrpc": "2.0",
+113177-"method": "role.create",
+113178-"params": {
+113179-"name": "Operator",
+--
+113196-Response:
+113197-
+113198-{
+113199:"jsonrpc": "2.0",
+113200-"result": {
+113201-"roleids": [
+113202-"5"
+--
+113234-Request:
+113235-
+113236-{
+113237:"jsonrpc": "2.0",
+113238-"method": "role.delete",
+113239-"params": [
+113240-"4",
+--
+113245-Response:
+113246-
+113247-{
+113248:"jsonrpc": "2.0",
+113249-"result": {
+113250-"roleids": [
+113251-"4",
+--
+113369-Request:
+113370-
+113371-{
+113372:"jsonrpc": "2.0",
+113373-"method": "role.get",
+113374-"params": {
+113375-"output": "extend",
+--
+113381-Response:
+113382-
+113383-{
+113384:"jsonrpc": "2.0",
+113385-"result": [
+113386-{
+113387-"roleid": "3",
+--
+113848-Request:
+113849-
+113850-{
+113851:"jsonrpc": "2.0",
+113852-"method": "role.update",
+113853-"params": [
+113854-{
+--
+113871-Response:
+113872-
+113873-{
+113874:"jsonrpc": "2.0",
+113875-"result": {
+113876-"roleids": [
+113877-"5"
+--
+113884-Request:
+113885-
+113886-{
+113887:"jsonrpc": "2.0",
+113888-"method": "role.update",
+113889-"params": [
+113890-{
+--
+113901-Response:
+113902-
+113903-{
+113904:"jsonrpc": "2.0",
+113905-"result": {
+113906-"roleids": [
+113907-"5"
+--
+114328-
+114329-{
+114330-
+114331:"jsonrpc": "2.0",
+114332-"method": "script.create",
+114333-"params": {
+114334-"name": "Webhook script",
+--
+114356-Response:
+114357-
+114358-{
+114359:"jsonrpc": "2.0",
+114360-"result": {
+114361-"scriptids": [
+114362-"3"
+--
+114369-Request:
+114370-
+114371-{
+114372:"jsonrpc": "2.0",
+114373-"method": "script.create",
+114374-"params": {
+114375-"name": "SSH script",
+--
+114394-Response:
+114395-
+114396-{
+114397:"jsonrpc": "2.0",
+114398-"result": {
+114399-"scriptids": [
+114400-"5"
+--
+114408-Request:
+114409-
+114410-{
+114411:"jsonrpc": "2.0",
+114412-"method": "script.create",
+114413-"params": {
+114414-"name": "Reboot server",
+--
+114427-Response:
+114428-
+114429-{
+114430:"jsonrpc": "2.0",
+114431-"result": {
+114432-"scriptids": [
+114433-"4"
+--
+114442-1605
+114443-
+114444-{
+114445:"jsonrpc": "2.0",
+114446-"method": "script.create",
+114447-"params": {
+114448-"name": "URL script",
+--
+114457-Response:
+114458-
+114459-{
+114460:"jsonrpc": "2.0",
+114461-"result": {
+114462-"scriptids": [
+114463-"56"
+--
+114470-Request:
+114471-
+114472-{
+114473:"jsonrpc": "2.0",
+114474-"method": "script.create",
+114475-"params": {
+114476-"name": "URL script with manual input",
+--
+114488-Response:
+114489-
+114490-{
+114491:"jsonrpc": "2.0",
+114492-"result": {
+114493-"scriptids": [
+114494-"57"
+--
+114521-Request:
+114522-
+114523-{
+114524:"jsonrpc": "2.0",
+114525-"method": "script.delete",
+114526-"params": [
+114527-"3",
+--
+114532-Response:
+114533-
+114534-{
+114535:"jsonrpc": "2.0",
+114536-"result": {
+114537-"scriptids": [
+114538-"3",
+--
+114629-Request:
+114630-
+114631-{
+114632:"jsonrpc": "2.0",
+114633-"method": "script.execute",
+114634-"params": {
+114635-"scriptid": "4",
+--
+114640-Response:
+114641-
+114642-{
+114643:"jsonrpc": "2.0",
+114644-"result": {
+114645-"response": "success",
+114646-"value": "{\"status\":\"sent\",\"timestamp\":\"1611235391\"}",
+--
+114665-Request:
+114666-
+114667-{
+114668:"jsonrpc": "2.0",
+114669-"method": "script.execute",
+114670-"params": {
+114671-"scriptid": "1",
+--
+114677-
+114678-{
+114679-
+114680:"jsonrpc": "2.0",
+114681-"result": {
+114682-"response": "success",
+114683-"value": "PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.\n64 bytes from 127.0.0.1: icmp_req=1 tt
+--
+114690-Request:
+114691-
+114692-{
+114693:"jsonrpc": "2.0",
+114694-"method": "script.execute",
+114695-"params": {
+114696-"scriptid": "7",
+--
+114703-
+114704-{
+114705-
+114706:"jsonrpc": "2.0",
+114707-"result": {
+114708-"response": "success",
+114709-"value": "PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.\n64 bytes from 127.0.0.1: icmp_seq=1 tt
+--
+114843-Request:
+114844-
+114845-{
+114846:"jsonrpc": "2.0",
+114847-"method": "script.get",
+114848-"params": {
+114849-"output": "extend"
+--
+114855-1610
+114856-
+114857-{
+114858:"jsonrpc": "2.0",
+114859-"result": [
+114860-{
+114861-"scriptid": "1",
+--
+115115-Request:
+115116-
+115117-{
+115118:"jsonrpc": "2.0",
+115119-"method": "script.getscriptsbyevents",
+115120-"params": [
+115121-{
+--
+115136-Response:
+115137-
+115138-{
+115139:"jsonrpc": "2.0",
+115140-"result": {
+115141-"632": [
+115142-{
+--
+115394-Request:
+115395-
+115396-{
+115397:"jsonrpc": "2.0",
+115398-"method": "script.getscriptsbyevents",
+115399-"params": [
+115400-{
+--
+115408-Response:
+115409-
+115410-{
+115411:"jsonrpc": "2.0",
+115412-"result": {
+115413-"632": [
+115414-{
+--
+115503-Request:
+115504-
+115505-{
+115506:"jsonrpc": "2.0",
+115507-"method": "script.getscriptsbyhosts",
+115508-"params": [
+115509-{
+--
+115518-Response:
+115519-
+115520-{
+115521:"jsonrpc": "2.0",
+115522-"result": {
+115523-"30079": [
+115524-{
+--
+115776-Request:
+115777-
+115778-{
+115779:"jsonrpc": "2.0",
+115780-"method": "script.getscriptsbyhosts",
+115781-"params": [
+115782-{
+--
+115793-Response:
+115794-
+115795-{
+115796:"jsonrpc": "2.0",
+115797-"result": {
+115798-"30079": [
+115799-{
+--
+115858-Request:
+115859-
+115860-{
+115861:"jsonrpc": "2.0",
+115862-"method": "script.update",
+115863-"params": {
+115864-"scriptid": "1",
+--
+115869-Response:
+115870-
+115871-{
+115872:"jsonrpc": "2.0",
+115873-"result": {
+115874-"scriptids": [
+115875-"1"
+--
+115882-Request:
+115883-
+115884-{
+115885:"jsonrpc": "2.0",
+115886-"method": "script.update",
+115887-"params": {
+115888-"scriptid": "1",
+--
+115898-Response:
+115899-
+115900-{
+115901:"jsonrpc": "2.0",
+115902-"result": {
+115903-"scriptids": [
+115904-"1"
+--
+116302-Request:
+116303-
+116304-{
+116305:"jsonrpc": "2.0",
+116306-"method": "service.create",
+116307-"params": {
+116308-"name": "Server 1",
+--
+116314-Response:
+116315-
+116316-{
+116317:"jsonrpc": "2.0",
+116318-"result": {
+116319-"serviceids": [
+116320-"5"
+--
+116348-Request:
+116349-
+116350-{
+116351:"jsonrpc": "2.0",
+116352-"method": "service.delete",
+116353-"params": [
+116354-"4",
+--
+116359-Response:
+116360-
+116361-{
+116362:"jsonrpc": "2.0",
+116363-"result": {
+116364-"serviceids": [
+116365-"4",
+--
+116608-Request:
+116609-
+116610-{
+116611:"jsonrpc": "2.0",
+116612-"method": "service.get",
+116613-"params": {
+116614-"output": "extend",
+--
+116620-Response:
+116621-
+116622-{
+116623:"jsonrpc": "2.0",
+116624-"result": [
+116625-{
+116626-"serviceid": "1",
+--
+116782-Request:
+116783-
+116784-{
+116785:"jsonrpc": "2.0",
+116786-"method": "service.update",
+116787-"params": {
+116788-"serviceid": "5",
+--
+116800-Response:
+116801-
+116802-{
+116803:"jsonrpc": "2.0",
+116804-"result": {
+116805-"serviceids": [
+116806-"5"
+--
+116813-Request:
+116814-
+116815-{
+116816:"jsonrpc": "2.0",
+116817-"method": "service.update",
+116818-"params": {
+116819-"serviceid": "4",
+--
+116830-Response:
+116831-
+116832-{
+116833:"jsonrpc": "2.0",
+116834-"result": {
+116835-"serviceids": [
+116836-"4"
+--
+117453-Request:
+117454-
+117455-{
+117456:"jsonrpc": "2.0",
+117457-"method": "settings.get",
+117458-"params": {
+117459-"output": "extend"
+--
+117463-Response:
+117464-
+117465-{
+117466:"jsonrpc": "2.0",
+117467-"result": {
+117468-"default_theme": "blue-theme",
+117469-"search_limit": "1000",
+--
+117565-Request:
+117566-
+117567-{
+117568:"jsonrpc": "2.0",
+117569-"method": "settings.update",
+117570-"params": {
+117571-"login_attempts": "1",
+--
+117576-Response:
+117577-
+117578-{
+117579:"jsonrpc": "2.0",
+117580-"result": [
+117581-"login_attempts",
+117582-"login_block"
+--
+117840-Request:
+117841-
+117842-{
+117843:"jsonrpc": "2.0",
+117844-"method": "sla.create",
+117845-"params": [
+117846-{
+--
+117886-Response:
+117887-
+117888-{
+117889:"jsonrpc": "2.0",
+117890-"result": {
+117891-"slaids": [
+117892-"5"
+--
+117918-Request:
+117919-
+117920-{
+117921:"jsonrpc": "2.0",
+117922-"method": "sla.delete",
+117923-"params": [
+117924-"4",
+--
+117931-1649
+117932-
+117933-{
+117934:"jsonrpc": "2.0",
+117935-"result": {
+117936-"slaids": [
+117937-"4",
+--
+118060-Request:
+118061-
+118062-{
+118063:"jsonrpc": "2.0",
+118064-"method": "sla.get",
+118065-"params": {
+118066-"output": "extend",
+--
+118074-Response:
+118075-
+118076-{
+118077:"jsonrpc": "2.0",
+118078-"result": {
+118079-"1": {
+118080-"slaid": "1",
+--
+118350-Request:
+118351-
+118352-{
+118353:"jsonrpc": "2.0",
+118354-"method": "sla.getsli",
+118355-"params": {
+118356-"slaid": "1",
+--
+118369-Response:
+118370-
+118371-{
+118372:"jsonrpc": "2.0",
+118373-"result": {
+118374-"periods": [
+118375-{
+--
+118418-Request:
+118419-
+118420-{
+118421:"jsonrpc": "2.0",
+118422-
+118423-1654
+118424-
+--
+118438-Response:
+118439-
+118440-{
+118441:"jsonrpc": "2.0",
+118442-"result": {
+118443-"periods": [
+118444-{
+--
+118631-Request:
+118632-
+118633-{
+118634:"jsonrpc": "2.0",
+118635-"method": "sla.update",
+118636-"params": [
+118637-{
+--
+118658-Response:
+118659-
+118660-{
+118661:"jsonrpc": "2.0",
+118662-"result": {
+118663-"slaids": [
+118664-"5"
+--
+118671-Request:
+118672-
+118673-{
+118674:"jsonrpc": "2.0",
+118675-"method": "sla.update",
+118676-"params": {
+118677-"slaid": "5",
+--
+118682-Response:
+118683-
+118684-{
+118685:"jsonrpc": "2.0",
+118686-"result": {
+118687-"slaids": [
+118688-"5"
+--
+118699-Request:
+118700-
+118701-{
+118702:"jsonrpc": "2.0",
+118703-"method": "sla.update",
+118704-"params": {
+118705-"slaid": "5",
+--
+118721-Response:
+118722-
+118723-{
+118724:"jsonrpc": "2.0",
+118725-"result": {
+118726-"slaids": [
+118727-"5"
+--
+119141-Request:
+119142-
+119143-{
+119144:"jsonrpc": "2.0",
+119145-"method": "task.create",
+119146-"params": [
+119147-{
+--
+119162-Response:
+119163-
+119164-{
+119165:"jsonrpc": "2.0",
+119166-"result": {
+119167-"taskids": [
+119168-"1",
+--
+119175-Request:
+119176-
+119177-{
+119178:"jsonrpc": "2.0",
+119179-"method": "task.create",
+119180-
+119181-1663
+--
+119193-Response:
+119194-
+119195-{
+119196:"jsonrpc": "2.0",
+119197-"result": {
+119198-"taskids": [
+119199-"1"
+--
+119205-Request:
+119206-
+119207-{
+119208:"jsonrpc": "2.0",
+119209-"method": "task.create",
+119210-"params": [
+119211-{
+--
+119234-Response:
+119235-
+119236-{
+119237:"jsonrpc": "2.0",
+119238-"result": {
+119239-"taskids": [
+119240-"3"
+--
+119296-Request:
+119297-
+119298-{
+119299:"jsonrpc": "2.0",
+119300-"method": "task.get",
+119301-"params": {
+119302-"output": "extend",
+--
+119307-Response:
+119308-
+119309-{
+119310:"jsonrpc": "2.0",
+119311-"result": [
+119312-{
+119313-"taskid": "1",
+--
+119549-Request:
+119550-
+119551-{
+119552:"jsonrpc": "2.0",
+119553-"method": "template.create",
+119554-"params": {
+119555-"host": "Linux template",
+--
+119579-Response:
+119580-
+119581-{
+119582:"jsonrpc": "2.0",
+119583-"result": {
+119584-"templateids": [
+119585-"11117"
+--
+119614-Request:
+119615-
+119616-{
+119617:"jsonrpc": "2.0",
+119618-"method": "template.delete",
+119619-"params": [
+119620-"13",
+--
+119625-Response:
+119626-
+119627-{
+119628:"jsonrpc": "2.0",
+119629-"result": {
+119630-"templateids": [
+119631-"13",
+--
+119942-Request:
+119943-
+119944-{
+119945:"jsonrpc": "2.0",
+119946-"method": "template.get",
+119947-"params": {
+119948-"output": "extend",
+--
+119959-
+119960-{
+119961-
+119962:"jsonrpc": "2.0",
+119963-"result": [
+119964-{
+119965-"proxyid": "0",
+--
+120034-Request:
+120035-
+120036-{
+120037:"jsonrpc": "2.0",
+120038-"method": "template.get",
+120039-"params": {
+120040-"output": ["hostid"],
+--
+120050-Response:
+120051-
+120052-{
+120053:"jsonrpc": "2.0",
+120054-"result": [
+120055-{
+120056-"templateid": "10001",
+--
+120073-Request:
+120074-
+120075-{
+120076:"jsonrpc": "2.0",
+120077-"method": "template.get",
+120078-"params": {
+120079-"output": "templateid",
+--
+120085-Response:
+120086-
+120087-{
+120088:"jsonrpc": "2.0",
+120089-"result": [
+120090-{
+120091-"templateid": "10001",
+--
+120112-Request:
+120113-
+120114-{
+120115:"jsonrpc": "2.0",
+120116-"method": "template.get",
+120117-"params": {
+120118-"output": ["hostid"],
+--
+120134-Response:
+120135-
+120136-{
+120137:"jsonrpc": "2.0",
+120138-"result": [
+120139-{
+120140-"hostid": "10402",
+--
+120216-Request:
+120217-
+120218-{
+120219:"jsonrpc": "2.0",
+120220-"method": "template.massadd",
+120221-"params": {
+120222-"templates": [
+--
+120238-Response:
+120239-
+120240-{
+120241:"jsonrpc": "2.0",
+120242-"result": {
+120243-"templateids": [
+120244-"10085",
+--
+120252-Request:
+120253-
+120254-{
+120255:"jsonrpc": "2.0",
+120256-"method": "template.massadd",
+120257-"params": {
+120258-"templates": [
+--
+120277-Response:
+120278-
+120279-{
+120280:"jsonrpc": "2.0",
+120281-"result": {
+120282-"templateids": [
+120283-"10073"
+--
+120355-1677
+120356-
+120357-{
+120358:"jsonrpc": "2.0",
+120359-"method": "template.massremove",
+120360-"params": {
+120361-"templateids": [
+--
+120369-Response:
+120370-
+120371-{
+120372:"jsonrpc": "2.0",
+120373-"result": {
+120374-"templateids": [
+120375-"10085",
+--
+120383-Request:
+120384-
+120385-{
+120386:"jsonrpc": "2.0",
+120387-"method": "template.massremove",
+120388-"params": {
+120389-"templateids": "10085",
+--
+120397-Response:
+120398-
+120399-{
+120400:"jsonrpc": "2.0",
+120401-"result": {
+120402-"templateids": [
+120403-"10085"
+--
+120477-Request:
+120478-
+120479-{
+120480:"jsonrpc": "2.0",
+120481-"method": "template.massupdate",
+120482-"params": {
+120483-"templates": [
+--
+120502-Response:
+120503-
+120504-{
+120505:"jsonrpc": "2.0",
+120506-"result": {
+120507-"templateids": [
+120508-"10085",
+--
+120517-
+120518-{
+120519-
+120520:"jsonrpc": "2.0",
+120521-"method": "template.massupdate",
+120522-"params": {
+120523-"templates": [
+--
+120547-Response:
+120548-
+120549-{
+120550:"jsonrpc": "2.0",
+120551-"result": {
+120552-"templateids": [
+120553-"10074",
+--
+120635-Request:
+120636-
+120637-{
+120638:"jsonrpc": "2.0",
+120639-"method": "template.update",
+120640-"params": {
+120641-"templateid": "10086",
+--
+120651-Response:
+120652-
+120653-{
+120654:"jsonrpc": "2.0",
+120655-"result": {
+120656-"templateids": [
+120657-"10086"
+--
+120664-Request:
+120665-
+120666-{
+120667:"jsonrpc": "2.0",
+120668-"method": "template.update",
+120669-"params": {
+120670-"templateid": "10086",
+--
+120679-Response:
+120680-
+120681-{
+120682:"jsonrpc": "2.0",
+120683-"result": {
+120684-"templateids": [
+120685-"10086"
+--
+120692-Request:
+120693-
+120694-{
+120695:"jsonrpc": "2.0",
+120696-"method": "template.update",
+120697-"params": {
+120698-"templateid": "10086",
+--
+120711-Response:
+120712-
+120713-{
+120714:"jsonrpc": "2.0",
+120715-"result": {
+120716-"templateids": [
+120717-"10086"
+--
+120724-Request:
+120725-
+120726-{
+120727:"jsonrpc": "2.0",
+120728-"method": "template.update",
+120729-"params": {
+120730-"templateid": "10086",
+--
+120740-Response:
+120741-
+120742-{
+120743:"jsonrpc": "2.0",
+120744-"result": {
+120745-"templateids": [
+120746-"10086"
+--
+120753-Request:
+120754-
+120755-{
+120756:"jsonrpc": "2.0",
+120757-"method": "template.update",
+120758-"params": {
+120759-"templateid": "10086",
+--
+120771-Response:
+120772-
+120773-{
+120774:"jsonrpc": "2.0",
+120775-"result": {
+120776-"templateids": [
+120777-"10086"
+--
+120784-Request:
+120785-
+120786-{
+120787:"jsonrpc": "2.0",
+120788-"method": "template.update",
+120789-"params": {
+120790-"templateid": "10086",
+--
+120799-Response:
+120800-
+120801-{
+120802:"jsonrpc": "2.0",
+120803-"result": {
+120804-"templateids": [
+120805-"10086"
+--
+121134-Request:
+121135-
+121136-{
+121137:"jsonrpc": "2.0",
+121138-"method": "templatedashboard.create",
+121139-"params": {
+121140-"templateid": "10318",
+--
+121166-Response:
+121167-
+121168-{
+121169:"jsonrpc": "2.0",
+121170-"result": {
+121171-"dashboardids": [
+121172-"32"
+--
+121205-Request:
+121206-
+121207-{
+121208:"jsonrpc": "2.0",
+121209-"method": "templatedashboard.delete",
+121210-"params": [
+121211-"45",
+--
+121216-Response:
+121217-
+121218-{
+121219:"jsonrpc": "2.0",
+121220-"result": {
+121221-"dashboardids": [
+121222-"45",
+--
+121334-Request:
+121335-
+121336-{
+121337:"jsonrpc": "2.0",
+121338-"method": "templatedashboard.get",
+121339-"params": {
+121340-"output": "extend",
+--
+121346-Response:
+121347-
+121348-{
+121349:"jsonrpc": "2.0",
+121350-"result": [
+121351-{
+121352-"dashboardid": "23",
+--
+121513-Request:
+121514-
+121515-{
+121516:"jsonrpc": "2.0",
+121517-"method": "templatedashboard.update",
+121518-"params": {
+121519-"dashboardid": "23",
+--
+121524-Response:
+121525-
+121526-{
+121527:"jsonrpc": "2.0",
+121528-"result": {
+121529-"dashboardids": [
+121530-"23"
+--
+121538-Request:
+121539-
+121540-{
+121541:"jsonrpc": "2.0",
+121542-"method": "templatedashboard.update",
+121543-"params": {
+121544-"dashboardid": "2",
+--
+121572-Response:
+121573-
+121574-{
+121575:"jsonrpc": "2.0",
+121576-"result": {
+121577-"dashboardids": [
+121578-"2"
+--
+121659-Request:
+121660-
+121661-{
+121662:"jsonrpc": "2.0",
+121663-"method": "templategroup.create",
+121664-"params": {
+121665-"name": "Templates/Databases"
+--
+121669-Response:
+121670-
+121671-{
+121672:"jsonrpc": "2.0",
+121673-"result": {
+121674-"groupids": [
+121675-"107820"
+--
+121705-Request:
+121706-
+121707-{
+121708:"jsonrpc": "2.0",
+121709-"method": "templategroup.delete",
+121710-"params": [
+121711-"107814",
+--
+121716-Response:
+121717-
+121718-{
+121719:"jsonrpc": "2.0",
+121720-"result": {
+121721-"groupids": [
+121722-"107814",
+--
+121920-Request:
+121921-
+121922-{
+121923:"jsonrpc": "2.0",
+121924-"method": "templategroup.get",
+121925-"params": {
+121926-"output": "extend",
+--
+121936-Response:
+121937-
+121938-{
+121939:"jsonrpc": "2.0",
+121940-"result": [
+121941-{
+121942-"groupid": "13",
+--
+122005-Request:
+122006-
+122007-{
+122008:"jsonrpc": "2.0",
+122009-"method": "templategroup.massadd",
+122010-"params": {
+122011-"groups": [
+--
+122030-Response:
+122031-
+122032-{
+122033:"jsonrpc": "2.0",
+122034-"result": {
+122035-"groupids": [
+122036-"12",
+--
+122090-Request:
+122091-
+122092-{
+122093:"jsonrpc": "2.0",
+122094-"method": "templategroup.massremove",
+122095-"params": {
+122096-"groupids": [
+--
+122107-Response:
+122108-
+122109-{
+122110:"jsonrpc": "2.0",
+122111-"result": {
+122112-"groupids": [
+122113-"5",
+--
+122170-Request:
+122171-
+122172-{
+122173:"jsonrpc": "2.0",
+122174-"method": "templategroup.massupdate",
+122175-"params": {
+122176-"groups": [
+--
+122192-Response:
+122193-
+122194-{
+122195:"jsonrpc": "2.0",
+122196-"result": {
+122197-"groupids": [
+122198-"8",
+--
+122255-Request:
+122256-
+122257-{
+122258:"jsonrpc": "2.0",
+122259-"method": "templategroup.propagate",
+122260-"params": {
+122261-"groups": [
+--
+122270-Response:
+122271-
+122272-{
+122273:"jsonrpc": "2.0",
+122274-"result": {
+122275-"groupids": [
+122276-"15",
+--
+122310-1703
+122311-
+122312-{
+122313:"jsonrpc": "2.0",
+122314-"method": "templategroup.update",
+122315-"params": {
+122316-"groupid": "7",
+--
+122321-Response:
+122322-
+122323-{
+122324:"jsonrpc": "2.0",
+122325-"result": {
+122326-"groupids": [
+122327-"7"
+--
+122461-Request:
+122462-
+122463-{
+122464:"jsonrpc": "2.0",
+122465-"method": "token.create",
+122466-
+122467-1705
+--
+122475-Response:
+122476-
+122477-{
+122478:"jsonrpc": "2.0",
+122479-"result": {
+122480-"tokenids": [
+122481-"188"
+--
+122487-Request:
+122488-
+122489-{
+122490:"jsonrpc": "2.0",
+122491-"method": "token.create",
+122492-"params": {
+122493-"name": "Your token",
+--
+122499-Response:
+122500-
+122501-{
+122502:"jsonrpc": "2.0",
+122503-"result": {
+122504-"tokenids": [
+122505-"189"
+--
+122533-Request:
+122534-
+122535-{
+122536:"jsonrpc": "2.0",
+122537-"method": "token.delete",
+122538-"params": [
+122539-"188",
+--
+122544-Response:
+122545-
+122546-{
+122547:"jsonrpc": "2.0",
+122548-"result": {
+122549-"tokenids": [
+122550-"188",
+--
+122600-Request:
+122601-
+122602-{
+122603:"jsonrpc": "2.0",
+122604-"method": "token.generate",
+122605-"params": [
+122606-"1",
+--
+122611-Response:
+122612-
+122613-{
+122614:"jsonrpc": "2.0",
+122615-"result": [
+122616-{
+122617-"tokenid": "1",
+--
+122746-Request:
+122747-
+122748-{
+122749:"jsonrpc": "2.0",
+122750-"method": "token.get",
+122751-"params": {
+122752-"output": "extend",
+--
+122757-Response:
+122758-
+122759-{
+122760:"jsonrpc": "2.0",
+122761-"result": [
+122762-{
+122763-"tokenid": "1",
+--
+122802-Request:
+122803-
+122804-{
+122805:"jsonrpc": "2.0",
+122806-"method": "token.update",
+122807-"params": {
+122808-"tokenid": "2",
+--
+122813-Response:
+122814-
+122815-{
+122816:"jsonrpc": "2.0",
+122817-"result": {
+122818-"tokenids": [
+122819-"2"
+--
+123001-Request:
+123002-
+123003-{
+123004:"jsonrpc": "2.0",
+123005-"method": "trend.get",
+123006-"params": {
+123007-"output": [
+--
+123022-Response:
+123023-
+123024-{
+123025:"jsonrpc": "2.0",
+123026-"result": [
+123027-{
+123028-"itemid": "23715",
+--
+123331-Request:
+123332-
+123333-{
+123334:"jsonrpc": "2.0",
+123335-"method": "trigger.create",
+123336-"params": [
+123337-{
+--
+123371-Response:
+123372-
+123373-{
+123374:"jsonrpc": "2.0",
+123375-"result": {
+123376-"triggerids": [
+123377-"17369",
+--
+123404-Request:
+123405-
+123406-{
+123407:"jsonrpc": "2.0",
+123408-"method": "trigger.delete",
+123409-"params": [
+123410-"12002",
+--
+123415-Response:
+123416-
+123417-{
+123418:"jsonrpc": "2.0",
+123419-"result": {
+123420-"triggerids": [
+123421-"12002",
+--
+123833-Request:
+123834-
+123835-{
+123836:"jsonrpc": "2.0",
+123837-"method": "trigger.get",
+123838-"params": {
+123839-"triggerids": "14062",
+--
+123847-1719
+123848-
+123849-{
+123850:"jsonrpc": "2.0",
+123851-"result": [
+123852-{
+123853-"triggerid": "14062",
+--
+123890-Request:
+123891-
+123892-{
+123893:"jsonrpc": "2.0",
+123894-"method": "trigger.get",
+123895-"params": {
+123896-"output": [
+--
+123911-1720
+123912-
+123913-{
+123914:"jsonrpc": "2.0",
+123915-"result": [
+123916-{
+123917-"triggerid": "13907",
+--
+123931-Request:
+123932-
+123933-{
+123934:"jsonrpc": "2.0",
+123935-"method": "trigger.get",
+123936-"params": {
+123937-"output": [
+--
+123948-Response:
+123949-
+123950-{
+123951:"jsonrpc": "2.0",
+123952-"result": [
+123953-{
+123954-"triggerid": "17370",
+--
+124022-Request:
+124023-
+124024-{
+124025:"jsonrpc": "2.0",
+124026-"method": "trigger.update",
+124027-"params": {
+124028-"triggerid": "13938",
+--
+124033-Response:
+124034-
+124035-{
+124036:"jsonrpc": "2.0",
+124037-"result": {
+124038-"triggerids": [
+124039-"13938"
+--
+124049-Request:
+124050-
+124051-{
+124052:"jsonrpc": "2.0",
+124053-"method": "trigger.update",
+124054-"params": {
+124055-"triggerid": "13938",
+--
+124069-Response:
+124070-
+124071-{
+124072:"jsonrpc": "2.0",
+124073-"result": {
+124074-"triggerids": [
+124075-"13938"
+--
+124082-Request:
+124083-
+124084-{
+124085:"jsonrpc": "2.0",
+124086-"method": "trigger.update",
+124087-"params": {
+124088-"triggerid": "22713",
+--
+124100-Response:
+124101-
+124102-{
+124103:"jsonrpc": "2.0",
+124104-"result": {
+124105-"triggerids": [
+124106-"22713"
+--
+124381-Request:
+124382-
+124383-{
+124384:"jsonrpc": "2.0",
+124385-"method": "triggerprototype.create",
+124386-"params": {
+124387-"description": "Free disk space is less than 20% on volume {#FSNAME}",
+--
+124405-Response:
+124406-
+124407-{
+124408:"jsonrpc": "2.0",
+124409-"result": {
+124410-"triggerids": [
+124411-"17372"
+--
+124437-Request:
+124438-
+124439-{
+124440:"jsonrpc": "2.0",
+124441-"method": "triggerprototype.delete",
+124442-"params": [
+124443-"12002",
+--
+124448-Response:
+124449-
+124450-{
+124451:"jsonrpc": "2.0",
+124452-"result": {
+124453-"triggerids": [
+124454-"12002",
+--
+124762-Request:
+124763-
+124764-{
+124765:"jsonrpc": "2.0",
+124766-"method": "triggerprototype.get",
+124767-"params": {
+124768-"output": "extend",
+--
+124774-Response:
+124775-
+124776-{
+124777:"jsonrpc": "2.0",
+124778-"result": [
+124779-{
+124780-"triggerid": "13272",
+--
+124854-Request:
+124855-
+124856-{
+124857:"jsonrpc": "2.0",
+124858-"method": "triggerprototype.get",
+124859-"params": {
+124860-"output": [
+--
+124871-Response:
+124872-
+124873-{
+124874:"jsonrpc": "2.0",
+124875-"result": [
+124876-{
+124877-"triggerid": "17373",
+--
+124946-Request:
+124947-
+124948-{
+124949:"jsonrpc": "2.0",
+124950-"method": "triggerprototype.update",
+124951-"params": {
+124952-"triggerid": "13938",
+--
+124959-1732
+124960-
+124961-{
+124962:"jsonrpc": "2.0",
+124963-"result": {
+124964-"triggerids": [
+124965-"13938"
+--
+124972-Request:
+124973-
+124974-{
+124975:"jsonrpc": "2.0",
+124976-"method": "triggerprototype.update",
+124977-"params": {
+124978-"triggerid": "17373",
+--
+124992-Response:
+124993-
+124994-{
+124995:"jsonrpc": "2.0",
+124996-"result": {
+124997-"triggerids": [
+124998-"17373"
+--
+125436-1737
+125437-
+125438-{
+125439:"jsonrpc": "2.0",
+125440-"method": "user.checkAuthentication",
+125441-"params": {
+125442-"sessionid": "673b8ba11562a35da902c66cf5c23fa2"
+--
+125446-Response:
+125447-
+125448-{
+125449:"jsonrpc": "2.0",
+125450-"result": {
+125451-"userid": "1",
+125452-"username": "Admin",
+--
+125482-Request:
+125483-
+125484-{
+125485:"jsonrpc": "2.0",
+125486-"method": "user.checkAuthentication",
+125487-"params": {
+125488-"token": "00aff470e07c12d707e50d98cfe39edef9e6ec349c14728dbdfbc8ddc5ea3eae"
+--
+125492-Response:
+125493-
+125494-{
+125495:"jsonrpc": "2.0",
+125496-"result": {
+125497-"userid": "1",
+125498-"username": "Admin",
+--
+125575-Request:
+125576-
+125577-{
+125578:"jsonrpc": "2.0",
+125579-"method": "user.create",
+125580-"params": {
+125581-"username": "John",
+--
+125603-Response:
+125604-
+125605-{
+125606:"jsonrpc": "2.0",
+125607-"result": {
+125608-"userids": [
+125609-"12"
+--
+125642-Request:
+125643-
+125644-{
+125645:"jsonrpc": "2.0",
+125646-"method": "user.delete",
+125647-"params": [
+125648-"1",
+--
+125653-Response:
+125654-
+125655-{
+125656:"jsonrpc": "2.0",
+125657-"result": {
+125658-"userids": [
+125659-"1",
+--
+125856-Request:
+125857-
+125858-{
+125859:"jsonrpc": "2.0",
+125860-"method": "user.get",
+125861-"params": {
+125862-"output": "extend"
+--
+125866-Response:
+125867-
+125868-{
+125869:"jsonrpc": "2.0",
+125870-"result": [
+125871-{
+125872-"userid": "1",
+--
+125939-Request:
+125940-
+125941-{
+125942:"jsonrpc": "2.0",
+125943-"method": "user.get",
+125944-"params": {
+125945-"output": "extend",
+--
+125954-Response:
+125955-
+125956-{
+125957:"jsonrpc": "2.0",
+125958-"result": [
+125959-{
+125960-"userid": "1",
+--
+126047-Request:
+126048-
+126049-{
+126050:"jsonrpc": "2.0",
+126051-"method": "user.get",
+126052-"params": {
+126053-"output": ["userid", "username"],
+--
+126059-Response:
+126060-
+126061-{
+126062:"jsonrpc": "2.0",
+126063-"result": [
+126064-{
+126065-"userid": "12",
+--
+126215-Request:
+126216-
+126217-{
+126218:"jsonrpc": "2.0",
+126219-"method": "user.login",
+126220-"params": {
+126221-"username": "Admin",
+--
+126226-Response:
+126227-
+126228-{
+126229:"jsonrpc": "2.0",
+126230-"result": "0424bd59b807674191e7d77572075f33",
+126231-"id": 1
+126232-}
+--
+126235-Request:
+126236-
+126237-{
+126238:"jsonrpc": "2.0",
+126239-"method": "user.login",
+126240-"params": {
+126241-"username": "Admin",
+--
+126247-Response:
+126248-
+126249-{
+126250:"jsonrpc": "2.0",
+126251-"result": {
+126252-"userid": "1",
+126253-"username": "Admin",
+--
+126306-Request:
+126307-
+126308-{
+126309:"jsonrpc": "2.0",
+126310-"method": "user.logout",
+126311-"params": [],
+126312-"id": 1
+--
+126314-Response:
+126315-
+126316-{
+126317:"jsonrpc": "2.0",
+126318-"result": true,
+126319-"id": 1
+126320-}
+--
+126346-Request:
+126347-
+126348-{
+126349:"jsonrpc": "2.0",
+126350-"method": "user.provision",
+126351-"params": [
+126352-"1",
+--
+126357-Response:
+126358-
+126359-{
+126360:"jsonrpc": "2.0",
+126361-"result": {
+126362-"userids": [
+126363-"1",
+--
+126395-Request:
+126396-
+126397-{
+126398:"jsonrpc": "2.0",
+126399-"method": "user.resettotp",
+126400-"params": [
+126401-"1",
+--
+126406-Response:
+126407-
+126408-{
+126409:"jsonrpc": "2.0",
+126410-"result": {
+126411-"userids": [
+126412-"1",
+--
+126443-Request:
+126444-
+126445-{
+126446:"jsonrpc": "2.0",
+126447-"method": "user.unblock",
+126448-"params": [
+126449-"1",
+--
+126454-Response:
+126455-
+126456-{
+126457:"jsonrpc": "2.0",
+126458-"result": {
+126459-"userids": [
+126460-"1",
+--
+126532-Request:
+126533-
+126534-{
+126535:"jsonrpc": "2.0",
+126536-"method": "user.update",
+126537-"params": {
+126538-"userid": "1",
+--
+126544-Response:
+126545-
+126546-{
+126547:"jsonrpc": "2.0",
+126548-"result": {
+126549-"userids": [
+126550-"1"
+--
+126557-Request:
+126558-
+126559-{
+126560:"jsonrpc": "2.0",
+126561-"method": "user.update",
+126562-"params": {
+126563-"userid": "12",
+--
+126568-Response:
+126569-
+126570-{
+126571:"jsonrpc": "2.0",
+126572-"result": {
+126573-"userids": [
+126574-"12"
+--
+127240-Request:
+127241-
+127242-{
+127243:"jsonrpc": "2.0",
+127244-"method": "userdirectory.create",
+127245-"params": {
+127246-"idp_type": "1",
+--
+127258-Response:
+127259-
+127260-{
+127261:"jsonrpc": "2.0",
+127262-"result": {
+127263-"userdirectoryids": [
+127264-"3"
+--
+127272-Request:
+127273-
+127274-{
+127275:"jsonrpc": "2.0",
+127276-"method": "userdirectory.create",
+127277-"params": {
+127278-"idp_type": "1",
+--
+127333-Response:
+127334-
+127335-{
+127336:"jsonrpc": "2.0",
+127337-"result": {
+127338-"userdirectoryids": [
+127339-"2"
+--
+127369-Request:
+127370-
+127371-{
+127372:"jsonrpc": "2.0",
+127373-"method": "userdirectory.delete",
+127374-"params": [
+127375-"2",
+--
+127380-Response:
+127381-
+127382-{
+127383:"jsonrpc": "2.0",
+127384-"result": {
+127385-"userdirectoryids": [
+127386-"2",
+--
+127521-Request:
+127522-
+127523-{
+127524:"jsonrpc": "2.0",
+127525-"method": "userdirectory.get",
+127526-"params": {
+127527-"output": "extend",
+--
+127533-Response:
+127534-
+127535-{
+127536:"jsonrpc": "2.0",
+127537-"result": [
+127538-{
+127539-"userdirectoryid": "1",
+--
+127723-Request:
+127724-
+127725-{
+127726:"jsonrpc": "2.0",
+127727-"method": "userdirectory.test",
+127728-"params": {
+127729-"userdirectoryid": "3",
+--
+127743-1768
+127744-
+127745-{
+127746:"jsonrpc": "2.0",
+127747-"result": true,
+127748-"id": 1
+127749-}
+--
+127752-Request:
+127753-
+127754-{
+127755:"jsonrpc": "2.0",
+127756-"method": "userdirectory.test",
+127757-"params": {
+127758-"userdirectoryid": "3",
+--
+127769-Response:
+127770-
+127771-{
+127772:"jsonrpc": "2.0",
+127773-"error": {
+127774-"code": -32500,
+127775-"message": "Application error.",
+--
+127783-Request:
+127784-
+127785-{
+127786:"jsonrpc": "2.0",
+127787-"method": "userdirectory.test",
+127788-"params": {
+127789-"userdirectoryid": "2",
+--
+127800-Response:
+127801-
+127802-{
+127803:"jsonrpc": "2.0",
+127804-"result": {
+127805-
+127806-1769
+--
+127847-Request:
+127848-
+127849-{
+127850:"jsonrpc": "2.0",
+127851-"method": "userdirectory.update",
+127852-"params": {
+127853-"userdirectoryid": "3",
+--
+127858-Response:
+127859-
+127860-{
+127861:"jsonrpc": "2.0",
+127862-"result": {
+127863-"userdirectoryids": [
+127864-"3"
+--
+127874-Request:
+127875-
+127876-{
+127877:"jsonrpc": "2.0",
+127878-"method": "userdirectory.update",
+127879-"params": {
+127880-"userdirectoryid": "2",
+--
+127906-Response:
+127907-
+127908-{
+127909:"jsonrpc": "2.0",
+127910-"result": {
+127911-"userdirectoryids": [
+127912-"2"
+--
+128133-Request:
+128134-
+128135-{
+128136:"jsonrpc": "2.0",
+128137-"method": "usergroup.create",
+128138-"params": {
+128139-"name": "Operation managers",
+--
+128152-Response:
+128153-
+128154-{
+128155:"jsonrpc": "2.0",
+128156-"result": {
+128157-"usrgrpids": [
+128158-"20"
+--
+128191-Request:
+128192-
+128193-{
+128194:"jsonrpc": "2.0",
+128195-"method": "usergroup.delete",
+128196-"params": [
+128197-"20",
+--
+128202-Response:
+128203-
+128204-{
+128205:"jsonrpc": "2.0",
+128206-"result": {
+128207-"usrgrpids": [
+128208-"20",
+--
+128381-Request:
+128382-
+128383-{
+128384:"jsonrpc": "2.0",
+128385-"method": "usergroup.get",
+128386-"params": {
+128387-"output": "extend",
+--
+128392-Response:
+128393-
+128394-{
+128395:"jsonrpc": "2.0",
+128396-"result": [
+128397-
+128398-1776
+--
+128522-Request:
+128523-
+128524-{
+128525:"jsonrpc": "2.0",
+128526-"method": "usergroup.update",
+128527-"params": {
+128528-"usrgrpid": "17",
+--
+128546-Response:
+128547-
+128548-{
+128549:"jsonrpc": "2.0",
+128550-"result": {
+128551-"usrgrpids": [
+128552-"17"
+--
+128826-Request:
+128827-
+128828-{
+128829:"jsonrpc": "2.0",
+128830-"method": "usermacro.create",
+128831-"params": {
+128832-"hostid": "10198",
+--
+128838-Response:
+128839-
+128840-{
+128841:"jsonrpc": "2.0",
+128842-"result": {
+128843-"hostmacroids": [
+128844-"11"
+--
+128874-Request:
+128875-
+128876-{
+128877:"jsonrpc": "2.0",
+128878-"method": "usermacro.createglobal",
+128879-"params": {
+128880-"macro": "{$SNMP_COMMUNITY}",
+--
+128885-Response:
+128886-
+128887-{
+128888:"jsonrpc": "2.0",
+128889-"result": {
+128890-"globalmacroids": [
+128891-"6"
+--
+128917-Request:
+128918-
+128919-{
+128920:"jsonrpc": "2.0",
+128921-"method": "usermacro.delete",
+128922-"params": [
+128923-"32",
+--
+128930-1783
+128931-
+128932-{
+128933:"jsonrpc": "2.0",
+128934-"result": {
+128935-"hostmacroids": [
+128936-"32",
+--
+128962-Request:
+128963-
+128964-{
+128965:"jsonrpc": "2.0",
+128966-"method": "usermacro.deleteglobal",
+128967-"params": [
+128968-"32",
+--
+128973-Response:
+128974-
+128975-{
+128976:"jsonrpc": "2.0",
+128977-"result": {
+128978-"globalmacroids": [
+128979-"32",
+--
+129143-Request:
+129144-
+129145-{
+129146:"jsonrpc": "2.0",
+129147-"method": "usermacro.get",
+129148-"params": {
+129149-"output": "extend",
+--
+129154-Response:
+129155-
+129156-{
+129157:"jsonrpc": "2.0",
+129158-"result": [
+129159-{
+129160-"hostmacroid": "9",
+--
+129182-Request:
+129183-
+129184-{
+129185:"jsonrpc": "2.0",
+129186-"method": "usermacro.get",
+129187-"params": {
+129188-"output": "extend",
+--
+129196-Response:
+129197-
+129198-{
+129199:"jsonrpc": "2.0",
+129200-
+129201-1786
+129202-
+--
+129297-Request:
+129298-
+129299-{
+129300:"jsonrpc": "2.0",
+129301-"method": "usermacro.get",
+129302-"params": {
+129303-"output": "extend",
+--
+129308-Response:
+129309-
+129310-{
+129311:"jsonrpc": "2.0",
+129312-"result": [
+129313-{
+129314-"globalmacroid": "6",
+--
+129348-Request:
+129349-
+129350-{
+129351:"jsonrpc": "2.0",
+129352-"method": "usermacro.update",
+129353-"params": {
+129354-"hostmacroid": "1",
+--
+129359-Response:
+129360-
+129361-{
+129362:"jsonrpc": "2.0",
+129363-"result": {
+129364-"hostmacroids": [
+129365-"1"
+--
+129372-Request:
+129373-
+129374-{
+129375:"jsonrpc": "2.0",
+129376-"method": "usermacro.update",
+129377-"params": {
+129378-"hostmacroid": "1",
+--
+129386-1789
+129387-
+129388-{
+129389:"jsonrpc": "2.0",
+129390-"result": {
+129391-"hostmacroids": [
+129392-"1"
+--
+129419-Request:
+129420-
+129421-{
+129422:"jsonrpc": "2.0",
+129423-"method": "usermacro.updateglobal",
+129424-"params": {
+129425-"globalmacroid": "1",
+--
+129430-Response:
+129431-
+129432-{
+129433:"jsonrpc": "2.0",
+129434-"result": {
+129435-"globalmacroids": [
+129436-"1"
+--
+129593-Request:
+129594-
+129595-{
+129596:"jsonrpc": "2.0",
+129597-"method": "valuemap.create",
+129598-"params": {
+129599-"hostid": "50009",
+--
+129618-Response:
+129619-
+129620-{
+129621:"jsonrpc": "2.0",
+129622-"result": {
+129623-"valuemapids": [
+129624-"1"
+--
+129649-Request:
+129650-
+129651-{
+129652:"jsonrpc": "2.0",
+129653-"method": "valuemap.delete",
+129654-"params": [
+129655-"1",
+--
+129663-Response:
+129664-
+129665-{
+129666:"jsonrpc": "2.0",
+129667-"result": {
+129668-"valuemapids": [
+129669-"1",
+--
+129776-Request:
+129777-
+129778-{
+129779:"jsonrpc": "2.0",
+129780-"method": "valuemap.get",
+129781-"params": {
+129782-"output": "extend"
+--
+129786-Response:
+129787-
+129788-{
+129789:"jsonrpc": "2.0",
+129790-"result": [
+129791-{
+129792-"valuemapid": "4",
+--
+129807-Request:
+129808-
+129809-{
+129810:"jsonrpc": "2.0",
+129811-"method": "valuemap.get",
+129812-"params": {
+129813-"output": "extend",
+--
+129819-Response:
+129820-
+129821-{
+129822:"jsonrpc": "2.0",
+129823-"result": [
+129824-{
+129825-"valuemapid": "4",
+--
+129896-Request:
+129897-
+129898-{
+129899:"jsonrpc": "2.0",
+129900-"method": "valuemap.update",
+129901-"params": {
+129902-"valuemapid": "2",
+--
+129907-Response:
+129908-
+129909-{
+129910:"jsonrpc": "2.0",
+129911-"result": {
+129912-"valuemapids": [
+129913-"2"
+--
+129919-Request:
+129920-
+129921-{
+129922:"jsonrpc": "2.0",
+129923-"method": "valuemap.update",
+129924-"params": {
+129925-"valuemapid": "2",
+--
+129941-Response:
+129942-
+129943-{
+129944:"jsonrpc": "2.0",
+129945-"result": {
+129946-"valuemapids": [
+129947-"2"
+--
+130346-Request:
+130347-
+130348-{
+130349:"jsonrpc": "2.0",
+130350-"method": "httptest.create",
+130351-"params": {
+130352-"name": "Homepage check",
+--
+130371-Response:
+130372-
+130373-{
+130374:"jsonrpc": "2.0",
+130375-"result": {
+130376-"httptestids": [
+130377-"5"
+--
+130408-Request:
+130409-
+130410-{
+130411:"jsonrpc": "2.0",
+130412-"method": "httptest.delete",
+130413-"params": [
+130414-"2",
+--
+130419-Response:
+130420-
+130421-{
+130422:"jsonrpc": "2.0",
+130423-"result": {
+130424-"httptestids": [
+130425-"2",
+--
+130621-Request:
+130622-
+130623-{
+130624:"jsonrpc": "2.0",
+130625-"method": "httptest.get",
+130626-"params": {
+130627-"output": "extend",
+--
+130633-Response:
+130634-
+130635-{
+130636:"jsonrpc": "2.0",
+130637-"result": [
+130638-{
+130639-"httptestid": "9",
+--
+130749-Request:
+130750-
+130751-{
+130752:"jsonrpc": "2.0",
+130753-"method": "httptest.update",
+130754-
+130755-1805
+--
+130763-Response:
+130764-
+130765-{
+130766:"jsonrpc": "2.0",
+130767-"result": {
+130768-"httptestids": [
+130769-"5"
+--
+131073-Request:
+131074-
+131075-{
+131076:"jsonrpc": "2.0",
+131077-"method": "host.get",
+131078-"params": {
+131079-"countOutput": true,
+--
+131089-Response:
+131090-
+131091-{
+131092:"jsonrpc": "2.0",
+131093-"result": "0",
+131094-"id": 1
+131095-}
+--
+131101-Request:
+131102-
+131103-{
+131104:"jsonrpc": "2.0",
+131105-"method": "host.get",
+131106-"params": {
+131107-"countOutput": true,
+--
+131115-Response:
+131116-
+131117-{
+131118:"jsonrpc": "2.0",
+131119-"result": "44",
+131120-"id": 1
+131121-}
+--
+131125-Request:
+131126-
+131127-{
+131128:"jsonrpc": "2.0",
+131129-"method": "host.get",
+131130-"params": {
+131131-"output": ["hostid", "host"],
+--
+131150-Response:
+131151-
+131152-{
+131153:"jsonrpc": "2.0",
+131154-"result": [
+131155-{
+131156-"hostid": "50003",
+--
+131209-Request:
+131210-
+131211-{
+131212:"jsonrpc": "2.0",
+131213-"method": "host.get",
+131214-"params": {
+131215-"output": ["hostid", "host"],
+--
+131232-Response:
+131233-
+131234-{
+131235:"jsonrpc": "2.0",
+131236-"result": {
+131237-"50003": {
+131238-"hostid": "50003",
